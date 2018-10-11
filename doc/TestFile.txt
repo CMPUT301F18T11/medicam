@@ -12,3 +12,6 @@ Zixuan Pang edited
 
 version 5
 Hi! Amy was here and did a thing!
+
+version 6
+Oh, hello there. It is me Erik, editing this doc. Bye bye!
