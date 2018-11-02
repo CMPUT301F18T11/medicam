@@ -8,10 +8,10 @@ public class CareProviderRecord extends Record{
     public CareProviderRecord(){
         this.createUuid();
     }
-    public UUID getCare_provider() {
-        return super.getUuid();
-    }
 
+    public UUID getCare_provider() {
+        return care_provider;
+    }
 
     public void setCare_provider (UUID assigned_care_provider) throws ReassignmentException {
         if(this.care_provider == null){

@@ -1,5 +1,6 @@
 package ca.ualberta.cmput301f18t11.medicam;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -8,9 +9,13 @@ import java.util.UUID;
 
 public class PatientRecord extends Record {
     private UUID problem;
-    private Collection<UUID> attachements;
+    private Collection<UUID> attachements = new ArrayList<UUID>();
     private Collection<Enumeration> location;
     private ArrayList<String> tags;
+
+    public UUID getProblem() {
+        return problem;
+    }
 
     public void addAttachment(UUID attachment_uuid){
         attachements.add(attachment_uuid);
@@ -26,21 +31,23 @@ public class PatientRecord extends Record {
         return attachements.contains(attachment_uuid);
     }
 
-    public void setPatient (UUID assigned_patient) throws ReassignmentException {
-        if(this.problem.toString().isEmpty()){
+    public void setProblem (UUID assigned_patient) throws ReassignmentException {
+        if(this.problem == null){
             this.problem = assigned_patient;
         }else {
-            throw new ReassignmentException("This record is already attributed to care provider with UUID: " + problem.toString());
+            throw new ReassignmentException("This record is already attributed to problem with UUID: " + problem.toString());
         }
     }
 
 //    @Override
 //    public ArrayList<String> getTags(){
-//        //this should probably eventually get moved to PersistedModel
+//        this should probably eventually get moved to PersistedModel
 //        for(Attachment attachment: attachements){
 //            for(String a_tag: attachment.getTags()){
 //                tags.add(a_tag);
 //            }
 //        }
+//        Consider setting this up so that tags are updated when the
+//         objects property changes.
 //    }
 }
