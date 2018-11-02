@@ -29,7 +29,6 @@ public abstract class PersistedModel implements Serializable{
 
     //set methods
     public void setType(String type) { this.type = type; }
-
     public void setIndex(String index) { this.index = index; }
 
     //hash generation
@@ -40,9 +39,9 @@ public abstract class PersistedModel implements Serializable{
     }
 
     public void createUuid() {
-        if (uuid.toString().isEmpty()){
+        if (uuid == null){
             //create a fresh UUID
-            this.uuid = UUID.fromString("something");
+            this.uuid = UUID.randomUUID();
         }
     }
 }
