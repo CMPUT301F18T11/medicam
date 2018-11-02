@@ -9,7 +9,7 @@ import java.util.UUID;
 
 
 //Dummy Problem Class
-public class DummyProblemClass extends PersistedModel{
+public class Problem extends PersistedModel{
     private String title;
     private Date date_started = new Date();
     private String description;
@@ -19,7 +19,7 @@ public class DummyProblemClass extends PersistedModel{
     private ArrayList<UUID> records = new ArrayList<UUID>() {
     };
 
-    public DummyProblemClass(String title, Date date, String desc){
+    public Problem(String title, Date date, String desc){
         this.title = title;
         this.date_started = date;
         this.description = desc;
