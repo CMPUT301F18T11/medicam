@@ -1,6 +1,7 @@
 package ca.ualberta.cmput301f18t11.medicam;
 
 import java.util.List;
+import java.util.UUID;
 
 public class Patient extends User {
     private List<UUID> problems;
