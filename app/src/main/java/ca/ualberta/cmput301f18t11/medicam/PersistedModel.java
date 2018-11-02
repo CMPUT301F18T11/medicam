@@ -1,10 +1,9 @@
 package ca.ualberta.cmput301f18t11.medicam;
 
 import java.io.Serializable;
-import java.util.Observable;
 import java.util.UUID;
 
-public abstract class PersistedModel extends Observable implements Serializable{
+public abstract class PersistedModel implements Serializable{
     protected String index;
     protected String type;
     protected UUID uuid;
