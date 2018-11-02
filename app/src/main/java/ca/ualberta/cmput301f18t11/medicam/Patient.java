@@ -21,6 +21,13 @@ public class Patient extends User {
         super(userID);
     }
 
+    public Patient(String userID, String email, String phoneNumber, List<UUID> problems, UUID frontPhoto, UUID backPhoto) throws StringTooShortException, InvalidEmailException {
+        super(userID, email, phoneNumber);
+        this.problems = problems;
+        this.frontPhoto = frontPhoto;
+        this.backPhoto = backPhoto;
+    }
+
     public List<UUID> getProblems() {
         return problems;
     }
