@@ -5,17 +5,18 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.UUID;
 
 
 //Dummy Problem Class
-public class DummyProblemClass extends DummyPerisistentModelClass{
+public class DummyProblemClass extends PersistedModel{
     private String title;
     private Date date_started = new Date();
     private String description;
     private int MAX_DESC_CHARS = 1; //Normal value is 300, set to 1 for testing
     private int MAX_TITLE_CHARS = 1; //Normal value is 30, set to 1 for testing
     //TODO: Implement Records UUID and Collection
-    private ArrayList<DummyRecordClass> records = new ArrayList<DummyRecordClass>() {
+    private ArrayList<UUID> records = new ArrayList<UUID>() {
     };
 
     public DummyProblemClass(String title, Date date, String desc){
@@ -63,11 +64,11 @@ public class DummyProblemClass extends DummyPerisistentModelClass{
 
     //Adding/deleting records
 
-    public boolean hasRecord(DummyRecordClass record){
+    public boolean hasRecord(UUID record){
         return this.records.contains(record);
     }
 
-    public void addRecord(DummyRecordClass record){
+    public void addRecord(UUID record){
         this.records.add(record);
 
     }
@@ -76,11 +77,11 @@ public class DummyProblemClass extends DummyPerisistentModelClass{
         this.records.remove(index);
     }
 
-    public void deleteRecord(DummyRecordClass record){
+    public void deleteRecord(UUID record){
         this.records.remove(record);
     }
 
-    public ArrayList<DummyRecordClass> getRecords(){
+    public ArrayList<UUID> getRecords(){
         return this.records;
     }
 

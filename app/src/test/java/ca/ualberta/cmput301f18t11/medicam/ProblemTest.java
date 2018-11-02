@@ -6,6 +6,7 @@ import android.util.Log;
 import org.junit.Test;
 
 import java.util.Date;
+import java.util.UUID;
 
 import static android.content.ContentValues.TAG;
 import static org.junit.Assert.assertEquals;
@@ -17,7 +18,7 @@ public class ProblemTest {
     @Test
     public void testAddRecord(){
         DummyProblemClass test = new DummyProblemClass("title", new Date(), "description");
-        DummyRecordClass record = new DummyRecordClass();
+        UUID record = UUID.randomUUID();
         test.addRecord(record);
         assertTrue(test.hasRecord(record));
     }
@@ -25,7 +26,7 @@ public class ProblemTest {
     @Test
     public void testRemoveRecord(){
         DummyProblemClass test = new DummyProblemClass("title", new Date(), "description");
-        DummyRecordClass record = new DummyRecordClass();
+        UUID record = UUID.randomUUID();
         test.addRecord(record);
         test.deleteRecord(record);
         assertFalse(test.hasRecord(record));
@@ -61,7 +62,7 @@ public class ProblemTest {
         assertTrue(thrown);
     }
 
-    /* Gets and sets don't need to be tested
+    /* Gets and sets don't need to be tested, but are just in case
     @Test
     public void testHasDate(){
         DummyProblemClass test = new DummyProblemClass("title", new Date(), "description");
@@ -83,24 +84,30 @@ public class ProblemTest {
         assertEquals(test.getDescription(), returnText);
     }
 
+    @Test
+    public void testSetTitle(){
+        DummyProblemClass test = new DummyProblemClass("title", new Date(), "description");
+        String text = "test";
+        test.setTitle(text);
+        assertEquals(test.getTitle(), text);
+    }
+
+    @Test
+    public void testSetDescription(){
+        DummyProblemClass test = new DummyProblemClass("title", new Date(), "description");
+        String text = "test";
+        test.setDescription(text);
+        assertEquals(test.getDescription(), text);
+    }
 
     @Test
     public void testSetDate(){
         DummyProblemClass test = new DummyProblemClass("title", new Date(), "description");
+        Date date = new Date();
+        test.setDate(date);
+        assertEquals(test.getDate(), date);
     }
 
-    @Test
-    public void testSetTitle(){
-        DummyProblemClass test = new DummyProblemClass("title", new Date(), "description");
-    }
-
-    public void testSetDescription(){
-        DummyProblemClass test = new DummyProblemClass("title", new Date(), "description");
-    }
-
-    public void testDescriptionLimit(){
-        DummyProblemClass test = new DummyProblemClass("title", new Date(), "description");
-    }
     */
 }
 
