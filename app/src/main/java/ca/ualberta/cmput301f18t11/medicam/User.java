@@ -17,7 +17,7 @@ public abstract class User extends PersistedModel {
         return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(String email) throws InvalidEmailException {
         this.email = email;
     }
 
@@ -33,7 +33,7 @@ public abstract class User extends PersistedModel {
 
     }
 
-    public User(String userID, String email, String phoneNumber) throws StringTooShortException {
+    public User(String userID, String email, String phoneNumber) throws StringTooShortException, InvalidEmailException {
 
     }
 
