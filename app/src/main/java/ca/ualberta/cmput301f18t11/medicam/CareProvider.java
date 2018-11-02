@@ -35,4 +35,7 @@ public class CareProvider extends User {
         this.patients = patients;
     }
 
+    public CareProvider(String userID) throws StringTooShortException {
+        super(userID);
+    }
 }
