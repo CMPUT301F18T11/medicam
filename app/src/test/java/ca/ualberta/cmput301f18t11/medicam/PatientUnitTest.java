@@ -3,6 +3,7 @@ package ca.ualberta.cmput301f18t11.medicam;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -37,7 +38,7 @@ public class PatientUnitTest {
         assertTrue(testPatient.getProblems().contains(addedUUID));
 
         // test when adding with problem object
-        Problem addedProblem = new Problem();
+        Problem addedProblem = new Problem("title", new Date(), "description");
         addedProblem.createUuid();
         testPatient.addProblem(addedProblem);
         assertTrue(testPatient.getProblems().contains(addedProblem.getUuid()));

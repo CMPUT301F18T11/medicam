@@ -11,16 +11,32 @@ public abstract class Record extends PersistedModel {
     private ArrayList<String> tags;
 
     //get methods
-    public String getTitle(){ return title; }
-    public String getDescription() { return description; }
-    public Date getTimestamp() { return timestamp; }
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Date getTimestamp() {
+        return timestamp;
+    }
 
     //set methods
-    public void setTitle(String t){ this.title = t; }
-    public void setDescription(String d) { this.description = d; }
-    public void setTimestamp(Date ts){ this.timestamp = ts; }
+    public void setTitle(String t) {
+        this.title = t;
+    }
 
-    public ArrayList<String> getTags(){
+    public void setDescription(String d) {
+        this.description = d;
+    }
+
+    public void setTimestamp(Date ts) {
+        this.timestamp = ts;
+    }
+
+    public ArrayList<String> getTags() {
         //this should probably eventually get moved to PersistedModel
 
         //Consider setting this up so that tags are updated when the
@@ -34,12 +50,13 @@ public abstract class Record extends PersistedModel {
         return tags;
     }
 
-    public boolean search(String search_term){
-        for(String tag: getTags()){
-            if(tag.contains(search_term)){
+    public boolean search(String search_term) {
+        for (String tag : getTags()) {
+            if (tag.contains(search_term)) {
                 return true;
             }
         }
         return false;
     }
 }
+
