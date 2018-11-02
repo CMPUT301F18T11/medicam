@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
 public class CareProviderUnitTest {
 
     @Test
-    public void testGetandSetPatients() {
+    public void testGetAndSetPatients() {
         CareProvider testCareProvider = new CareProvider();
         // test empty patients list
         List<UUID> testPatients1 = new ArrayList<>();
@@ -61,6 +61,26 @@ public class CareProviderUnitTest {
         CareProvider testCareProvider = new CareProvider();
 
         List<UUID> testPatients = new ArrayList<>();
-        
+        UUID testUUID1 = UUID.randomUUID();
+        UUID testUUID2 = UUID.randomUUID();
+        UUID testUUID3 = UUID.randomUUID();
+
+        testPatients.add(testUUID1);
+        testPatients.add(testUUID2);
+        testPatients.add(testUUID3);
+
+        assertTrue(testPatients.contains(testUUID1));
+        assertTrue(testPatients.contains(testUUID2));
+        assertTrue(testPatients.contains(testUUID3));
+
+        testCareProvider.setPatients(testPatients);
+        testCareProvider.removePatient(testUUID1);
+        assertFalse(testCareProvider.getPatients().contains(testUUID1));
+
+        testCareProvider.removePatient(testUUID2);
+        assertFalse(testCareProvider.getPatients().contains(testUUID2));
+
+        testCareProvider.removePatient(testUUID3);
+        assertFalse(testCareProvider.getPatients().contains(testUUID3));
     }
 }
