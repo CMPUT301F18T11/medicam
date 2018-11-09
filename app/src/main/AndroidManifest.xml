@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ca.ualberta.cmput301f18t11.medicam">
 
+    // For Rest API
     <uses-permission android:name="android.permission.INTERNET" />
 
 
@@ -21,6 +22,7 @@
             </intent-filter>
         </activity>
 
+        // For Rest API
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
