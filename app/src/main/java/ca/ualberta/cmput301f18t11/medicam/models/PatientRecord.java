@@ -1,4 +1,4 @@
-package ca.ualberta.cmput301f18t11.medicam;
+package ca.ualberta.cmput301f18t11.medicam.models;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -6,6 +6,7 @@ import java.util.Enumeration;
 import java.util.UUID;
 
 import ca.ualberta.cmput301f18t11.medicam.exceptions.ReassignmentException;
+import ca.ualberta.cmput301f18t11.medicam.models.abstracts.Record;
 
 public class PatientRecord extends Record {
     private UUID problem;

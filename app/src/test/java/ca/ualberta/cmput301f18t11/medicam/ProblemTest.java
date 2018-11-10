@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.UUID;
 
 import ca.ualberta.cmput301f18t11.medicam.exceptions.StringLengthTooLongException;
+import ca.ualberta.cmput301f18t11.medicam.models.Problem;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;

@@ -4,8 +4,7 @@ package ca.ualberta.cmput301f18t11.medicam.models;
 import java.util.ArrayList;
 import java.util.List;
 
-import ca.ualberta.cmput301f18t11.medicam.Problem;
-import ca.ualberta.cmput301f18t11.medicam.User;
+import ca.ualberta.cmput301f18t11.medicam.models.abstracts.User;
 import ca.ualberta.cmput301f18t11.medicam.exceptions.InvalidEmailException;
 import ca.ualberta.cmput301f18t11.medicam.exceptions.StringTooShortException;
 

@@ -7,7 +7,9 @@ import com.searchly.jestdroid.DroidClientConfig;
 import com.searchly.jestdroid.JestClientFactory;
 import com.searchly.jestdroid.JestDroidClient;
 
-import ca.ualberta.cmput301f18t11.medicam.PersistedModel;
+import java.io.IOException;
+
+import ca.ualberta.cmput301f18t11.medicam.models.abstracts.PersistedModel;
 import io.searchbox.client.JestResult;
 import io.searchbox.core.Delete;
 import io.searchbox.core.DocumentResult;
@@ -31,7 +33,7 @@ public class ElasticSearchController {
     /** SaveObjectsTask
      *
      */
-    public static class SaveObjectsTask<T extends PersistedModel> extends AsyncTask<T,Void,Void> {
+    public static class SaveObjectsTask<T extends PersistedModel> extends AsyncTask<T,Void,Boolean> {
         private String type_url;
 
         public SaveObjectsTask(String type_url) {
@@ -39,21 +41,26 @@ public class ElasticSearchController {
         }
 
         @Override
-        protected Void doInBackground(T... objects) {
+        protected Boolean doInBackground(T... objects) {
             verifySettings();
 
             for (T object: objects) {
                 Index i = new Index.Builder(object).index(index_url).type(type_url).id(object.getUuid()).build();
 
-                try {
+                try
+                {
                     DocumentResult result  = client.execute(i);
                 }
-                catch (Exception e) {
+
+                catch (IOException e)
+                {
                     e.printStackTrace();
+                    return false;
                 }
+
             }
 
-            return null;
+            return true;
         }
     }
 
@@ -94,7 +101,7 @@ public class ElasticSearchController {
     /** DeleteObjectsTask
      *
      */
-    public static class DeleteObjectsTask extends AsyncTask<String, Void, Void> {
+    public static class DeleteObjectsTask extends AsyncTask<String, Void, Boolean> {
 
         private String type_url;
 
@@ -103,7 +110,7 @@ public class ElasticSearchController {
         }
 
         @Override
-        protected Void doInBackground(String ... ids)
+        protected Boolean doInBackground(String ... ids)
         {
             verifySettings();
 
@@ -113,10 +120,11 @@ public class ElasticSearchController {
                 }
                 catch (Exception e) {
                     e.printStackTrace();
+                    return false;
                 }
             }
 
-            return null;
+            return true;
         }
 
     }

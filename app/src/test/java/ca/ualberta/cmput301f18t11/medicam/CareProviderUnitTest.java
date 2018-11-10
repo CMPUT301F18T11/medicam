@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import ca.ualberta.cmput301f18t11.medicam.models.CareProvider;
+
 import static org.junit.Assert.*;
 
 public class CareProviderUnitTest {

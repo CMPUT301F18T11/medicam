@@ -4,6 +4,8 @@ import org.junit.Test;
 
 import java.util.UUID;
 
+import ca.ualberta.cmput301f18t11.medicam.models.ReferencePhoto;
+
 import static org.junit.Assert.assertEquals;
 
 public class ReferencePhotoUnitTest {

@@ -1,22 +1,31 @@
-package ca.ualberta.cmput301f18t11.medicam.controllers;
+package ca.ualberta.cmput301f18t11.medicam.controllers.per_model;
 
 import android.content.Context;
-
-import com.google.gson.Gson;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 
 import java.io.FileReader;
 import java.util.ArrayList;
 
+import ca.ualberta.cmput301f18t11.medicam.controllers.ElasticSearchController;
+import ca.ualberta.cmput301f18t11.medicam.controllers.InternalStorageController;
+import ca.ualberta.cmput301f18t11.medicam.controllers.abstracts.PersistenceController;
 import ca.ualberta.cmput301f18t11.medicam.models.Patient;
 import io.searchbox.client.JestResult;
 
 public class PatientPersistenceController extends PersistenceController<Patient> {
 
-    private Context context;
-
-    public PatientPersistenceController(Context context)
+    @Override
+    public Patient load(String id, Context context)
     {
-        this.context = context;
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        if (cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnectedOrConnecting())
+        {
+            return loadFromREST(id);
+        }
+
+        return loadFromStorage(id, context);
     }
 
 
@@ -39,7 +48,7 @@ public class PatientPersistenceController extends PersistenceController<Patient>
     }
 
     @Override
-    public Patient loadFromStorage(String id)
+    public Patient loadFromStorage(String id, Context context)
     {
         InternalStorageController.GetObjectsTask task = new InternalStorageController.GetObjectsTask(context);
         try

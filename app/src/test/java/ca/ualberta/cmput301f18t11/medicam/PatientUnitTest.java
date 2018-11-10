@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.UUID;
 
 import ca.ualberta.cmput301f18t11.medicam.models.Patient;
+import ca.ualberta.cmput301f18t11.medicam.models.Problem;
 
 import static org.junit.Assert.*;
 

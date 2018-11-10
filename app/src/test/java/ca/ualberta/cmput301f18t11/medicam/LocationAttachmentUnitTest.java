@@ -6,7 +6,8 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.*;
+import ca.ualberta.cmput301f18t11.medicam.models.LocationAttachment;
+
 import static org.junit.Assert.assertEquals;
 
 public class LocationAttachmentUnitTest {

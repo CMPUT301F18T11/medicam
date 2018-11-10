@@ -1,14 +1,16 @@
-package ca.ualberta.cmput301f18t11.medicam;
+package ca.ualberta.cmput301f18t11.medicam.models;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import ca.ualberta.cmput301f18t11.medicam.models.abstracts.User;
 import ca.ualberta.cmput301f18t11.medicam.exceptions.InvalidEmailException;
 import ca.ualberta.cmput301f18t11.medicam.exceptions.StringTooShortException;
 
 public class CareProvider extends User {
 
-    private List<UUID> patients;
+    private List<UUID> patients = new ArrayList<>();
 
     public List<UUID> getPatients() {
         return patients;
@@ -19,7 +21,7 @@ public class CareProvider extends User {
     }
 
     public void addPatient(UUID patient) {
-
+        this.patients.add(patient);
     }
 
     public void addPatient(String patient) {
@@ -27,7 +29,7 @@ public class CareProvider extends User {
     }
 
     public void removePatient(UUID patient) {
-
+        this.patients.remove(patient);
     }
 
     public CareProvider(String userID, String email, String phoneNumber, List<UUID> patients) throws StringTooShortException, InvalidEmailException {

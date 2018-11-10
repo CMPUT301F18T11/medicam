@@ -1,4 +1,4 @@
-package ca.ualberta.cmput301f18t11.medicam;
+package ca.ualberta.cmput301f18t11.medicam.models;
 
 
 import java.util.ArrayList;
@@ -6,10 +6,11 @@ import java.util.Date;
 import java.util.UUID;
 
 import ca.ualberta.cmput301f18t11.medicam.exceptions.StringLengthTooLongException;
+import ca.ualberta.cmput301f18t11.medicam.models.abstracts.PersistedModel;
 
 
 //Dummy Problem Class
-public class Problem extends PersistedModel{
+public class Problem extends PersistedModel {
     private String title;
     private Date date_started = new Date();
     private String description;

@@ -1,8 +1,7 @@
-package ca.ualberta.cmput301f18t11.medicam;
+package ca.ualberta.cmput301f18t11.medicam.models.abstracts;
 
 import ca.ualberta.cmput301f18t11.medicam.exceptions.InvalidEmailException;
 import ca.ualberta.cmput301f18t11.medicam.exceptions.StringTooShortException;
-import io.searchbox.annotations.JestId;
 
 public abstract class User extends PersistedModel {
 

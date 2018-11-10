@@ -3,9 +3,11 @@ package ca.ualberta.cmput301f18t11.medicam.activities;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import java.util.UUID;
+
 import ca.ualberta.cmput301f18t11.medicam.R;
-import ca.ualberta.cmput301f18t11.medicam.controllers.PatientPersistenceController;
-import ca.ualberta.cmput301f18t11.medicam.models.Patient;
+import ca.ualberta.cmput301f18t11.medicam.controllers.per_model.CareProviderPersistenceController;
+import ca.ualberta.cmput301f18t11.medicam.models.CareProvider;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,32 +25,29 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        PatientPersistenceController p = new PatientPersistenceController(getApplicationContext());
-//
-//        Patient test = new Patient("BarrackObama");
-//
-//        test.addProblem(UUID.randomUUID());
-//
-//        test.addProblem(UUID.randomUUID());
-//
-//        test.addProblem(UUID.randomUUID());
-//
-//        test.addProblem(UUID.randomUUID());
-//
-//        test.addProblem(UUID.randomUUID());
-//
-//        test.addProblem(UUID.randomUUID());
-//
-//        test.addProblem(UUID.randomUUID());
-//
-//
-//        p.saveToREST(test);
 
-        Patient test = p.loadFromREST("BarrackObama");
+        CareProvider testProvider = new CareProvider("TestProvider123123");
+
+        testProvider.addPatient(UUID.randomUUID());
+        testProvider.addPatient(UUID.randomUUID());
+        testProvider.addPatient(UUID.randomUUID());
+
+        CareProviderPersistenceController cp = new CareProviderPersistenceController();
+
+        cp.save(testProvider, getApplicationContext());
 
 
-        int x = 1;
+        CareProvider fromRest    = cp.loadFromREST("TestProvider123123");
+        CareProvider fromStorage = cp.loadFromStorage("TestProvider123123",getApplicationContext());
 
+        int x = 1 + 1;
+
+        cp.delete(testProvider, getApplicationContext());
+
+        CareProvider fromRest2    = cp.loadFromREST("TestProvider123123");
+        CareProvider fromStorage2 = cp.loadFromStorage("TestProvider123123",getApplicationContext());
+
+        int y = 1 + 2;
 
 
     }

@@ -1,12 +1,9 @@
-package ca.ualberta.cmput301f18t11.medicam;
+package ca.ualberta.cmput301f18t11.medicam.models.abstracts;
 
 import android.content.Context;
 
 import java.io.Serializable;
 import java.util.UUID;
-
-import ca.ualberta.cmput301f18t11.medicam.controllers.ElasticSearchController;
-import io.searchbox.annotations.JestId;
 
 public abstract class PersistedModel implements Serializable {
 

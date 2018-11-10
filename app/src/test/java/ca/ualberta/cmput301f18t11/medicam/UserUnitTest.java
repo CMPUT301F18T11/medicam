@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import ca.ualberta.cmput301f18t11.medicam.exceptions.InvalidEmailException;
 import ca.ualberta.cmput301f18t11.medicam.exceptions.StringTooShortException;
+import ca.ualberta.cmput301f18t11.medicam.models.abstracts.User;
 
 import static org.junit.Assert.*;
 
