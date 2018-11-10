@@ -7,8 +7,12 @@ import com.searchly.jestdroid.DroidClientConfig;
 import com.searchly.jestdroid.JestClientFactory;
 import com.searchly.jestdroid.JestDroidClient;
 
+import java.util.UUID;
+
 import ca.ualberta.cmput301f18t11.medicam.R;
 import ca.ualberta.cmput301f18t11.medicam.controllers.ElasticSearchController;
+import ca.ualberta.cmput301f18t11.medicam.controllers.PatientPersistanceController;
+import ca.ualberta.cmput301f18t11.medicam.models.Patient;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,51 +30,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        DroidClientConfig.Builder builder = new DroidClientConfig.Builder("http://cmput301.softwareprocess.es:8080");
-        DroidClientConfig config = builder.build();
+        PatientPersistanceController p = new PatientPersistanceController(getApplicationContext());
 
-        JestClientFactory factory = new JestClientFactory();
-        factory.setDroidClientConfig(config);
-
-
-        JestDroidClient client = (JestDroidClient) factory.getObject();
+        Patient fromREST = p.loadFromREST("115b0fdb-50f5-4529-828f-484ca22b3701");
+        Patient fromInternal = p.loadFromStorage("115b0fdb-50f5-4529-828f-484ca22b3701");
 
 
-        // Foo f = new Foo("Hello World", "Shouyang");
+        int x = 1;
 
-        // ElasticSearchController.SaveObjectsTask addFooTask = new ElasticSearchController.SaveObjectsTask();
-
-        // addFooTask.execute(f);
-
-//        Foo f = new Foo("TESTASTR", "123123123");
-//        Bar b = new Bar("adasdlkaj", "ABCDE");
-
-//        ElasticSearchController.SaveObjectsTask addFooTask1 = new ElasticSearchController.SaveObjectsTask("Foo");
-//        ElasticSearchController.SaveObjectsTask addFooTask2 = new ElasticSearchController.SaveObjectsTask("Bar");
-
-        //addFooTask1.execute(f);
-        //addFooTask2.execute(b);
-//
-//        List<Bar> Foos;
-//
-//        ElasticSearchController.GetObjectsTask getFoosTask = new ElasticSearchController.GetObjectsTask("Bar");
-//
-//        getFoosTask.execute("ABCDE");
-//
-//        try
-//        {
-//            Foos =  getFoosTask.get().getSourceAsObjectList(Bar.class);
-//
-//            int x = 1;
-//        }
-//        catch (Exception e)
-//        {
-//            e.printStackTrace();
-//        }
-
-        ElasticSearchController.DeleteObjectsTask deleteFoosTask = new ElasticSearchController.DeleteObjectsTask("Bar");
-
-        deleteFoosTask.execute("ABCDE");
 
 
     }

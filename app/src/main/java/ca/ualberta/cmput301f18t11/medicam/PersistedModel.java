@@ -1,31 +1,42 @@
 package ca.ualberta.cmput301f18t11.medicam;
 
+import android.content.Context;
+
 import java.io.Serializable;
 import java.util.UUID;
 
+import ca.ualberta.cmput301f18t11.medicam.controllers.ElasticSearchController;
+import io.searchbox.annotations.JestId;
+
 public abstract class PersistedModel implements Serializable {
 
-    protected String index;
-    protected String type;
-    protected UUID uuid;
+    protected String uuid = UUID.randomUUID().toString();
+
     protected String stored_hash;
+
+    protected String index;
+
+    protected String type;
 
     //These are mostly data access and storage methods.
     // Should they be abstract?
     public static PersistedModel load(){return null;/*idk what this does*/}
-    public void save(){}
+    public void save(Context context){}
     public void delete(){}
     public static PersistedModel loadFromREST(){return null;/*query elastic search*/}
     public static PersistedModel loadFromStorage(){return null;/*access internal storage*/}
-    public void saveToREST(){}
-    public void saveToStorage(){}
+
+    public void saveToREST() {}
+    public void saveToStorage(Context context){}
+
+
     public void deleteFromREST(){}
     public void deleteFromStorage(){}
 
     //get methods
     public String getIndex(){ return index; }
     public String getType(){ return type; }
-    public UUID getUuid() { return uuid; }
+    public String getUuid() { return uuid; }
     public String getStored_hash() { return stored_hash; }
 
     //set methods
@@ -42,7 +53,7 @@ public abstract class PersistedModel implements Serializable {
     public void createUuid() {
         if (uuid == null){
             //create a fresh UUID
-            this.uuid = UUID.randomUUID();
+            this.uuid = UUID.randomUUID().toString();
         }
     }
 }

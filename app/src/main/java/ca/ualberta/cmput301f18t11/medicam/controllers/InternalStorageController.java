@@ -3,6 +3,7 @@ package ca.ualberta.cmput301f18t11.medicam.controllers;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 
 import com.google.gson.Gson;
 import com.searchly.jestdroid.DroidClientConfig;
@@ -10,7 +11,9 @@ import com.searchly.jestdroid.JestClientFactory;
 import com.searchly.jestdroid.JestDroidClient;
 
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
+import java.util.ArrayList;
 
 import ca.ualberta.cmput301f18t11.medicam.PersistedModel;
 import io.searchbox.client.JestResult;
@@ -47,6 +50,7 @@ public class InternalStorageController {
             {
                 try
                 {
+
                     File save_file = new File(context.getApplicationContext().getFilesDir(), getModelSavePath(object));
 
                     if (!save_file.exists()) {
@@ -72,7 +76,7 @@ public class InternalStorageController {
     /** GetObjectsTask
      *
      */
-    public static class GetObjectsTask extends AsyncTask<String, Void, JestResult> {
+    public static class GetObjectsTask extends AsyncTask<String, Void, ArrayList<FileReader>> {
 
         private Context context;
 
@@ -82,12 +86,27 @@ public class InternalStorageController {
         }
 
         @Override
-        protected JestResult doInBackground(String... id_params) {
+        protected ArrayList<FileReader> doInBackground(String... id_params) {
+            ArrayList<FileReader> output = new ArrayList<>();
 
+            for (String id: id_params)
+            {
+                try
+                {
 
+                    File save_file = new File(context.getApplicationContext().getFilesDir(), getModelSavePath(id));
 
+                    FileReader reader = new FileReader(save_file);
 
-            return null;
+                    output.add(reader);
+                }
+
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+            return output;
         }
     }
 
@@ -96,6 +115,7 @@ public class InternalStorageController {
      */
     public static class DeleteObjectsTask extends AsyncTask<String, Void, Void> {
 
+        // TODO Implement Deletion From App
         @Override
         protected Void doInBackground(String ... ids)
         {
@@ -107,7 +127,13 @@ public class InternalStorageController {
     // Helper Function
     private static String getModelSavePath(PersistedModel model)
     {
-        return model.getUuid() + file_suffix;
+        return model.getUuid().toString() + file_suffix;
     }
+
+    private static  String getModelSavePath(String id)
+    {
+        return id + file_suffix;
+    }
+
 
 }

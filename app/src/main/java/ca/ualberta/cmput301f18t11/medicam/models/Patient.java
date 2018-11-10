@@ -1,17 +1,31 @@
-package ca.ualberta.cmput301f18t11.medicam;
+package ca.ualberta.cmput301f18t11.medicam.models;
 
+import android.content.Context;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import ca.ualberta.cmput301f18t11.medicam.Problem;
+import ca.ualberta.cmput301f18t11.medicam.User;
+import ca.ualberta.cmput301f18t11.medicam.controllers.ElasticSearchController;
+import ca.ualberta.cmput301f18t11.medicam.controllers.InternalStorageController;
 import ca.ualberta.cmput301f18t11.medicam.exceptions.InvalidEmailException;
 import ca.ualberta.cmput301f18t11.medicam.exceptions.StringTooShortException;
+import io.searchbox.annotations.JestId;
 
 public class Patient extends User {
-    private List<UUID> problems;
+
+    @JestId
+    private String id;
+
+
+    private List<UUID> problems = new ArrayList<>();
     private UUID frontPhoto;
     private UUID backPhoto;
 
     public Patient() {
+
 
     }
 
@@ -22,6 +36,7 @@ public class Patient extends User {
 
     public Patient(String userID) throws StringTooShortException {
         super(userID);
+        this.id = this.uuid;
     }
 
     public Patient(String userID, String email, String phoneNumber, List<UUID> problems, UUID frontPhoto, UUID backPhoto) throws StringTooShortException, InvalidEmailException {
@@ -39,12 +54,12 @@ public class Patient extends User {
         this.problems = problems;
     }
 
-    public void addProblem(UUID problem) {
-
+    public void addProblem(UUID problem)
+    {
+        problems.add(problem);
     }
 
     public void addProblem(Problem problem) {
-
     }
 
     public UUID getFrontPhoto() {
@@ -62,4 +77,8 @@ public class Patient extends User {
     public void setBackPhoto(UUID backPhoto) {
         this.backPhoto = backPhoto;
     }
+
+
+
+
 }

@@ -7,6 +7,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import ca.ualberta.cmput301f18t11.medicam.models.Patient;
+
 import static org.junit.Assert.*;
 
 public class PatientUnitTest {
