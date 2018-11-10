@@ -2,6 +2,9 @@ package ca.ualberta.cmput301f18t11.medicam;
 
 import org.junit.Test;
 
+import ca.ualberta.cmput301f18t11.medicam.exceptions.InvalidEmailException;
+import ca.ualberta.cmput301f18t11.medicam.exceptions.StringTooShortException;
+
 import static org.junit.Assert.*;
 
 public class UserUnitTest {

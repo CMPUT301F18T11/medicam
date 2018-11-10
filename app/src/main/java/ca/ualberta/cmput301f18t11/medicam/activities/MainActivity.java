@@ -1,19 +1,14 @@
-package ca.ualberta.cmput301f18t11.medicam;
+package ca.ualberta.cmput301f18t11.medicam.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.util.Pair;
 
 import com.searchly.jestdroid.DroidClientConfig;
 import com.searchly.jestdroid.JestClientFactory;
 import com.searchly.jestdroid.JestDroidClient;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import io.searchbox.core.DocumentResult;
-import io.searchbox.core.Index;
+import ca.ualberta.cmput301f18t11.medicam.R;
+import ca.ualberta.cmput301f18t11.medicam.controllers.ElasticSearchController;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -43,22 +38,22 @@ public class MainActivity extends AppCompatActivity {
 
         // Foo f = new Foo("Hello World", "Shouyang");
 
-        // FooController.AddFooTask addFooTask = new FooController.AddFooTask();
+        // ElasticSearchController.SaveObjectsTask addFooTask = new ElasticSearchController.SaveObjectsTask();
 
         // addFooTask.execute(f);
 
 //        Foo f = new Foo("TESTASTR", "123123123");
 //        Bar b = new Bar("adasdlkaj", "ABCDE");
 
-//        FooController.AddFooTask addFooTask1 = new FooController.AddFooTask("Foo");
-//        FooController.AddFooTask addFooTask2 = new FooController.AddFooTask("Bar");
+//        ElasticSearchController.SaveObjectsTask addFooTask1 = new ElasticSearchController.SaveObjectsTask("Foo");
+//        ElasticSearchController.SaveObjectsTask addFooTask2 = new ElasticSearchController.SaveObjectsTask("Bar");
 
         //addFooTask1.execute(f);
         //addFooTask2.execute(b);
 //
 //        List<Bar> Foos;
 //
-//        FooController.GetFoosTask getFoosTask = new FooController.GetFoosTask("Bar");
+//        ElasticSearchController.GetObjectsTask getFoosTask = new ElasticSearchController.GetObjectsTask("Bar");
 //
 //        getFoosTask.execute("ABCDE");
 //
@@ -73,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
 //            e.printStackTrace();
 //        }
 
-        FooController.DeleteFoosTask deleteFoosTask = new FooController.DeleteFoosTask("Bar");
+        ElasticSearchController.DeleteObjectsTask deleteFoosTask = new ElasticSearchController.DeleteObjectsTask("Bar");
 
         deleteFoosTask.execute("ABCDE");
 

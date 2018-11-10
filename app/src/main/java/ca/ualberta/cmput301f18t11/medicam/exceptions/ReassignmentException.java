@@ -1,4 +1,4 @@
-package ca.ualberta.cmput301f18t11.medicam;
+package ca.ualberta.cmput301f18t11.medicam.exceptions;
 
 public class ReassignmentException extends RuntimeException {
     //This exception might later be changed to a checked one or removed entirely

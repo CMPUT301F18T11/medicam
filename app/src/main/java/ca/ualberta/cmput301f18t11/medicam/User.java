@@ -1,5 +1,8 @@
 package ca.ualberta.cmput301f18t11.medicam;
 
+import ca.ualberta.cmput301f18t11.medicam.exceptions.InvalidEmailException;
+import ca.ualberta.cmput301f18t11.medicam.exceptions.StringTooShortException;
+
 public abstract class User extends PersistedModel {
     private String userID;
     private String email;

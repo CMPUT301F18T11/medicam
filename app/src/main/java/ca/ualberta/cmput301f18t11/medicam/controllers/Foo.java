@@ -1,8 +1,11 @@
-package ca.ualberta.cmput301f18t11.medicam;
+package ca.ualberta.cmput301f18t11.medicam.controllers;
 
+import java.util.UUID;
 import io.searchbox.annotations.JestId;
 
-public class Bar {
+
+// Example Class
+public class Foo {
 
     @JestId
     private String UUID;
@@ -10,12 +13,12 @@ public class Bar {
 
 
     public String message;
-    public int x;
 
-    public Bar(String m, String UUID)
+    public Foo(String m, String UUID)
     {
         this.UUID = UUID;
         this.message = m;
     }
+
 
 }

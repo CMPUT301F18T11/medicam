@@ -5,6 +5,8 @@ import org.junit.Test;
 import java.util.Date;
 import java.util.UUID;
 
+import ca.ualberta.cmput301f18t11.medicam.exceptions.ReassignmentException;
+
 import static org.junit.Assert.*;
 
 public class CareProviderRecordTest {

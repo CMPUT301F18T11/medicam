@@ -1,14 +1,12 @@
 package ca.ualberta.cmput301f18t11.medicam;
 
-import android.icu.text.AlphabeticIndex;
-import android.util.Log;
-
 import org.junit.Test;
 
 import java.util.Date;
 import java.util.UUID;
 
-import static android.content.ContentValues.TAG;
+import ca.ualberta.cmput301f18t11.medicam.exceptions.StringLengthTooLongException;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -43,7 +41,7 @@ public class ProblemTest {
 
         try {
             test.setTitle(text);
-        } catch (StringLengthTooLong e) {
+        } catch (StringLengthTooLongException e) {
             thrown = true;
         }
         assertTrue(thrown);
@@ -56,7 +54,7 @@ public class ProblemTest {
 
         try {
             test.setDescription(text);
-        } catch (StringLengthTooLong e) {
+        } catch (StringLengthTooLongException e) {
             thrown = true;
         }
         assertTrue(thrown);

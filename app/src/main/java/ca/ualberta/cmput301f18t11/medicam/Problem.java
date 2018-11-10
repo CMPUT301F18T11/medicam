@@ -1,12 +1,11 @@
 package ca.ualberta.cmput301f18t11.medicam;
 
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Date;
 import java.util.UUID;
+
+import ca.ualberta.cmput301f18t11.medicam.exceptions.StringLengthTooLongException;
 
 
 //Dummy Problem Class
@@ -32,11 +31,11 @@ public class Problem extends PersistedModel{
         return this.title;
     }
 
-    public void setTitle(String title) throws StringLengthTooLong {
+    public void setTitle(String title) throws StringLengthTooLongException {
         if (title.length() <= MAX_TITLE_CHARS) {
             this.title = title;
         } else {
-            throw new StringLengthTooLong();
+            throw new StringLengthTooLongException();
         }
     }
 
@@ -48,12 +47,12 @@ public class Problem extends PersistedModel{
         return this.date_started;
     }
 
-    public void setDescription(String desc) throws StringLengthTooLong{
+    public void setDescription(String desc) throws StringLengthTooLongException {
 
         if (desc.length() <= MAX_DESC_CHARS){
             this.description = desc;
         } else {
-            throw new StringLengthTooLong();
+            throw new StringLengthTooLongException();
         }
 
     }

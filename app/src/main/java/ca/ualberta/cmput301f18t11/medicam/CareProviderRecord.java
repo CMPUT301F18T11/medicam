@@ -2,6 +2,8 @@ package ca.ualberta.cmput301f18t11.medicam;
 
 import java.util.UUID;
 
+import ca.ualberta.cmput301f18t11.medicam.exceptions.ReassignmentException;
+
 public class CareProviderRecord extends Record{
     private UUID care_provider;
 
