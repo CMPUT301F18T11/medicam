@@ -31,7 +31,7 @@ public class ElasticSearchController {
     /** SaveObjectsTask
      *
      */
-    public static class SaveObjectsTask<Type extends PersistedModel> extends AsyncTask<Type,Void,Void> {
+    public static class SaveObjectsTask<T extends PersistedModel> extends AsyncTask<T,Void,Void> {
         private String type_url;
 
         public SaveObjectsTask(String type_url) {
@@ -39,10 +39,10 @@ public class ElasticSearchController {
         }
 
         @Override
-        protected Void doInBackground(Type... objects) {
+        protected Void doInBackground(T... objects) {
             verifySettings();
 
-            for (Type object: objects) {
+            for (T object: objects) {
                 Index i = new Index.Builder(object).index(index_url).type(type_url).id(object.getUuid()).build();
 
                 try {

@@ -10,43 +10,20 @@ import java.util.ArrayList;
 import ca.ualberta.cmput301f18t11.medicam.models.Patient;
 import io.searchbox.client.JestResult;
 
-public class PatientPersistanceController {
+public class PatientPersistenceController extends PersistenceController<Patient> {
 
-    private static String type_url = "Patient";
-
-    private Gson    gson = new Gson();
     private Context context;
 
-    public PatientPersistanceController(Context context)
+    public PatientPersistenceController(Context context)
     {
         this.context = context;
     }
 
 
-
-
-    public void save(Patient patient)
-    {
-        saveToREST(patient);
-        saveToStorage(patient);
-    }
-
-    public void saveToREST(Patient patient) {
-        ElasticSearchController.SaveObjectsTask<Patient> task = new ElasticSearchController.SaveObjectsTask(type_url);
-
-        task.execute(patient);
-    }
-
-    public void saveToStorage(Patient patient) {
-        InternalStorageController.SaveObjectsTask<Patient> task = new InternalStorageController.SaveObjectsTask(context);
-
-        task.execute(patient);
-    }
-
-
+    @Override
     public Patient loadFromREST(String id)
     {
-        ElasticSearchController.GetObjectsTask task = new ElasticSearchController.GetObjectsTask(type_url);
+        ElasticSearchController.GetObjectsTask task = new ElasticSearchController.GetObjectsTask(getTypeURL());
         try
         {
             JestResult result = task.execute(id).get();
@@ -61,6 +38,7 @@ public class PatientPersistanceController {
         return null;
     }
 
+    @Override
     public Patient loadFromStorage(String id)
     {
         InternalStorageController.GetObjectsTask task = new InternalStorageController.GetObjectsTask(context);
@@ -78,8 +56,10 @@ public class PatientPersistanceController {
     }
 
 
-
-
+    @Override
+    public String getTypeURL() {
+        return "Patient";
+    }
 
 
 }

@@ -3,15 +3,8 @@ package ca.ualberta.cmput301f18t11.medicam.activities;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.searchly.jestdroid.DroidClientConfig;
-import com.searchly.jestdroid.JestClientFactory;
-import com.searchly.jestdroid.JestDroidClient;
-
-import java.util.UUID;
-
 import ca.ualberta.cmput301f18t11.medicam.R;
-import ca.ualberta.cmput301f18t11.medicam.controllers.ElasticSearchController;
-import ca.ualberta.cmput301f18t11.medicam.controllers.PatientPersistanceController;
+import ca.ualberta.cmput301f18t11.medicam.controllers.PatientPersistenceController;
 import ca.ualberta.cmput301f18t11.medicam.models.Patient;
 
 public class MainActivity extends AppCompatActivity {
@@ -30,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        PatientPersistanceController p = new PatientPersistanceController(getApplicationContext());
+        PatientPersistenceController p = new PatientPersistenceController(getApplicationContext());
 //
 //        Patient test = new Patient("BarrackObama");
 //

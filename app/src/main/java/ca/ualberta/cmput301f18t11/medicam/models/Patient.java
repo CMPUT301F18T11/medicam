@@ -1,29 +1,24 @@
 package ca.ualberta.cmput301f18t11.medicam.models;
 
-import android.content.Context;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import ca.ualberta.cmput301f18t11.medicam.Problem;
 import ca.ualberta.cmput301f18t11.medicam.User;
-import ca.ualberta.cmput301f18t11.medicam.controllers.ElasticSearchController;
-import ca.ualberta.cmput301f18t11.medicam.controllers.InternalStorageController;
 import ca.ualberta.cmput301f18t11.medicam.exceptions.InvalidEmailException;
 import ca.ualberta.cmput301f18t11.medicam.exceptions.StringTooShortException;
-import io.searchbox.annotations.JestId;
 
 public class Patient extends User {
 
-    private List<UUID> problems = new ArrayList<>();
-    private UUID frontPhoto;
-    private UUID backPhoto;
+    private List<String> problems = new ArrayList<>();
+    private String frontPhoto;
+    private String backPhoto;
 
     public Patient() {
     }
 
-    public Patient(String userID, String email, String phoneNumber, List<UUID> problems) throws StringTooShortException, InvalidEmailException {
+    public Patient(String userID, String email, String phoneNumber, List<String> problems) throws StringTooShortException, InvalidEmailException {
         super(userID, email, phoneNumber);
         this.problems = problems;
     }
@@ -32,22 +27,22 @@ public class Patient extends User {
         super(userID);
     }
 
-    public Patient(String userID, String email, String phoneNumber, List<UUID> problems, UUID frontPhoto, UUID backPhoto) throws StringTooShortException, InvalidEmailException {
+    public Patient(String userID, String email, String phoneNumber, List<String> problems, String frontPhoto, String backPhoto) throws StringTooShortException, InvalidEmailException {
         super(userID, email, phoneNumber);
         this.problems = problems;
         this.frontPhoto = frontPhoto;
         this.backPhoto = backPhoto;
     }
 
-    public List<UUID> getProblems() {
+    public List<String> getProblems() {
         return problems;
     }
 
-    public void setProblems(List<UUID> problems) {
+    public void setProblems(List<String> problems) {
         this.problems = problems;
     }
 
-    public void addProblem(UUID problem)
+    public void addProblem(String problem)
     {
         problems.add(problem);
     }
@@ -55,19 +50,19 @@ public class Patient extends User {
     public void addProblem(Problem problem) {
     }
 
-    public UUID getFrontPhoto() {
+    public String getFrontPhoto() {
         return frontPhoto;
     }
 
-    public void setFrontPhoto(UUID frontPhoto) {
+    public void setFrontPhoto(String frontPhoto) {
         this.frontPhoto = frontPhoto;
     }
 
-    public UUID getBackPhoto() {
+    public String getBackPhoto() {
         return backPhoto;
     }
 
-    public void setBackPhoto(UUID backPhoto) {
+    public void setBackPhoto(String backPhoto) {
         this.backPhoto = backPhoto;
     }
 
