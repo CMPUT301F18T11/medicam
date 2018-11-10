@@ -31,9 +31,27 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
 
         PatientPersistanceController p = new PatientPersistanceController(getApplicationContext());
+//
+//        Patient test = new Patient("BarrackObama");
+//
+//        test.addProblem(UUID.randomUUID());
+//
+//        test.addProblem(UUID.randomUUID());
+//
+//        test.addProblem(UUID.randomUUID());
+//
+//        test.addProblem(UUID.randomUUID());
+//
+//        test.addProblem(UUID.randomUUID());
+//
+//        test.addProblem(UUID.randomUUID());
+//
+//        test.addProblem(UUID.randomUUID());
+//
+//
+//        p.saveToREST(test);
 
-        Patient fromREST = p.loadFromREST("115b0fdb-50f5-4529-828f-484ca22b3701");
-        Patient fromInternal = p.loadFromStorage("115b0fdb-50f5-4529-828f-484ca22b3701");
+        Patient test = p.loadFromREST("BarrackObama");
 
 
         int x = 1;

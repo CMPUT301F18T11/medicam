@@ -16,17 +16,11 @@ import io.searchbox.annotations.JestId;
 
 public class Patient extends User {
 
-    @JestId
-    private String id;
-
-
     private List<UUID> problems = new ArrayList<>();
     private UUID frontPhoto;
     private UUID backPhoto;
 
     public Patient() {
-
-
     }
 
     public Patient(String userID, String email, String phoneNumber, List<UUID> problems) throws StringTooShortException, InvalidEmailException {
@@ -36,7 +30,6 @@ public class Patient extends User {
 
     public Patient(String userID) throws StringTooShortException {
         super(userID);
-        this.id = this.uuid;
     }
 
     public Patient(String userID, String email, String phoneNumber, List<UUID> problems, UUID frontPhoto, UUID backPhoto) throws StringTooShortException, InvalidEmailException {

@@ -2,18 +2,19 @@ package ca.ualberta.cmput301f18t11.medicam;
 
 import ca.ualberta.cmput301f18t11.medicam.exceptions.InvalidEmailException;
 import ca.ualberta.cmput301f18t11.medicam.exceptions.StringTooShortException;
+import io.searchbox.annotations.JestId;
 
 public abstract class User extends PersistedModel {
-    private String userID;
+
     private String email;
     private String phoneNumber;
 
     public String getUserID() {
-        return userID;
+        return uuid;
     }
 
     public void setUserID(String userID) throws StringTooShortException {
-        this.userID = userID;
+        this.uuid = userID;
     }
 
     public String getEmail() {
@@ -41,6 +42,6 @@ public abstract class User extends PersistedModel {
     }
 
     public User(String userID) throws StringTooShortException {
-        this.userID = userID;
+        this.uuid = userID;
     }
 }

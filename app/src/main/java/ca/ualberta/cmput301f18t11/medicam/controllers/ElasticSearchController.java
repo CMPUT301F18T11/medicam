@@ -7,6 +7,7 @@ import com.searchly.jestdroid.DroidClientConfig;
 import com.searchly.jestdroid.JestClientFactory;
 import com.searchly.jestdroid.JestDroidClient;
 
+import ca.ualberta.cmput301f18t11.medicam.PersistedModel;
 import io.searchbox.client.JestResult;
 import io.searchbox.core.Delete;
 import io.searchbox.core.DocumentResult;
@@ -30,7 +31,7 @@ public class ElasticSearchController {
     /** SaveObjectsTask
      *
      */
-    public static class SaveObjectsTask<Type> extends AsyncTask<Type,Void,Void> {
+    public static class SaveObjectsTask<Type extends PersistedModel> extends AsyncTask<Type,Void,Void> {
         private String type_url;
 
         public SaveObjectsTask(String type_url) {
@@ -42,7 +43,7 @@ public class ElasticSearchController {
             verifySettings();
 
             for (Type object: objects) {
-                Index i = new Index.Builder(object).index(index_url).type(type_url).build();
+                Index i = new Index.Builder(object).index(index_url).type(type_url).id(object.getUuid()).build();
 
                 try {
                     DocumentResult result  = client.execute(i);
