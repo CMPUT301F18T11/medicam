@@ -13,6 +13,10 @@ import ca.ualberta.cmput301f18t11.medicam.controllers.abstracts.PersistenceContr
 import ca.ualberta.cmput301f18t11.medicam.models.CareProvider;
 import io.searchbox.client.JestResult;
 
+/**
+    Persistence controller for CareProvider objects
+    See PersistenceController for documentation
+ */
 public class CareProviderPersistenceController extends PersistenceController<CareProvider> {
 
     @Override

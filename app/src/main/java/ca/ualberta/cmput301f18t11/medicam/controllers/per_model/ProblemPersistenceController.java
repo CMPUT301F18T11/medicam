@@ -14,6 +14,10 @@ import ca.ualberta.cmput301f18t11.medicam.models.CareProvider;
 import ca.ualberta.cmput301f18t11.medicam.models.Problem;
 import io.searchbox.client.JestResult;
 
+/**
+    Persistence controller for Problem objects
+    See PersistenceController for documentation
+ */
 public class ProblemPersistenceController extends PersistenceController<Problem> {
 
     @Override

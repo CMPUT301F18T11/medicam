@@ -14,7 +14,11 @@ import ca.ualberta.cmput301f18t11.medicam.models.abstracts.PersistedModel;
 
 
 /** InternalStorageController
+ *  Controller used for handling internal storage calls.
+ *  Contains tasks for saving, loading, and deletion
+ *  Tasks must be constructed and then executed.
  *
+ *  ALL TASKS SHOULD ONLY BE USED ONCE AND THEN DISCARDED.
  */
 public class InternalStorageController {
 
@@ -23,9 +27,12 @@ public class InternalStorageController {
     private static String file_suffix = ".json";
 
     /** SaveObjectsTask
-     *
+     *  Task used for saving objects to internal storage.
+     *  Task is first constructed with current context.
+     *  Use execute method to perform task
+     *  Result of task execution Boolean indicating success or failure
      */
-    public static class SaveObjectsTask<Type extends PersistedModel> extends AsyncTask<Type,Void,Boolean> {
+    public static class SaveObjectsTask<T extends PersistedModel> extends AsyncTask<T,Void,Boolean> {
 
         private Context context;
 
@@ -34,9 +41,9 @@ public class InternalStorageController {
         }
 
         @Override
-        protected Boolean doInBackground(Type... object_params) {
+        protected Boolean doInBackground(T... object_params) {
 
-            for (Type object: object_params)
+            for (T object: object_params)
             {
                 try
                 {
@@ -65,7 +72,13 @@ public class InternalStorageController {
     }
 
     /** GetObjectsTask
+     *  Task for obtaining objects from internal storage.
+     *  Task constructed using current Context
      *
+     *  Use execute method with list of ids to obtain.
+     *  Result of task execution is a list of FileReaders
+     *  FileReader should be handled using Gson fromJson method
+     *  using the expected class to reconstruct object.
      */
     public static class GetObjectsTask extends AsyncTask<String, Void, ArrayList<FileReader>> {
 
@@ -94,6 +107,7 @@ public class InternalStorageController {
 
                 catch (Exception e)
                 {
+                    //TODO: proper exception handling
                     e.printStackTrace();
                 }
             }
@@ -102,7 +116,12 @@ public class InternalStorageController {
     }
 
     /** DeleteObjectsTask
+     *  Task for deletion of objects from internal storage.
+     *  Task constructed using current context.
      *
+     *  Using execute method with a list of ids to delete will perform task
+     *  Deletes files with name = id
+     *  returns true if no error
      */
     public static class DeleteObjectsTask extends AsyncTask<String, Void, Boolean> {
 

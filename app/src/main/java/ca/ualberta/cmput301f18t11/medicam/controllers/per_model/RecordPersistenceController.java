@@ -14,6 +14,10 @@ import ca.ualberta.cmput301f18t11.medicam.models.CareProvider;
 import ca.ualberta.cmput301f18t11.medicam.models.abstracts.Record;
 import io.searchbox.client.JestResult;
 
+/**
+    Persistence controller for Record objects
+    See PersistenceController for documentation
+ */
 public class RecordPersistenceController extends PersistenceController<Record> {
 
     @Override

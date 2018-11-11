@@ -1,6 +1,8 @@
 package ca.ualberta.cmput301f18t11.medicam.models;
 
 
+import android.support.annotation.Nullable;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,8 +66,5 @@ public class Patient extends User {
     public void setBackPhoto(String backPhoto) {
         this.backPhoto = backPhoto;
     }
-
-
-
 
 }

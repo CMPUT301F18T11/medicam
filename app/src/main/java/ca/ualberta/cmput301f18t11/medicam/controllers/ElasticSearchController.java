@@ -18,6 +18,8 @@ import io.searchbox.core.Index;
 
 
 /** ElasticSearchController
+ *  Controller for generating ElasticSearch related tasks
+ *  Tasks will asynchronously perform certain server related functions
  *
  */
 public class ElasticSearchController {
@@ -29,9 +31,16 @@ public class ElasticSearchController {
     // Jest Client Singleton
     private static JestDroidClient client;
 
+    public static void setIndex_url(String new_index_url) {
+        index_url = new_index_url;
+    }
+
 
     /** SaveObjectsTask
-     *
+     *  Task used for saving an object of class T.
+     *  General steps for use: create task, use execute method
+     *  with object to store as input.
+     *  Can check result of execution for success or failure.
      */
     public static class SaveObjectsTask<T extends PersistedModel> extends AsyncTask<T,Void,Boolean> {
         private String type_url;
@@ -65,7 +74,13 @@ public class ElasticSearchController {
     }
 
     /** GetObjectsTask
+     *  Task used for obtaining objects with a specific id and type from server.
+     *  Constructed by first identifying the type string used by server
+     *  Task is used by calling execute method on an array of string ids (param)
+     *  Output is a JestResult obtained from the result method of the task
      *
+     *  Objects must be reconstructed from JestResult using getSourceAsObject
+     *  or getSourceAsObjectList methods
      */
     public static class GetObjectsTask extends AsyncTask<String, Void, JestResult> {
 
@@ -99,7 +114,12 @@ public class ElasticSearchController {
     }
 
     /** DeleteObjectsTask
+     *  Task used for deletion of objects from server using type identifier and id
+     *  Constructed with type identifier
+     *  Task used with execute method, inputting an array of ids
+     *  List of ids must all be of the type used in constructor.
      *
+     *  ALL TASKS SHOULD ONLY BE USED ONCE AND THEN DISCARDED
      */
     public static class DeleteObjectsTask extends AsyncTask<String, Void, Boolean> {
 
