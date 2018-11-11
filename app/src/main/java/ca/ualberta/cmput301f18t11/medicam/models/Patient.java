@@ -1,8 +1,5 @@
 package ca.ualberta.cmput301f18t11.medicam.models;
 
-
-import android.support.annotation.Nullable;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +16,8 @@ public class Patient extends User {
     public Patient() {
     }
 
-    public Patient(String userID, String email, String phoneNumber, List<String> problems) throws StringTooShortException, InvalidEmailException {
+    public Patient(String userID, String email, String phoneNumber,
+                   List<String> problems) throws StringTooShortException, InvalidEmailException {
         super(userID, email, phoneNumber);
         this.problems = problems;
     }
@@ -28,7 +26,8 @@ public class Patient extends User {
         super(userID);
     }
 
-    public Patient(String userID, String email, String phoneNumber, List<String> problems, String frontPhoto, String backPhoto) throws StringTooShortException, InvalidEmailException {
+    public Patient(String userID, String email, String phoneNumber, List<String> problems,
+                   String frontPhoto, String backPhoto) throws StringTooShortException, InvalidEmailException {
         super(userID, email, phoneNumber);
         this.problems = problems;
         this.frontPhoto = frontPhoto;
@@ -49,6 +48,7 @@ public class Patient extends User {
     }
 
     public void addProblem(Problem problem) {
+        problems.add(problem.getUuid());
     }
 
     public String getFrontPhoto() {
