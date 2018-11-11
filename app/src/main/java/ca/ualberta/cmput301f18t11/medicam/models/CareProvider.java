@@ -24,7 +24,7 @@ public class CareProvider extends User {
         this.patients.add(patient);
     }
 
-    public void addPatient(String patient) {
+    public void addPatient(Patient patient) {
 
     }
 
@@ -32,7 +32,9 @@ public class CareProvider extends User {
         this.patients.remove(patient);
     }
 
-    public CareProvider(String userID, String email, String phoneNumber, List<UUID> patients) throws StringTooShortException, InvalidEmailException {
+    public CareProvider(String userID, String email, String phoneNumber,
+                        List<UUID> patients) throws StringTooShortException, InvalidEmailException {
+
         super(userID, email, phoneNumber);
         this.patients = patients;
     }
@@ -41,7 +43,8 @@ public class CareProvider extends User {
         super(userID);
     }
 
-    public CareProvider(String userID, String email, String phoneNumber) throws StringTooShortException, InvalidEmailException {
+    public CareProvider(String userID, String email,
+                        String phoneNumber) throws StringTooShortException, InvalidEmailException {
         super(userID, email, phoneNumber);
     }
 

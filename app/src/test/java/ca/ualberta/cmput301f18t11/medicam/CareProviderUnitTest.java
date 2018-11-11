@@ -48,14 +48,13 @@ public class CareProviderUnitTest {
         assertTrue(testCareProvider.getPatients().contains(testUUID1));
 
         // check when adding by patient userid
-        String testPatient1 = "testpatientuserid";
+        UUID testPatient1 = UUID.randomUUID();
         // this involves server interaction, since the patient's info must be polled
         // the following UUID should be associated with the testpatient userid
         // within the database for this test to properly work
-        UUID testUUID2 = UUID.fromString(testPatient1);
         testCareProvider.addPatient(testPatient1);
 
-        assertTrue(testCareProvider.getPatients().contains(testUUID2));
+        assertTrue(testCareProvider.getPatients().contains(testPatient1));
     }
 
     @Test

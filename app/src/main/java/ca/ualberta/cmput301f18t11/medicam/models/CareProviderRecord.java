@@ -9,7 +9,12 @@ public class CareProviderRecord extends Record {
     private UUID care_provider;
 
     public CareProviderRecord(){
+        super();
         this.createUuid();
+    }
+
+    public CareProviderRecord(UUID uuid) {
+        super(uuid);
     }
 
     public UUID getCare_provider() {

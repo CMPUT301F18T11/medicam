@@ -2,10 +2,10 @@ package ca.ualberta.cmput301f18t11.medicam.controllers.per_model;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.UUID;
 
 import ca.ualberta.cmput301f18t11.medicam.controllers.ElasticSearchController;
 import ca.ualberta.cmput301f18t11.medicam.controllers.InternalStorageController;
@@ -20,21 +20,7 @@ import io.searchbox.client.JestResult;
 public class CareProviderPersistenceController extends PersistenceController<CareProvider> {
 
     @Override
-    public CareProvider load(String id, Context context)
-    {
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        if (cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnectedOrConnecting())
-        {
-            return loadFromREST(id);
-        }
-
-        return loadFromStorage(id, context);
-    }
-
-
-    @Override
-    public CareProvider loadFromREST(String id)
+    public CareProvider loadFromREST(UUID id)
     {
         ElasticSearchController.GetObjectsTask task = new ElasticSearchController.GetObjectsTask(getTypeURL());
         try
@@ -52,7 +38,7 @@ public class CareProviderPersistenceController extends PersistenceController<Car
     }
 
     @Override
-    public CareProvider loadFromStorage(String id, Context context)
+    public CareProvider loadFromStorage(UUID id, Context context)
     {
         InternalStorageController.GetObjectsTask task = new InternalStorageController.GetObjectsTask(context);
         try

@@ -6,6 +6,8 @@ import android.net.NetworkInfo;
 
 import com.google.gson.Gson;
 
+import java.util.UUID;
+
 import ca.ualberta.cmput301f18t11.medicam.models.abstracts.PersistedModel;
 import ca.ualberta.cmput301f18t11.medicam.controllers.ElasticSearchController;
 import ca.ualberta.cmput301f18t11.medicam.controllers.InternalStorageController;
@@ -61,19 +63,28 @@ public abstract class PersistenceController<T extends PersistedModel> {
         Inputs: id of the object, context of current activity
         Outputs: Object with same id as input
      */
-    public abstract T load(String id, Context context);
+    public  T load(UUID id, Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        if (cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnectedOrConnecting())
+        {
+            return loadFromREST(id);
+        }
+
+        return loadFromStorage(id, context);
+    }
 
     /**
         Loads object T from server.
         Helper method to load.
      */
-    public abstract T loadFromREST(String id);
+    public abstract T loadFromREST(UUID id);
 
     /**
         Loads object T from storage
         Helper method to load.
      */
-    public abstract T loadFromStorage(String id, Context context);
+    public abstract T loadFromStorage(UUID id, Context context);
 
 
     /**

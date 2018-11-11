@@ -12,23 +12,25 @@ import ca.ualberta.cmput301f18t11.medicam.controllers.ElasticSearchController;
 import ca.ualberta.cmput301f18t11.medicam.controllers.InternalStorageController;
 import ca.ualberta.cmput301f18t11.medicam.controllers.abstracts.PersistenceController;
 import ca.ualberta.cmput301f18t11.medicam.models.CareProvider;
-import ca.ualberta.cmput301f18t11.medicam.models.Problem;
+import ca.ualberta.cmput301f18t11.medicam.models.CareProviderRecord;
+import ca.ualberta.cmput301f18t11.medicam.models.abstracts.Record;
 import io.searchbox.client.JestResult;
 
 /**
-    Persistence controller for Problem objects
+    Persistence controller for Record objects
     See PersistenceController for documentation
  */
-public class ProblemPersistenceController extends PersistenceController<Problem> {
+public class CareProviderRecordPersistenceController extends PersistenceController<CareProviderRecord> {
+
 
     @Override
-    public Problem loadFromREST(UUID id)
+    public CareProviderRecord loadFromREST(UUID id)
     {
         ElasticSearchController.GetObjectsTask task = new ElasticSearchController.GetObjectsTask(getTypeURL());
         try
         {
             JestResult result = task.execute(id).get();
-            return result.getSourceAsObjectList(Problem.class).get(0);
+            return result.getSourceAsObjectList(CareProviderRecord.class).get(0);
         }
 
         catch (Exception e)
@@ -40,13 +42,13 @@ public class ProblemPersistenceController extends PersistenceController<Problem>
     }
 
     @Override
-    public Problem loadFromStorage(UUID id, Context context)
+    public CareProviderRecord loadFromStorage(UUID id, Context context)
     {
         InternalStorageController.GetObjectsTask task = new InternalStorageController.GetObjectsTask(context);
         try
         {
             ArrayList<FileReader> readers = task.execute(id).get();
-            return gson.fromJson(readers.get(0), Problem.class);
+            return gson.fromJson(readers.get(0), CareProviderRecord.class);
         }
         catch (Exception e)
         {
@@ -59,7 +61,7 @@ public class ProblemPersistenceController extends PersistenceController<Problem>
 
     @Override
     public String getTypeURL() {
-        return "Problem";
+        return "CareProviderRecord";
     }
 
 

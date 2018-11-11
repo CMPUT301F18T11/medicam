@@ -6,6 +6,7 @@ import android.net.NetworkInfo;
 
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.UUID;
 
 import ca.ualberta.cmput301f18t11.medicam.controllers.ElasticSearchController;
 import ca.ualberta.cmput301f18t11.medicam.controllers.InternalStorageController;
@@ -20,21 +21,7 @@ import io.searchbox.client.JestResult;
 public class PatientPersistenceController extends PersistenceController<Patient> {
 
     @Override
-    public Patient load(String id, Context context)
-    {
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        if (cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnectedOrConnecting())
-        {
-            return loadFromREST(id);
-        }
-
-        return loadFromStorage(id, context);
-    }
-
-
-    @Override
-    public Patient loadFromREST(String id)
+    public Patient loadFromREST(UUID id)
     {
         ElasticSearchController.GetObjectsTask task = new ElasticSearchController.GetObjectsTask(getTypeURL());
         try
@@ -52,7 +39,7 @@ public class PatientPersistenceController extends PersistenceController<Patient>
     }
 
     @Override
-    public Patient loadFromStorage(String id, Context context)
+    public Patient loadFromStorage(UUID id, Context context)
     {
         InternalStorageController.GetObjectsTask task = new InternalStorageController.GetObjectsTask(context);
         try

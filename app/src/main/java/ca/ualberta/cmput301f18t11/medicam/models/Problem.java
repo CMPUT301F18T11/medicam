@@ -11,22 +11,39 @@ import ca.ualberta.cmput301f18t11.medicam.models.abstracts.PersistedModel;
 
 //Dummy Problem Class
 public class Problem extends PersistedModel {
+    private static final int MAX_DESC_CHARS = 300;
+    private static final int MAX_TITLE_CHARS = 30;
+
     private String title;
     private Date date_started = new Date();
     private String description;
-    private int MAX_DESC_CHARS = 1; //Normal value is 300, set to 1 for testing
-    private int MAX_TITLE_CHARS = 1; //Normal value is 30, set to 1 for testing
     //TODO: Implement Records UUID and Collection
-    private ArrayList<UUID> records = new ArrayList<UUID>() {
-    };
+    private ArrayList<UUID> patientRecords = new ArrayList<>();
+    private ArrayList<UUID> careProviderRecords = new ArrayList<>();
 
     public Problem(String title, Date date, String desc){
+        super();
         this.title = title;
         this.date_started = date;
         this.description = desc;
-        //this.records.add(record);
-
     }
+
+    public Problem(UUID uuid, String title, String description,
+                   ArrayList<UUID> patientRecords, ArrayList<UUID> careProviderRecords) {
+        super(uuid);
+        setTitle(title);
+        setDescription(description);
+        this.patientRecords.addAll(patientRecords);
+        this.careProviderRecords.addAll(careProviderRecords);
+    }
+
+    public Problem(UUID uuid, String title, Date date_started, String description) {
+        super(uuid);
+        this.title = title;
+        this.date_started = date_started;
+        this.description = description;
+    }
+
     //Getters and Setters
     public String getTitle(){
         return this.title;
@@ -66,25 +83,39 @@ public class Problem extends PersistedModel {
     //Adding/deleting records
 
     public boolean hasRecord(UUID record){
-        return this.records.contains(record);
+        return this.patientRecords.contains(record) || this.careProviderRecords.contains(record);
     }
 
-    public void addRecord(UUID record){
-        this.records.add(record);
-
+    public void addPatientRecord(UUID record){
+        this.patientRecords.add(record);
     }
 
-    public void deleteRecord(int index){
-        this.records.remove(index);
+    public void addCareProviderRecord(UUID record){
+        this.careProviderRecords.add(record);
     }
 
-    public void deleteRecord(UUID record){
-        this.records.remove(record);
+    public void deletePatientRecord(int index){
+        this.patientRecords.remove(index);
     }
 
-    public ArrayList<UUID> getRecords(){
-        return this.records;
+    public void deletePatientRecord(UUID record){
+        this.patientRecords.remove(record);
     }
 
+    public void deleteCareProviderRecord(int index){
+        this.careProviderRecords.remove(index);
+    }
+
+    public void deleteCareProviderRecord(UUID record){
+        this.careProviderRecords.remove(record);
+    }
+
+    public ArrayList<UUID> getPatientRecords(){
+        return this.patientRecords;
+    }
+
+    public ArrayList<UUID> getCareProviderRecords() {
+        return careProviderRecords;
+    }
 }
 

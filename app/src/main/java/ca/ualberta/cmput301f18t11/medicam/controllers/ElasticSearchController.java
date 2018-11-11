@@ -8,6 +8,7 @@ import com.searchly.jestdroid.JestClientFactory;
 import com.searchly.jestdroid.JestDroidClient;
 
 import java.io.IOException;
+import java.util.UUID;
 
 import ca.ualberta.cmput301f18t11.medicam.models.abstracts.PersistedModel;
 import io.searchbox.client.JestResult;
@@ -54,7 +55,7 @@ public class ElasticSearchController {
             verifySettings();
 
             for (T object: objects) {
-                Index i = new Index.Builder(object).index(index_url).type(type_url).id(object.getUuid()).build();
+                Index i = new Index.Builder(object).index(index_url).type(type_url).id(object.getUuid().toString()).build();
 
                 try
                 {
@@ -82,7 +83,7 @@ public class ElasticSearchController {
      *  Objects must be reconstructed from JestResult using getSourceAsObject
      *  or getSourceAsObjectList methods
      */
-    public static class GetObjectsTask extends AsyncTask<String, Void, JestResult> {
+    public static class GetObjectsTask extends AsyncTask<UUID, Void, JestResult> {
 
         private String type_url;
 
@@ -91,11 +92,11 @@ public class ElasticSearchController {
         }
 
         @Override
-        protected JestResult doInBackground(String... id_params) {
+        protected JestResult doInBackground(UUID... id_params) {
             verifySettings();
 
-            for (String id: id_params) {
-                Get get = new Get.Builder(index_url, id).type(type_url).build();
+            for (UUID id: id_params) {
+                Get get = new Get.Builder(index_url, id.toString()).type(type_url).build();
 
                 try {
                     JestResult result = client.execute(get);
@@ -121,7 +122,7 @@ public class ElasticSearchController {
      *
      *  ALL TASKS SHOULD ONLY BE USED ONCE AND THEN DISCARDED
      */
-    public static class DeleteObjectsTask extends AsyncTask<String, Void, Boolean> {
+    public static class DeleteObjectsTask extends AsyncTask<UUID, Void, Boolean> {
 
         private String type_url;
 
@@ -130,13 +131,13 @@ public class ElasticSearchController {
         }
 
         @Override
-        protected Boolean doInBackground(String ... ids)
+        protected Boolean doInBackground(UUID ... ids)
         {
             verifySettings();
 
-            for (String id: ids) {
+            for (UUID id: ids) {
                 try {
-                    DocumentResult result  = client.execute(new Delete.Builder(id).index(index_url).type(type_url).build());
+                    DocumentResult result  = client.execute(new Delete.Builder(id.toString()).index(index_url).type(type_url).build());
                 }
                 catch (Exception e) {
                     e.printStackTrace();

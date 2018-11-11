@@ -39,20 +39,20 @@ public class PatientPersistenceControllerTest {
      * Only for testing purposes.
      */
     @Test
-    public void testPersistenceOnline() {
+    public void testPersistence() {
         Context appContext = InstrumentationRegistry.getTargetContext();
         // use our test index
         ElasticSearchController.setIndex_url("cmput301f18t11test");
-        String backPhoto = UUID.randomUUID().toString();
-        String frontPhoto = UUID.randomUUID().toString();
+        UUID backPhoto = UUID.randomUUID();
+        UUID frontPhoto = UUID.randomUUID();
         String email = "testemail";
         String userid = UUID.randomUUID().toString();
         String phoneNumber = "testphonenumber";
 
-        ArrayList<String> problems = new ArrayList<>();
-        problems.add(UUID.randomUUID().toString());
-        problems.add(UUID.randomUUID().toString());
-        problems.add(UUID.randomUUID().toString());
+        ArrayList<UUID> problems = new ArrayList<>();
+        problems.add(UUID.randomUUID());
+        problems.add(UUID.randomUUID());
+        problems.add(UUID.randomUUID());
 
         Patient testPatient = new Patient(userid, email, phoneNumber, problems, frontPhoto, backPhoto);
 

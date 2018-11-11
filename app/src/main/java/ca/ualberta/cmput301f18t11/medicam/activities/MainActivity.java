@@ -24,31 +24,5 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
-
-        CareProvider testProvider = new CareProvider("TestProvider123123");
-
-        testProvider.addPatient(UUID.randomUUID());
-        testProvider.addPatient(UUID.randomUUID());
-        testProvider.addPatient(UUID.randomUUID());
-
-        CareProviderPersistenceController cp = new CareProviderPersistenceController();
-
-        cp.save(testProvider, getApplicationContext());
-
-
-        CareProvider fromRest    = cp.loadFromREST("TestProvider123123");
-        CareProvider fromStorage = cp.loadFromStorage("TestProvider123123",getApplicationContext());
-
-        int x = 1 + 1;
-
-        cp.delete(testProvider, getApplicationContext());
-
-        CareProvider fromRest2    = cp.loadFromREST("TestProvider123123");
-        CareProvider fromStorage2 = cp.loadFromStorage("TestProvider123123",getApplicationContext());
-
-        int y = 1 + 2;
-
-
     }
 }
