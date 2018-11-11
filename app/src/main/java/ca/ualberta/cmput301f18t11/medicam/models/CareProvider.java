@@ -10,17 +10,17 @@ import ca.ualberta.cmput301f18t11.medicam.exceptions.StringTooShortException;
 
 public class CareProvider extends User {
 
-    private List<UUID> patients = new ArrayList<>();
+    private List<String> patients = new ArrayList<>();
 
-    public List<UUID> getPatients() {
+    public List<String> getPatients() {
         return patients;
     }
 
-    public void setPatients(List<UUID> patients) {
+    public void setPatients(List<String> patients) {
         this.patients = patients;
     }
 
-    public void addPatient(UUID patient) {
+    public void addPatient(String patient) {
         this.patients.add(patient);
     }
 
@@ -28,12 +28,12 @@ public class CareProvider extends User {
 
     }
 
-    public void removePatient(UUID patient) {
+    public void removePatient(String patient) {
         this.patients.remove(patient);
     }
 
     public CareProvider(String userID, String email, String phoneNumber,
-                        List<UUID> patients) throws StringTooShortException, InvalidEmailException {
+                        List<String> patients) throws StringTooShortException, InvalidEmailException {
 
         super(userID, email, phoneNumber);
         this.patients = patients;

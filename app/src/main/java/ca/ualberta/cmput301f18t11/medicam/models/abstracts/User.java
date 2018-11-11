@@ -10,17 +10,17 @@ public abstract class User extends PersistedModel {
     private String email;
     private String phoneNumber;
 
-    public UUID getUserID() {
+    public String getUserID() {
         return uuid;
     }
 
     public void setUserID(String userID) throws StringTooShortException {
-        this.uuid = UUID.fromString(userID);
-    }
-
-    public void setUserID(UUID userID) throws StringTooShortException {
         this.uuid = userID;
     }
+
+//    public void setUserID(UUID userID) throws StringTooShortException {
+//        this.uuid = userID;
+//    }
 
     public String getEmail() {
         return email;

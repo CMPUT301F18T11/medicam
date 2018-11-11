@@ -81,7 +81,7 @@ public class InternalStorageController {
      *  FileReader should be handled using Gson fromJson method
      *  using the expected class to reconstruct object.
      */
-    public static class GetObjectsTask extends AsyncTask<UUID, Void, ArrayList<FileReader>> {
+    public static class GetObjectsTask extends AsyncTask<String, Void, ArrayList<FileReader>> {
 
         private Context context;
 
@@ -91,15 +91,15 @@ public class InternalStorageController {
         }
 
         @Override
-        protected ArrayList<FileReader> doInBackground(UUID... id_params) {
+        protected ArrayList<FileReader> doInBackground(String... id_params) {
             ArrayList<FileReader> output = new ArrayList<>();
 
-            for (UUID id: id_params)
+            for (String id: id_params)
             {
                 try
                 {
 
-                    File save_file = new File(context.getFilesDir(), getModelSavePath(id.toString()));
+                    File save_file = new File(context.getFilesDir(), getModelSavePath(id));
 
                     FileReader reader = new FileReader(save_file);
 
@@ -124,7 +124,7 @@ public class InternalStorageController {
      *  Deletes files with name = id
      *  returns true if no error
      */
-    public static class DeleteObjectsTask extends AsyncTask<UUID, Void, Boolean> {
+    public static class DeleteObjectsTask extends AsyncTask<String, Void, Boolean> {
 
         private Context context;
 
@@ -134,11 +134,11 @@ public class InternalStorageController {
         }
 
         @Override
-        protected Boolean doInBackground(UUID ... id_params)
+        protected Boolean doInBackground(String ... id_params)
         {
-            for (UUID id: id_params)
+            for (String id: id_params)
             {
-                File save_file = new File(context.getFilesDir(), getModelSavePath(id.toString()));
+                File save_file = new File(context.getFilesDir(), getModelSavePath(id));
 
                 if (save_file.exists() )
                 {

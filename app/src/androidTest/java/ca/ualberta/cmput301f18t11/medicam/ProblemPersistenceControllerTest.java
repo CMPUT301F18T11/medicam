@@ -41,21 +41,21 @@ public class ProblemPersistenceControllerTest {
         Context appContext = InstrumentationRegistry.getTargetContext();
         // use our test index
         ElasticSearchController.setIndex_url("cmput301f18t11test");
-        UUID uuid = UUID.randomUUID();
+        String uuid = UUID.randomUUID().toString();
         String title = "title";
         String description = "description";
 
 
 
-        ArrayList<UUID> patientRecords = new ArrayList<>();
-        patientRecords.add(UUID.randomUUID());
-        patientRecords.add(UUID.randomUUID());
-        patientRecords.add(UUID.randomUUID());
+        ArrayList<String> patientRecords = new ArrayList<>();
+        patientRecords.add(UUID.randomUUID().toString());
+        patientRecords.add(UUID.randomUUID().toString());
+        patientRecords.add(UUID.randomUUID().toString());
 
-        ArrayList<UUID> careProviderRecords = new ArrayList<>();
-        careProviderRecords.add(UUID.randomUUID());
-        careProviderRecords.add(UUID.randomUUID());
-        careProviderRecords.add(UUID.randomUUID());
+        ArrayList<String> careProviderRecords = new ArrayList<>();
+        careProviderRecords.add(UUID.randomUUID().toString());
+        careProviderRecords.add(UUID.randomUUID().toString());
+        careProviderRecords.add(UUID.randomUUID().toString());
 
         Problem testProblem = new Problem(uuid, title, description, patientRecords, careProviderRecords);
 

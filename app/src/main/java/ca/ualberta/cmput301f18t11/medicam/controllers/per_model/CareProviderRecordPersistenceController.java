@@ -24,7 +24,7 @@ public class CareProviderRecordPersistenceController extends PersistenceControll
 
 
     @Override
-    public CareProviderRecord loadFromREST(UUID id)
+    public CareProviderRecord loadFromREST(String id)
     {
         ElasticSearchController.GetObjectsTask task = new ElasticSearchController.GetObjectsTask(getTypeURL());
         try
@@ -42,7 +42,7 @@ public class CareProviderRecordPersistenceController extends PersistenceControll
     }
 
     @Override
-    public CareProviderRecord loadFromStorage(UUID id, Context context)
+    public CareProviderRecord loadFromStorage(String id, Context context)
     {
         InternalStorageController.GetObjectsTask task = new InternalStorageController.GetObjectsTask(context);
         try

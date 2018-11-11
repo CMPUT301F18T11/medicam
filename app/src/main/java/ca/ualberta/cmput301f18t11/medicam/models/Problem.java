@@ -18,8 +18,8 @@ public class Problem extends PersistedModel {
     private Date date_started = new Date();
     private String description;
     //TODO: Implement Records UUID and Collection
-    private ArrayList<UUID> patientRecords = new ArrayList<>();
-    private ArrayList<UUID> careProviderRecords = new ArrayList<>();
+    private ArrayList<String> patientRecords = new ArrayList<>();
+    private ArrayList<String> careProviderRecords = new ArrayList<>();
 
     public Problem(String title, Date date, String desc){
         super();
@@ -28,8 +28,8 @@ public class Problem extends PersistedModel {
         this.description = desc;
     }
 
-    public Problem(UUID uuid, String title, String description,
-                   ArrayList<UUID> patientRecords, ArrayList<UUID> careProviderRecords) {
+    public Problem(String uuid, String title, String description,
+                   ArrayList<String> patientRecords, ArrayList<String> careProviderRecords) {
         super(uuid);
         setTitle(title);
         setDescription(description);
@@ -37,7 +37,7 @@ public class Problem extends PersistedModel {
         this.careProviderRecords.addAll(careProviderRecords);
     }
 
-    public Problem(UUID uuid, String title, Date date_started, String description) {
+    public Problem(String uuid, String title, Date date_started, String description) {
         super(uuid);
         this.title = title;
         this.date_started = date_started;
@@ -82,15 +82,15 @@ public class Problem extends PersistedModel {
 
     //Adding/deleting records
 
-    public boolean hasRecord(UUID record){
+    public boolean hasRecord(String record){
         return this.patientRecords.contains(record) || this.careProviderRecords.contains(record);
     }
 
-    public void addPatientRecord(UUID record){
+    public void addPatientRecord(String record){
         this.patientRecords.add(record);
     }
 
-    public void addCareProviderRecord(UUID record){
+    public void addCareProviderRecord(String record){
         this.careProviderRecords.add(record);
     }
 
@@ -98,7 +98,7 @@ public class Problem extends PersistedModel {
         this.patientRecords.remove(index);
     }
 
-    public void deletePatientRecord(UUID record){
+    public void deletePatientRecord(String record){
         this.patientRecords.remove(record);
     }
 
@@ -106,15 +106,15 @@ public class Problem extends PersistedModel {
         this.careProviderRecords.remove(index);
     }
 
-    public void deleteCareProviderRecord(UUID record){
+    public void deleteCareProviderRecord(String record){
         this.careProviderRecords.remove(record);
     }
 
-    public ArrayList<UUID> getPatientRecords(){
+    public ArrayList<String> getPatientRecords(){
         return this.patientRecords;
     }
 
-    public ArrayList<UUID> getCareProviderRecords() {
+    public ArrayList<String> getCareProviderRecords() {
         return careProviderRecords;
     }
 }

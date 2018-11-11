@@ -6,22 +6,22 @@ import ca.ualberta.cmput301f18t11.medicam.exceptions.ReassignmentException;
 import ca.ualberta.cmput301f18t11.medicam.models.abstracts.Record;
 
 public class CareProviderRecord extends Record {
-    private UUID care_provider;
+    private String care_provider;
 
     public CareProviderRecord(){
         super();
         this.createUuid();
     }
 
-    public CareProviderRecord(UUID uuid) {
+    public CareProviderRecord(String uuid) {
         super(uuid);
     }
 
-    public UUID getCare_provider() {
+    public String getCare_provider() {
         return care_provider;
     }
 
-    public void setCare_provider (UUID assigned_care_provider) throws ReassignmentException {
+    public void setCare_provider (String assigned_care_provider) throws ReassignmentException {
         if(this.care_provider == null){
             this.care_provider = assigned_care_provider;
         }else {

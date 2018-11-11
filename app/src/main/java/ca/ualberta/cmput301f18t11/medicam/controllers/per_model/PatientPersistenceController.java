@@ -21,7 +21,7 @@ import io.searchbox.client.JestResult;
 public class PatientPersistenceController extends PersistenceController<Patient> {
 
     @Override
-    public Patient loadFromREST(UUID id)
+    public Patient loadFromREST(String id)
     {
         ElasticSearchController.GetObjectsTask task = new ElasticSearchController.GetObjectsTask(getTypeURL());
         try
@@ -39,7 +39,7 @@ public class PatientPersistenceController extends PersistenceController<Patient>
     }
 
     @Override
-    public Patient loadFromStorage(UUID id, Context context)
+    public Patient loadFromStorage(String id, Context context)
     {
         InternalStorageController.GetObjectsTask task = new InternalStorageController.GetObjectsTask(context);
         try

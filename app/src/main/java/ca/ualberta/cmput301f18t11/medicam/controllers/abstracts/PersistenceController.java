@@ -63,7 +63,7 @@ public abstract class PersistenceController<T extends PersistedModel> {
         Inputs: id of the object, context of current activity
         Outputs: Object with same id as input
      */
-    public  T load(UUID id, Context context) {
+    public  T load(String id, Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
         if (cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnectedOrConnecting())
@@ -78,13 +78,13 @@ public abstract class PersistenceController<T extends PersistedModel> {
         Loads object T from server.
         Helper method to load.
      */
-    public abstract T loadFromREST(UUID id);
+    public abstract T loadFromREST(String id);
 
     /**
         Loads object T from storage
         Helper method to load.
      */
-    public abstract T loadFromStorage(UUID id, Context context);
+    public abstract T loadFromStorage(String id, Context context);
 
 
     /**

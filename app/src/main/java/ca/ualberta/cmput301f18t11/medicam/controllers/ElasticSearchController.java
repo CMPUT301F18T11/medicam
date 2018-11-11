@@ -55,7 +55,7 @@ public class ElasticSearchController {
             verifySettings();
 
             for (T object: objects) {
-                Index i = new Index.Builder(object).index(index_url).type(type_url).id(object.getUuid().toString()).build();
+                Index i = new Index.Builder(object).index(index_url).type(type_url).id(object.getUuid()).build();
 
                 try
                 {
@@ -83,7 +83,7 @@ public class ElasticSearchController {
      *  Objects must be reconstructed from JestResult using getSourceAsObject
      *  or getSourceAsObjectList methods
      */
-    public static class GetObjectsTask extends AsyncTask<UUID, Void, JestResult> {
+    public static class GetObjectsTask extends AsyncTask<String, Void, JestResult> {
 
         private String type_url;
 
@@ -92,11 +92,11 @@ public class ElasticSearchController {
         }
 
         @Override
-        protected JestResult doInBackground(UUID... id_params) {
+        protected JestResult doInBackground(String... id_params) {
             verifySettings();
 
-            for (UUID id: id_params) {
-                Get get = new Get.Builder(index_url, id.toString()).type(type_url).build();
+            for (String id: id_params) {
+                Get get = new Get.Builder(index_url, id).type(type_url).build();
 
                 try {
                     JestResult result = client.execute(get);
@@ -122,7 +122,7 @@ public class ElasticSearchController {
      *
      *  ALL TASKS SHOULD ONLY BE USED ONCE AND THEN DISCARDED
      */
-    public static class DeleteObjectsTask extends AsyncTask<UUID, Void, Boolean> {
+    public static class DeleteObjectsTask extends AsyncTask<String, Void, Boolean> {
 
         private String type_url;
 
@@ -131,13 +131,13 @@ public class ElasticSearchController {
         }
 
         @Override
-        protected Boolean doInBackground(UUID ... ids)
+        protected Boolean doInBackground(String ... ids)
         {
             verifySettings();
 
-            for (UUID id: ids) {
+            for (String id: ids) {
                 try {
-                    DocumentResult result  = client.execute(new Delete.Builder(id.toString()).index(index_url).type(type_url).build());
+                    DocumentResult result  = client.execute(new Delete.Builder(id).index(index_url).type(type_url).build());
                 }
                 catch (Exception e) {
                     e.printStackTrace();

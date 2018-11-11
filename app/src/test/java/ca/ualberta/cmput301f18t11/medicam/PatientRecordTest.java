@@ -15,11 +15,11 @@ public class PatientRecordTest {
     @Test
     public void testAssignProblem(){
         PatientRecord patient_rec =  new PatientRecord();
-        UUID problem_uuid = UUID.randomUUID();
+        String problem_uuid = UUID.randomUUID().toString();
         patient_rec.setPatient(problem_uuid);
         //To string because the object reference probably won't be preserved
         // if it is sent and brought back with ElasticSearch
-        assertEquals(patient_rec.getPatient().toString(),problem_uuid.toString());
+        assertEquals(patient_rec.getPatient(),problem_uuid);
     }
 
 //    @Test(expected = ReassignmentException.class)
@@ -37,7 +37,7 @@ public class PatientRecordTest {
         //I suppose this covers all the possible types of attachments
         //only the view cares about what the attachments actually are.
         PatientRecord patient_rec = new PatientRecord();
-        UUID added_attachment = UUID.randomUUID();
+        String added_attachment = UUID.randomUUID().toString();
         patient_rec.addAttachment(added_attachment);
         assertTrue(patient_rec.hasAttachment(added_attachment));
     }
@@ -45,7 +45,7 @@ public class PatientRecordTest {
     @Test
     public void testRemoveAttachment() {
         PatientRecord patient_rec = new PatientRecord();
-        UUID added_attachement = UUID.randomUUID();
+        String added_attachement = UUID.randomUUID().toString();
         patient_rec.addAttachment(added_attachement);
         patient_rec.removeAttachment(added_attachement);
         assertFalse(patient_rec.hasAttachment(added_attachement));

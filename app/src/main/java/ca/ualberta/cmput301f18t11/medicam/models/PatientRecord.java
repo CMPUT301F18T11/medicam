@@ -8,16 +8,16 @@ import java.util.UUID;
 import ca.ualberta.cmput301f18t11.medicam.models.abstracts.Record;
 
 public class PatientRecord extends Record {
-    private UUID patient;
-    private Collection<UUID> attachments = new ArrayList<>();
+    private String patient;
+    private Collection<String> attachments = new ArrayList<>();
     private Collection<Enumeration> location;
     private ArrayList<String> tags;
 
-    public PatientRecord(UUID uuid) {
+    public PatientRecord(String uuid) {
         super(uuid);
     }
 
-    public PatientRecord(UUID uuid, UUID patient) {
+    public PatientRecord(String uuid, String patient) {
         super(uuid);
         this.patient = patient;
     }
@@ -26,25 +26,25 @@ public class PatientRecord extends Record {
         super();
     }
 
-    public void addAttachment(UUID attachment_uuid){
+    public void addAttachment(String attachment_uuid){
         attachments.add(attachment_uuid);
     }
-    public void removeAttachment(UUID attachment_uuid){
+    public void removeAttachment(String attachment_uuid){
         if(this.hasAttachment(attachment_uuid)){
             attachments.remove(attachment_uuid);
         }
     }
-    public Collection<UUID> getAttachmentsUUIDS(){ return attachments;}
+    public Collection<String> getAttachmentsUUIDS(){ return attachments;}
 
-    public boolean hasAttachment(UUID attachment_uuid){
+    public boolean hasAttachment(String attachment_uuid){
         return attachments.contains(attachment_uuid);
     }
 
-    public UUID getPatient() {
+    public String getPatient() {
         return patient;
     }
 
-    public void setPatient(UUID patient) {
+    public void setPatient(String patient) {
         this.patient = patient;
     }
 

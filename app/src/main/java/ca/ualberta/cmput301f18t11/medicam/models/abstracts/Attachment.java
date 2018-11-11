@@ -5,10 +5,10 @@ import java.util.Collection;
 import java.util.UUID;
 
 public abstract class Attachment {
-    private UUID attachment_uuid;
+    private String attachment_uuid;
     private Collection<String> details = new ArrayList<>();
     
-    public UUID getAttachment_uuid(){
+    public String getAttachment_uuid(){
         return attachment_uuid;
     }
     

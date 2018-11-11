@@ -20,7 +20,7 @@ import io.searchbox.client.JestResult;
 public class CareProviderPersistenceController extends PersistenceController<CareProvider> {
 
     @Override
-    public CareProvider loadFromREST(UUID id)
+    public CareProvider loadFromREST(String id)
     {
         ElasticSearchController.GetObjectsTask task = new ElasticSearchController.GetObjectsTask(getTypeURL());
         try
@@ -38,7 +38,7 @@ public class CareProviderPersistenceController extends PersistenceController<Car
     }
 
     @Override
-    public CareProvider loadFromStorage(UUID id, Context context)
+    public CareProvider loadFromStorage(String id, Context context)
     {
         InternalStorageController.GetObjectsTask task = new InternalStorageController.GetObjectsTask(context);
         try

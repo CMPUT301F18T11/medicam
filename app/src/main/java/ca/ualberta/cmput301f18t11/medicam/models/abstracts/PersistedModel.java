@@ -8,23 +8,23 @@ import java.util.UUID;
 public abstract class PersistedModel implements Serializable {
 
     protected Boolean hasChangedOffline = false;
-    protected UUID uuid;
+    protected String uuid;
 
-    public PersistedModel(UUID uuid) {
+    public PersistedModel(String uuid) {
         this.uuid = uuid;
     }
 
     public PersistedModel() {
-        uuid = UUID.randomUUID();
+        uuid = UUID.randomUUID().toString();
     }
 
-    public UUID getUuid() { return uuid; }
+    public String getUuid() { return uuid; }
 
 
     public void createUuid() {
         if (uuid == null){
             //create a fresh UUID
-            this.uuid = UUID.randomUUID();
+            this.uuid = UUID.randomUUID().toString();
         }
     }
 }

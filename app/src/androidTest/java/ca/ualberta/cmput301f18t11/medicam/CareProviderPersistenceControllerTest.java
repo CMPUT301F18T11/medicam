@@ -48,10 +48,10 @@ public class CareProviderPersistenceControllerTest {
         String userid = UUID.randomUUID().toString();
         String phoneNumber = "testphonenumber";
 
-        ArrayList<UUID> patients = new ArrayList<>();
-        patients.add(UUID.randomUUID());
-        patients.add(UUID.randomUUID());
-        patients.add(UUID.randomUUID());
+        ArrayList<String> patients = new ArrayList<>();
+        patients.add(UUID.randomUUID().toString());
+        patients.add(UUID.randomUUID().toString());
+        patients.add(UUID.randomUUID().toString());
 
         CareProvider testCareProvider = new CareProvider(userid, email, phoneNumber, patients);
 

@@ -9,18 +9,18 @@ import ca.ualberta.cmput301f18t11.medicam.utils.ReferenceSide;
 
 public class ReferencePhoto extends PhotoAttachment {
     private ReferenceSide reference_side;
-    private UUID referencePhotoUUID;
+    private String referencePhotoUUID;
 
     public ReferencePhoto(){};
     public ReferencePhoto(Image image){};
 
 
 
-    public void setReferencePhotoUUID(UUID aUUID) {
+    public void setReferencePhotoUUID(String aUUID) {
         this.referencePhotoUUID = aUUID;
     }
 
-    public UUID getReferencePhotoUUID(){
+    public String getReferencePhotoUUID(){
         return referencePhotoUUID;
     }
 }

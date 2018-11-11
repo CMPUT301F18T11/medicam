@@ -17,7 +17,7 @@ public class ProblemTest {
     @Test
     public void testAddRecord(){
         Problem test = new Problem("title", new Date(), "description");
-        UUID record = UUID.randomUUID();
+        String record = UUID.randomUUID().toString();
         test.addPatientRecord(record);
         assertTrue(test.hasRecord(record));
     }
@@ -25,7 +25,7 @@ public class ProblemTest {
     @Test
     public void testRemoveRecord(){
         Problem test = new Problem("title", new Date(), "description");
-        UUID record = UUID.randomUUID();
+        String record = UUID.randomUUID().toString();
         test.addPatientRecord(record);
         test.deletePatientRecord(record);
         assertFalse(test.hasRecord(record));

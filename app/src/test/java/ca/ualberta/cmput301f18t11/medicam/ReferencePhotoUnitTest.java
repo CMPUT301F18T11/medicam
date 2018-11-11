@@ -13,9 +13,9 @@ public class ReferencePhotoUnitTest {
     @Test
     public void testGetReferencePhotoUUID() {
         ReferencePhoto testRefe = new ReferencePhoto();
-        UUID wanttedUUID = UUID.randomUUID();
+        String wanttedUUID = UUID.randomUUID().toString();
         testRefe.setReferencePhotoUUID(wanttedUUID);
-        UUID answerUUID = testRefe.getReferencePhotoUUID();
+        String answerUUID = testRefe.getReferencePhotoUUID();
         assertEquals(wanttedUUID,answerUUID);
     }
 

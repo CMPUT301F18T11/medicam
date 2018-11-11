@@ -10,7 +10,7 @@ public abstract class Record extends PersistedModel {
     private Date timestamp;
     private ArrayList<String> tags;
 
-    public Record(UUID uuid) {
+    public Record(String uuid) {
         super(uuid);
     }
 

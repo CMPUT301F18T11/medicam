@@ -8,7 +8,7 @@ import java.util.UUID;
 import ca.ualberta.cmput301f18t11.medicam.models.abstracts.PhotoAttachment;
 
 public class InstancePhoto extends PhotoAttachment {
-    private UUID instancePhotoUUID;
+    private String instancePhotoUUID;
     private Collection<Image> instanceImageCollection;
 
     public InstancePhoto(){}
@@ -23,11 +23,11 @@ public class InstancePhoto extends PhotoAttachment {
         }
     }
     */
-    public void setInstancePhotoUUID(UUID instancePhotoUUID) {
+    public void setInstancePhotoUUID(String instancePhotoUUID) {
         this.instancePhotoUUID = instancePhotoUUID;
     }
 
-    public UUID getInstancePhotoUUID(){
+    public String getInstancePhotoUUID(){
         return instancePhotoUUID;
     }
 

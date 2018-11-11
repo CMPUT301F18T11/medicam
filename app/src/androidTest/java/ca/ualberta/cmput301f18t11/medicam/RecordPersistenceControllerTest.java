@@ -44,7 +44,7 @@ public class RecordPersistenceControllerTest {
         Context appContext = InstrumentationRegistry.getTargetContext();
         // use our test index
         ElasticSearchController.setIndex_url("cmput301f18t11test");
-        UUID uuid = UUID.randomUUID();
+        String uuid = UUID.randomUUID().toString();
 
         PatientRecord testRecord = new PatientRecord(uuid);
 
@@ -81,7 +81,7 @@ public class RecordPersistenceControllerTest {
         Context appContext = InstrumentationRegistry.getTargetContext();
         // use our test index
         ElasticSearchController.setIndex_url("cmput301f18t11test");
-        UUID uuid = UUID.randomUUID();
+        String uuid = UUID.randomUUID().toString();
 
         CareProviderRecord testRecord = new CareProviderRecord(uuid);
 
