@@ -11,7 +11,6 @@ public class PatientRecord extends Record {
     private String patient;
     private Collection<String> attachments = new ArrayList<>();
     private Collection<Enumeration> location;
-    private ArrayList<String> tags;
 
     public PatientRecord(String uuid) {
         super(uuid);
