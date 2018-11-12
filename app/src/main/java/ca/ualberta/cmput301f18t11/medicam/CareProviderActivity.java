@@ -19,27 +19,28 @@ import static java.sql.DriverManager.println;
 
 public class CareProviderActivity extends AppCompatActivity {
     private ListView patientListView;
-    private ArrayAdapter<String> patientArrayAdapter;
-    private ArrayList<String> patientArrayList = new ArrayList<>();
+    private ArrayAdapter<Patient> patientArrayAdapter;
+    private ArrayList<Patient> patientArrayList = new ArrayList<>();
     private int clickedIndex;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_care_provider);
+        Patient examplePatient = new Patient("this is a user id");
+        patientArrayList.add(examplePatient);
+
+
+       // Set adapter and show the listView
         patientListView = findViewById(R.id.patientListView);
-        patientArrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,patientArrayList);
-        final Activity that = this;
+        patientArrayAdapter = new ArrayAdapter<Patient>(this,android.R.layout.simple_list_item_1,patientArrayList);
+        patientListView.setAdapter(patientArrayAdapter);
         patientListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent (that,CareProviderProblemActivity.class);
-                clickedIndex = position;
-                //intent.putExtra("patientName",patientArrayList.get(clickedIndex));
-                startActivity(intent);
+                careProviderProblemActivity(view);
             }
         });
 
-        goAddPatient();
 
     }
 
@@ -49,36 +50,15 @@ public class CareProviderActivity extends AppCompatActivity {
         patientListView.setAdapter(patientArrayAdapter);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if(requestCode == 1){
-            if(resultCode == RESULT_OK){
-                String newpatientId =  data.getStringExtra("enteredUserId");
-                patientArrayList.add(newpatientId);
-            }
-        }
-
-    }
-
-    //  protected void
 
 
-    public void goAddPatient(){
-        Button addPatientButton = findViewById(R.id.addPatientButton);
-        addPatientButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(CareProviderActivity.this,AddPatientActivity.class);
-                startActivityForResult(intent,1);
-            }
-        });
-    }
-
-    public void gonext(View view){
-        Intent intent = new Intent(this,CareProviderProblemActivity.class);
+    public void goAddPatient(View view){
+        Intent intent = new Intent(this,AddPatientActivity.class);
         startActivity(intent);
     }
 
+    public void careProviderProblemActivity(View view) {
+        Intent intent = new Intent(this,CareGiverProblemActivity.class);
+        startActivity(intent);
+    }
 }

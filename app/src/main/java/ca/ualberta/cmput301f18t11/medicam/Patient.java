@@ -43,6 +43,7 @@ public class Patient extends User {
     public void addProblem(Problem problem) {
 
     }
+    public String toString(){return "Id : " + getUserID()+"\n";}
 
     public UUID getFrontPhoto() {
         return frontPhoto;

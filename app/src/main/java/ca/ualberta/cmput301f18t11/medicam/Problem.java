@@ -57,7 +57,7 @@ public class Problem extends PersistedModel{
         }
 
     }
-
+    public String toString(){return "Title: "+ getTitle() +"\n" + "Time: " + getDate() + "\n" + "Description: "+ getDescription();}
     public String getDescription(){
         return this.description;
     }

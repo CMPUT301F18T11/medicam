@@ -21,7 +21,7 @@
         <activity android:name=".CreateUserActivity" />
         <activity android:name=".CareProviderActivity" />
         <activity android:name=".AddPatientActivity" />
-        <activity android:name=".CareProviderProblemActivity"></activity>
+        <activity android:name=".CareGiverProblemActivity"></activity>
     </application>
 
 </manifest>

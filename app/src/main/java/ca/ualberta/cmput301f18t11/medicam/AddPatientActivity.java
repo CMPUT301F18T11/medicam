@@ -17,25 +17,16 @@ public class AddPatientActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_patient);
         enteredUserid = findViewById(R.id.patientUseridEditText);
 
-        finishAdding();
+
 
     }
-    public void finishAdding(){
-        Button finishAddingButton = findViewById(R.id.confirToAddPatientButton);
-        finishAddingButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+    public void finishAdding(View view){
                 // TODO: check if the id exists in database
-                if (enteredUserid.getText().toString().equals("")){Toast.makeText(AddPatientActivity.this,"Please Enter User Id",Toast.LENGTH_SHORT).show();
-                } else {
-                    // TODO: change the type to Json object instead of a String
-                    Intent intent = new Intent();
-                    String userid = enteredUserid.getText().toString();
-                    intent.putExtra("enteredUserId",userid);
-                    setResult(RESULT_OK,intent);
-                    finish();
-                }
-            }
-        });
+        if (enteredUserid.getText().toString().equals("")){Toast.makeText(AddPatientActivity.this,"Please Enter User Id",Toast.LENGTH_SHORT).show();
+        } else {
+            // TODO: change the type to Json object instead of a String
+
+            finish();
+        }
     }
 }

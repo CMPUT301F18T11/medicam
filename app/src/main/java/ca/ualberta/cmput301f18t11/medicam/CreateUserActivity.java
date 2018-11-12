@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class CreateUserActivity extends AppCompatActivity {
     private EditText enteredUserId;
@@ -24,20 +25,21 @@ public class CreateUserActivity extends AppCompatActivity {
         enteredEmail = findViewById(R.id.newUserEmialEdit);
         enteredAddress = findViewById(R.id.newUserAddressEdit);
 
-        createUserAndSignIn();
+
+    }
+    //TODO : generate user id as a doctor/patient.
+    public void setCareGiver(View view){
+        Toast.makeText(this,"will set up as a careGiver",Toast.LENGTH_LONG).show();
+    }
+    public void setPatient(View view){
+        Toast.makeText(this,"will set up as a Patient",Toast.LENGTH_LONG).show();
+    }
+
+    public void createUserAndSignIn (View view){
+        Intent intent = new Intent(CreateUserActivity.this,CareProviderActivity.class);
+        startActivity(intent);
     }
 
 
 
-    public void createUserAndSignIn (){
-        Button createButton = findViewById(R.id.createButton);
-        createButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(CreateUserActivity.this,CareProviderActivity.class);
-                startActivity(intent);
-            }
-        });
-
-    }
 }
