@@ -25,7 +25,7 @@ public class AddPatientActivity extends AppCompatActivity {
         if (enteredUserid.getText().toString().equals("")){Toast.makeText(AddPatientActivity.this,"Please Enter User Id",Toast.LENGTH_SHORT).show();
         } else {
             // TODO: change the type to Json object instead of a String
-
+            Toast.makeText(this,"User: "+ enteredUserid.getText().toString() +"\n will be added! \n",Toast.LENGTH_SHORT).show();
             finish();
         }
     }

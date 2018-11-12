@@ -20,4 +20,5 @@ public class CareProviderRecord extends Record{
             throw new ReassignmentException("This record is already attributed to care provider with UUID: " + care_provider.toString());
         }
     }
+
 }
