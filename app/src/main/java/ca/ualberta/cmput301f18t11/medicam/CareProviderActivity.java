@@ -1,10 +1,12 @@
 package ca.ualberta.cmput301f18t11.medicam;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -19,12 +21,23 @@ public class CareProviderActivity extends AppCompatActivity {
     private ListView patientListView;
     private ArrayAdapter<String> patientArrayAdapter;
     private ArrayList<String> patientArrayList = new ArrayList<>();
+    private int clickedIndex;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_care_provider);
         patientListView = findViewById(R.id.patientListView);
         patientArrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,patientArrayList);
+        final Activity that = this;
+        patientListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent (that,CareProviderProblemActivity.class);
+                clickedIndex = position;
+                //intent.putExtra("patientName",patientArrayList.get(clickedIndex));
+                startActivity(intent);
+            }
+        });
 
         goAddPatient();
 
@@ -61,6 +74,11 @@ public class CareProviderActivity extends AppCompatActivity {
                 startActivityForResult(intent,1);
             }
         });
+    }
+
+    public void gonext(View view){
+        Intent intent = new Intent(this,CareProviderProblemActivity.class);
+        startActivity(intent);
     }
 
 }
