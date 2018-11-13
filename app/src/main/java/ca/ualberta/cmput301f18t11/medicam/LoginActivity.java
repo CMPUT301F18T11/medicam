@@ -21,7 +21,7 @@ public class LoginActivity extends AppCompatActivity {
 
     //Launches into the create user activity
     public void createNewUser(View view){
-        Intent intent = new Intent(this, createUserActivity.class);
+        Intent intent = new Intent(this, CreateUserActivity.class);
         startActivity(intent);
     }
     //TODO: Check if userid is valid and then launch into the user profile

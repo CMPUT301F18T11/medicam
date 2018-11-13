@@ -17,7 +17,13 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity" />
-        <activity android:name=".createUserActivity" />
+        <activity android:name=".CreateUserActivity" />
+        <activity android:name=".AddPatientActivity" />
+        <activity android:name=".CareProviderActivity" />
+        <activity android:name=".CareGiverProblemActivity" />
+        <activity android:name=".CareGiverRecordActivity" />
+        <activity android:name=".CareGiverAttachActivity" />
+        <activity android:name=".AddDoctorNoteActivity" />
         <activity android:name=".patientProfileActivity" />
         <activity android:name=".problemActivity" />
         <activity android:name=".createProblemActivity" />
