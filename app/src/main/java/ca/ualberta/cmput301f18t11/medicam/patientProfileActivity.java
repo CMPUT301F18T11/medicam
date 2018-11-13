@@ -43,8 +43,15 @@ public class patientProfileActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Snackbar.make(view, "Add new problem", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+                createProblem(view);
             }
         });
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        //TODO: REFRESH THE LISTVIEW
     }
 
     public void problemActivity(View view){
@@ -61,5 +68,10 @@ public class patientProfileActivity extends AppCompatActivity {
         Toast.makeText(this, "Selected user profile button", Toast.LENGTH_SHORT).show();
     }
 
+    public void createProblem(View view){
+        Toast.makeText(this, "Add a new problem", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, createProblemActivity.class);
+        startActivity(intent);
+    }
 }
 
