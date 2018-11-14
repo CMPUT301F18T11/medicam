@@ -27,7 +27,8 @@
         <activity android:name=".patientProfileActivity" />
         <activity android:name=".problemActivity" />
         <activity android:name=".createProblemActivity" />
-        <activity android:name=".createRecordActivity"></activity>
+        <activity android:name=".createRecordActivity" />
+        <activity android:name=".UserProfileViewAndEditActivity"></activity>
     </application>
 
 </manifest>

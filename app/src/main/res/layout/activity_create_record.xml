@@ -46,17 +46,16 @@
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
     <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:id="@+id/recorePhotoImageView"
+        android:layout_width="282dp"
+        android:layout_height="142dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/dateView"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.093"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/recordTitle"
         app:srcCompat="@android:drawable/star_big_on" />
@@ -71,7 +70,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toEndOf="@+id/recorePhotoImageView"
         app:layout_constraintTop_toBottomOf="@+id/recordTitle" />
 
     <TextView
@@ -172,4 +171,43 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/mapButton" />
+
+    <ImageButton
+        android:id="@+id/addPhotoButton"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:adjustViewBounds="false"
+        android:onClick="goToGallary"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toTopOf="@+id/dateView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.026"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recorePhotoImageView"
+        app:layout_constraintVertical_bias="0.333"
+        app:srcCompat="@drawable/add_photo_icon" />
+
+    <ImageButton
+        android:id="@+id/cameraButton"
+        android:layout_width="59dp"
+        android:layout_height="58dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:onClick="goToCamera"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="@+id/addPhotoButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.049"
+        app:layout_constraintStart_toEndOf="@+id/addPhotoButton"
+        app:layout_constraintTop_toTopOf="@+id/addPhotoButton"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/camera_icon" />
 </android.support.constraint.ConstraintLayout>

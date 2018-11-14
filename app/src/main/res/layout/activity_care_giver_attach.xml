@@ -7,7 +7,7 @@
     tools:context=".CareGiverAttachActivity">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/recorePhotoImageView"
         android:layout_width="80dp"
         android:layout_height="119dp"
         android:layout_marginStart="16dp"
@@ -27,7 +27,7 @@
         android:layout_marginTop="36dp"
         android:background="@color/colorAccent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/recorePhotoImageView"
         app:srcCompat="@android:drawable/ic_menu_myplaces" />
 
     <ImageView
@@ -55,7 +55,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.482"
         app:layout_constraintStart_toEndOf="@+id/imageView2"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/recorePhotoImageView" />
 
     <TextView
         android:id="@+id/locationTextView"
