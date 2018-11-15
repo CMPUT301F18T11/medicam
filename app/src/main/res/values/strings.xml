@@ -7,4 +7,13 @@
     <string name="problem_title">Problem Title</string>
     <string name="problem_description">General Description</string>
     <string name="problem_create">Create</string>
+    <string-array name="body_location_spinner">
+        <item> Head </item>
+        <item> Arms </item>
+        <item> Hands </item>
+        <item> Frond </item>
+        <item> Back </item>
+        <item> Legs </item>
+        <item> Feets </item>
+    </string-array>>
 </resources>

@@ -1,6 +1,8 @@
 package ca.ualberta.cmput301f18t11.medicam;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -16,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class problemActivity extends AppCompatActivity {
-
+    private static final int ADD_RECORD_REQUEST_CODE = 0;
     //TODO: The current problem should be the one that the user selected in the prev activity
     Problem problem = new Problem("Title", new Date(), "Description");
     private TextView viewTitle, viewDescription;
@@ -59,8 +61,18 @@ public class problemActivity extends AppCompatActivity {
             }
         });
     }
-
-
+//This will return the object(PatientRecord) From create record activity.
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == ADD_RECORD_REQUEST_CODE && resultCode == Activity.RESULT_OK){
+            PatientRecord newRecord = (PatientRecord) data.getExtras().getSerializable("newRecord");
+            Toast.makeText(this, "HELLOTHISISHERE: "+newRecord.getTitle(), Toast.LENGTH_SHORT).show();
+            records.add(newRecord);
+            ArrayAdapter<Record> itemsAdapter = new ArrayAdapter<Record>(this, android.R.layout.simple_list_item_1, records);
+            listView.setAdapter(itemsAdapter);
+        }
+    }
 
     public void exit(View view){
         this.finish();
@@ -73,6 +85,6 @@ public class problemActivity extends AppCompatActivity {
     public void createRecord(View view){
         Toast.makeText(problemActivity.this, "Create new record", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, createRecordActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent,ADD_RECORD_REQUEST_CODE);
     }
 }

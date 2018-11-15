@@ -28,7 +28,8 @@
         <activity android:name=".problemActivity" />
         <activity android:name=".createProblemActivity" />
         <activity android:name=".createRecordActivity" />
-        <activity android:name=".UserProfileViewAndEditActivity"></activity>
+        <activity android:name=".UserProfileViewAndEditActivity" />
+        <activity android:name=".BodyLocationActivity"></activity>
     </application>
 
 </manifest>

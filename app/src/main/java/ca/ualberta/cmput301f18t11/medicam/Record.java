@@ -1,10 +1,11 @@
 package ca.ualberta.cmput301f18t11.medicam;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
 
-public abstract class Record extends PersistedModel {
+public abstract class Record extends PersistedModel implements Serializable {
     private String title;
     private String description;
     private Date timestamp;

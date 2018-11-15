@@ -1,5 +1,9 @@
 package ca.ualberta.cmput301f18t11.medicam;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -7,7 +11,7 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.UUID;
 
-public class PatientRecord extends Record {
+public class PatientRecord extends Record  implements Serializable {
     private UUID problem;
     private Collection<UUID> attachements = new ArrayList<UUID>();
     private Collection<Enumeration> location;
@@ -38,7 +42,6 @@ public class PatientRecord extends Record {
             throw new ReassignmentException("This record is already attributed to problem with UUID: " + problem.toString());
         }
     }
-
 //    @Override
 //    public ArrayList<String> getTags(){
 //        this should probably eventually get moved to PersistedModel
