@@ -2,6 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ca.ualberta.cmput301f18t11.medicam">
 
+    // For Rest API
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,27 +15,33 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LoginActivity">
+        <activity android:name=".activities.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
-        <activity android:name=".CreateUserActivity" />
-        <activity android:name=".AddPatientActivity" />
-        <activity android:name=".CareProviderActivity" />
-        <activity android:name=".CareGiverProblemActivity" />
-        <activity android:name=".CareGiverRecordActivity" />
-        <activity android:name=".CareGiverAttachActivity" />
-        <activity android:name=".AddDoctorNoteActivity" />
-        <activity android:name=".patientProfileActivity" />
-        <activity android:name=".problemActivity" />
-        <activity android:name=".createProblemActivity" />
-        <activity android:name=".createRecordActivity" />
-        <activity android:name=".UserProfileViewAndEditActivity" />
-        <activity android:name=".BodyLocationActivity"></activity>
+        <activity android:name=".activities.MainActivity" />
+        <activity android:name=".activities.CreateUserActivity" />
+        <activity android:name=".activities.AddPatientActivity" />
+        <activity android:name=".activities.CareProviderActivity" />
+        <activity android:name=".activities.CareGiverProblemActivity" />
+        <activity android:name=".activities.CareGiverRecordActivity" />
+        <activity android:name=".activities.CareGiverAttachActivity" />
+        <activity android:name=".activities.AddDoctorNoteActivity" />
+        <activity android:name=".activities.patientProfileActivity" />
+        <activity android:name=".activities.problemActivity" />
+        <activity android:name=".activities.createProblemActivity" />
+        <activity android:name=".activities.createRecordActivity" />
+        <activity android:name=".activities.UserProfileViewAndEditActivity" />
+        <activity android:name=".activities.BodyLocationActivity"></activity>
+
+
+        // For Rest API
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
     </application>
 
 </manifest>
