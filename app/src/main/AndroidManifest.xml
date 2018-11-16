@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ca.ualberta.cmput301f18t11.medicam">
-
     // For Rest API
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
 
     <application
         android:allowBackup="true"
@@ -30,18 +28,17 @@
         <activity android:name=".activities.CareGiverRecordActivity" />
         <activity android:name=".activities.CareGiverAttachActivity" />
         <activity android:name=".activities.AddDoctorNoteActivity" />
-        <activity android:name=".activities.patientProfileActivity" />
-        <activity android:name=".activities.problemActivity" />
+        <activity android:name=".activities.PatientProblemActivity" />
+        <activity android:name=".activities.PatientRecordActivity" />
         <activity android:name=".activities.createProblemActivity" />
         <activity android:name=".activities.createRecordActivity" />
         <activity android:name=".activities.UserProfileViewAndEditActivity" />
-        <activity android:name=".activities.BodyLocationActivity"></activity>
-
-
+        <activity android:name=".activities.BodyLocationActivity" />
         // For Rest API
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
+
     </application>
 
 </manifest>

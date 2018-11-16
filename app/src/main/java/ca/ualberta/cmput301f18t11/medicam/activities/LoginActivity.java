@@ -30,7 +30,7 @@ public class LoginActivity extends AppCompatActivity {
     //Launches into the main activity (Patient problem list/ Caregiver patient list)
     public void signIn(View view){
         userid = bodyText.getText().toString();
-        Intent intent = new Intent(this,patientProfileActivity.class);
+        Intent intent = new Intent(this,PatientProblemActivity.class);
         startActivity(intent);
     }
 

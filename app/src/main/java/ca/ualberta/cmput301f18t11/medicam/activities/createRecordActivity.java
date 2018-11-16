@@ -3,13 +3,9 @@ package ca.ualberta.cmput301f18t11.medicam.activities;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
-import android.nfc.Tag;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -23,14 +19,12 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import java.io.ByteArrayOutputStream;
-import java.net.URI;
-import java.sql.Time;
+
 import java.util.Calendar;
+import java.util.Date;
 import java.util.UUID;
 
 import ca.ualberta.cmput301f18t11.medicam.R;
-import ca.ualberta.cmput301f18t11.medicam.activities.BodyLocationActivity;
 import ca.ualberta.cmput301f18t11.medicam.models.BodyLocation;
 import ca.ualberta.cmput301f18t11.medicam.models.InstancePhoto;
 import ca.ualberta.cmput301f18t11.medicam.models.PatientRecord;
@@ -42,30 +36,37 @@ public class createRecordActivity extends AppCompatActivity {
 
     private BodyLocation bodyLocation = null;
     private InstancePhoto photo = null;
-    private PatientRecord record = new PatientRecord();;
+    private PatientRecord record = new PatientRecord();
+    private Date datetime = new Date();
+    private String purpose; // this will give us the info of weither the user want to Edit the record Or add a Record
     //Resource used for date picker: https://www.youtube.com/watch?v=hwe1abDO2Ag
     //Resource used for time picker: https://www.youtube.com/watch?v=QMwaNN_aM3U
 
     private TextView displayDate;
     private TextView displayTime;
-    private DatePickerDialog.OnDateSetListener mDate;
-    private TimePickerDialog.OnTimeSetListener mTime;
     private ImageView photoImageView;
     private TextView bodyLocationTextView;
     private EditText recordTitle;
     private EditText recordComment;
+    private Calendar calendar = Calendar.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_record);
-        photoImageView = findViewById(R.id.recorePhotoImageView);
-        displayDate = (TextView) findViewById(R.id.dateView);
-        displayTime = (TextView) findViewById(R.id.timeView);
-        bodyLocationTextView = findViewById(R.id.bodyLocationTextView);
-        recordTitle = findViewById(R.id.recordTitle);
-        recordComment = findViewById(R.id.recordcomment);
+        photoImageView = findViewById(R.id.recorePhotoImageView4View);
+        displayDate = (TextView) findViewById(R.id.dateView4View);
+        displayTime = (TextView) findViewById(R.id.timeView4View);
+        bodyLocationTextView = findViewById(R.id.bodyLocationTextView4View);
+        recordTitle = findViewById(R.id.recordTitle4View);
+        recordComment = findViewById(R.id.recordcomment4View);
 
+        displayDateAndTime();
+        purpose = getIntent().getStringExtra("purpose");
+        if(purpose.equals("edit")){
+            fetchPrevious();
+        }
+        // set DATE picker
         displayDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,32 +75,47 @@ public class createRecordActivity extends AppCompatActivity {
                 int month = cal.get(Calendar.MONTH);
                 int day = cal.get(Calendar.DAY_OF_MONTH);
 
-                DatePickerDialog dateDialog = new DatePickerDialog(createRecordActivity.this,
-                        android.R.style.Theme_Holo_Light_Dialog_MinWidth, mDate, year, month, day);
-                dateDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                dateDialog.show();
-
+                DatePickerDialog datepicker = new DatePickerDialog(createRecordActivity.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int day) {
+                        calendar.set(Calendar.YEAR,year);
+                        calendar.set(Calendar.MONTH,month);
+                        calendar.set(Calendar.DAY_OF_MONTH,day);
+                        datetime = calendar.getTime();
+                        //Display date and set Date datetime to the selected date
+                        java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("dd-MM-yyyy");
+                        String dateStr = dateFormat.format(datetime);
+                        displayDate.setText(dateStr);
+                    }
+                },year,month,day);
+                datepicker.show();
             }
         });
+        //ent of set DATE picker
 
-
+        // set TIME picker
         displayTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                final Calendar cal = Calendar.getInstance();
+                int hour = cal.get(Calendar.HOUR_OF_DAY);
+                int minute = cal.get(Calendar.MINUTE);
+                TimePickerDialog timepicker = new TimePickerDialog(createRecordActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        calendar.set(Calendar.HOUR_OF_DAY,hourOfDay);
+                        calendar.set(Calendar.MINUTE,minute);
+                        datetime = calendar.getTime();
+                        //Display time and set Date datetime to the selected time
+                        java.text.SimpleDateFormat timeformat = new java.text.SimpleDateFormat("HH:mm");
+                        String timeStr = timeformat.format(datetime);
+                        displayTime.setText(timeStr);
+                    }
+                },hour,minute,true);
+                timepicker.show();
             }
         });
-
-
-        mDate = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                month++;
-                Log.d("Setdate", "onDateSet: date: " + year + "/" + month + "/" + dayOfMonth);
-                String date = year + "/" + month + "/" + dayOfMonth;
-                displayDate.setText(date);
-            }
-        };
+        //ent of set TIME picker
 
     }
 //Fetch Image From USER and Store as Bitmap / Uri type.
@@ -136,7 +152,14 @@ public class createRecordActivity extends AppCompatActivity {
             bodyLocationTextView.setText(bodyLocation.getBodyParts());
         }
     }
-
+    public void displayDateAndTime(){
+        java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("dd-MM-yyyy");
+        String dateStr = dateFormat.format(datetime);
+        displayDate.setText(dateStr);
+        java.text.SimpleDateFormat timeformat = new java.text.SimpleDateFormat("HH:mm");
+        String timeStr = timeformat.format(datetime);
+        displayTime.setText(timeStr);
+    }
 
     public void goToCamera(View view){
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -152,18 +175,29 @@ public class createRecordActivity extends AppCompatActivity {
         startActivityForResult(intent,ADD_BODYLOCATION_REQUEST_CODE);
     }
     public void saveRecord(View view){
-        Intent intent =  new Intent();
-        record.setTitle(recordTitle.getText().toString());
-        record.setDescription(recordComment.getText().toString());
-        if (bodyLocation != null) {
-            record.addAttachment(photo.getInstancePhotoUUID().toString());
+        if (recordTitle.getText().toString().equals("")){Toast.makeText(createRecordActivity.this,"Please Enter a title",Toast.LENGTH_SHORT).show();
+        }else {
+            Intent intent = new Intent();
+            record.setTitle(recordTitle.getText().toString());
+            record.setDescription(recordComment.getText().toString());
+            record.setTimestamp(datetime);
+            if (photo != null) {
+                record.addAttachment(photo.getInstancePhotoUUID().toString());
+            }
+            if (bodyLocation != null) {
+                record.addAttachment(bodyLocation.getBodyLocationUUID().toString());
+            }
+            intent.putExtra("newRecord", record);
+            setResult(RESULT_OK, intent);
+            finish();
         }
-        if (bodyLocation != null) {
-           // record.addAttachment(bodyLocation.getBodyLocationUUID().toString());
-        }
-        intent.putExtra("newRecord",record);
-        setResult(RESULT_OK,intent);
-        finish();
+    }
+    public void fetchPrevious(){
+        Intent intent =  getIntent();
+        PatientRecord previous = (PatientRecord) intent.getExtras().getSerializable("previous");
+        recordTitle.setText(previous.getTitle());
+        recordComment.setText(previous.getDescription());
+        //TODO: fetch Also PHOTOS BODY LOCATIONS AND GEOLOCATIONS
     }
 
 }

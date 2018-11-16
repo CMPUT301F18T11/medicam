@@ -17,7 +17,7 @@ public class BodyLocation {
     public void setBodyLocationUUID(UUID bodyLocationUUID) {
         this.bodyLocationUUID = bodyLocationUUID;
     }
-    public String getBodyLocationUUID() {
-        return this.bodyLocationUUID.toString();
+    public UUID getBodyLocationUUID() {
+        return this.bodyLocationUUID;
     }
 }

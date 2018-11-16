@@ -1,9 +1,11 @@
 package ca.ualberta.cmput301f18t11.medicam.activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.Date;
 
@@ -26,10 +28,18 @@ public class createProblemActivity extends AppCompatActivity {
 
     //Creates a new problem object with the filled in user-data
     //Todo: Save the problem to file and elasticsearch
-    //Todo: Implement character restrictions on screen
     public void createProblem(View view){
-        Problem newProblem = new Problem(problemTitle.toString(), new Date(), problemDescription.toString());
-        this.finish();
+        if (problemTitle.getText().toString().equals("")){Toast.makeText(createProblemActivity.this,"Please Enter a title",Toast.LENGTH_SHORT).show();
+        }
+        else if (problemDescription.getText().toString().equals("")){Toast.makeText(createProblemActivity.this,"Please Enter a Description",Toast.LENGTH_SHORT).show();
+
+        } else {
+            Intent intent = new Intent();
+            Problem newProblem = new Problem(problemTitle.getText().toString(), new Date(), problemDescription.getText().toString());
+            intent.putExtra("newProblem", newProblem);
+            setResult(RESULT_OK, intent);
+            finish();
+        }
     }
 
 

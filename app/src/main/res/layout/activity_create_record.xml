@@ -18,7 +18,7 @@
         app:srcCompat="@android:drawable/ic_menu_revert" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/textView4View"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -30,7 +30,7 @@
         app:layout_constraintTop_toBottomOf="@+id/backbutton" />
 
     <EditText
-        android:id="@+id/recordTitle"
+        android:id="@+id/recordTitle4View"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -43,10 +43,10 @@
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        app:layout_constraintTop_toBottomOf="@+id/textView4View" />
 
     <ImageView
-        android:id="@+id/recorePhotoImageView"
+        android:id="@+id/recorePhotoImageView4View"
         android:layout_width="282dp"
         android:layout_height="142dp"
         android:layout_marginStart="8dp"
@@ -57,7 +57,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.093"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recordTitle"
+        app:layout_constraintTop_toBottomOf="@+id/recordTitle4View"
         app:srcCompat="@android:drawable/star_big_on" />
 
     <android.support.v7.widget.CardView
@@ -70,11 +70,11 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/recorePhotoImageView"
-        app:layout_constraintTop_toBottomOf="@+id/recordTitle" />
+        app:layout_constraintStart_toEndOf="@+id/recorePhotoImageView4View"
+        app:layout_constraintTop_toBottomOf="@+id/recordTitle4View" />
 
     <TextView
-        android:id="@+id/dateView"
+        android:id="@+id/dateView4View"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -84,12 +84,12 @@
         android:layout_marginBottom="8dp"
         android:text="Set the date"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/timeView"
+        app:layout_constraintBottom_toTopOf="@+id/timeView4View"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/timeView"
+        android:id="@+id/timeView4View"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -104,7 +104,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/recordcomment"
+        android:id="@+id/recordcomment4View"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -127,11 +127,11 @@
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:text="Comment"
-        app:layout_constraintBottom_toTopOf="@+id/recordcomment"
+        app:layout_constraintBottom_toTopOf="@+id/recordcomment4View"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageButton
-        android:id="@+id/bodyLocationButton"
+        android:id="@+id/bodyLocationButton4View"
         android:layout_width="49dp"
         android:layout_height="47dp"
         android:layout_marginStart="24dp"
@@ -156,7 +156,7 @@
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/recordbutton"
-        app:layout_constraintStart_toEndOf="@+id/bodyLocationButton"
+        app:layout_constraintStart_toEndOf="@+id/bodyLocationButton4View"
         app:srcCompat="@android:drawable/ic_dialog_map" />
 
     <Button
@@ -175,7 +175,7 @@
         app:layout_constraintStart_toEndOf="@+id/mapButton" />
 
     <ImageButton
-        android:id="@+id/addPhotoButton"
+        android:id="@+id/addPhotoButton4View"
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:layout_marginStart="8dp"
@@ -187,11 +187,11 @@
         android:adjustViewBounds="false"
         android:onClick="goToGallery"
         android:scaleType="fitCenter"
-        app:layout_constraintBottom_toTopOf="@+id/dateView"
+        app:layout_constraintBottom_toTopOf="@+id/dateView4View"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.026"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recorePhotoImageView"
+        app:layout_constraintTop_toBottomOf="@+id/recorePhotoImageView4View"
         app:layout_constraintVertical_bias="0.333"
         app:srcCompat="@drawable/add_photo_icon" />
 
@@ -205,16 +205,16 @@
         android:layout_marginRight="8dp"
         android:onClick="goToCamera"
         android:scaleType="fitCenter"
-        app:layout_constraintBottom_toBottomOf="@+id/addPhotoButton"
+        app:layout_constraintBottom_toBottomOf="@+id/addPhotoButton4View"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.049"
-        app:layout_constraintStart_toEndOf="@+id/addPhotoButton"
-        app:layout_constraintTop_toTopOf="@+id/addPhotoButton"
+        app:layout_constraintStart_toEndOf="@+id/addPhotoButton4View"
+        app:layout_constraintTop_toTopOf="@+id/addPhotoButton4View"
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/camera_icon" />
 
     <TextView
-        android:id="@+id/bodyLocationTextView"
+        android:id="@+id/bodyLocationTextView4View"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -223,4 +223,5 @@
         android:text="NoBodyLocationSelected"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 </android.support.constraint.ConstraintLayout>

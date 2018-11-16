@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import ca.ualberta.cmput301f18t11.medicam.exceptions.StringLengthTooLongException;
 import ca.ualberta.cmput301f18t11.medicam.models.abstracts.PersistedModel;
+import ca.ualberta.cmput301f18t11.medicam.models.abstracts.Record;
 
 
 //Dummy Problem Class
@@ -18,7 +19,7 @@ public class Problem extends PersistedModel {
     private Date date_started = new Date();
     private String description;
     //TODO: Implement Records UUID and Collection
-    private ArrayList<String> patientRecords = new ArrayList<>();
+    private ArrayList<PatientRecord> patientRecords = new ArrayList<>();
     private ArrayList<String> careProviderRecords = new ArrayList<>();
 
     public Problem(String title, Date date, String desc){
@@ -29,7 +30,7 @@ public class Problem extends PersistedModel {
     }
 
     public Problem(String uuid, String title, String description,
-                   ArrayList<String> patientRecords, ArrayList<String> careProviderRecords) {
+                   ArrayList<PatientRecord> patientRecords, ArrayList<String> careProviderRecords) {
         super(uuid);
         setTitle(title);
         setDescription(description);
@@ -86,7 +87,7 @@ public class Problem extends PersistedModel {
         return this.patientRecords.contains(record) || this.careProviderRecords.contains(record);
     }
 
-    public void addPatientRecord(String record){
+    public void addPatientRecord(PatientRecord record){
         this.patientRecords.add(record);
     }
 
@@ -110,12 +111,17 @@ public class Problem extends PersistedModel {
         this.careProviderRecords.remove(record);
     }
 
-    public ArrayList<String> getPatientRecords(){
+    public ArrayList<PatientRecord> getPatientRecords(){
         return this.patientRecords;
     }
 
     public ArrayList<String> getCareProviderRecords() {
         return careProviderRecords;
+    }
+
+
+    public String toString(){
+        return "Title: " + this.title +"\n"+"Detail: "+ description;
     }
 }
 
