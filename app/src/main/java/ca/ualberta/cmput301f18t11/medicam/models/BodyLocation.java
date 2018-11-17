@@ -2,9 +2,11 @@ package ca.ualberta.cmput301f18t11.medicam.models;
 
 import java.util.UUID;
 
-public class BodyLocation {
+import ca.ualberta.cmput301f18t11.medicam.models.abstracts.Attachment;
+
+public class BodyLocation extends Attachment {
     private String bodyParts;
-    private UUID bodyLocationUUID;
+
 
     public void setBodyParts(String bodyParts){
         this.bodyParts = bodyParts;
@@ -14,10 +16,4 @@ public class BodyLocation {
         return this.bodyParts;
     }
 
-    public void setBodyLocationUUID(UUID bodyLocationUUID) {
-        this.bodyLocationUUID = bodyLocationUUID;
-    }
-    public UUID getBodyLocationUUID() {
-        return this.bodyLocationUUID;
-    }
 }

@@ -10,7 +10,7 @@ import java.util.UUID;
 import ca.ualberta.cmput301f18t11.medicam.models.abstracts.PhotoAttachment;
 
 public class InstancePhoto extends PhotoAttachment {
-    private UUID instancePhotoUUID;
+    //private UUID instancePhotoUUID;
     private Collection<Image> instanceImageCollection;
     private Uri photo;
     private Bitmap cameraPhoto;
@@ -40,12 +40,4 @@ public class InstancePhoto extends PhotoAttachment {
         }
     }
     */
-    public void setInstancePhotoUUID(UUID instancePhotoUUID) {
-        this.instancePhotoUUID = instancePhotoUUID;
-    }
-
-    public UUID getInstancePhotoUUID(){
-        return instancePhotoUUID;
-    }
-
 }

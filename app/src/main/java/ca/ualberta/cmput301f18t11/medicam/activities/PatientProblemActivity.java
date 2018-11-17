@@ -16,25 +16,47 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import ca.ualberta.cmput301f18t11.medicam.R;
+import ca.ualberta.cmput301f18t11.medicam.controllers.ElasticSearchController;
+import ca.ualberta.cmput301f18t11.medicam.controllers.abstracts.PersistenceController;
+import ca.ualberta.cmput301f18t11.medicam.controllers.per_model.PatientPersistenceController;
+import ca.ualberta.cmput301f18t11.medicam.controllers.per_model.ProblemPersistenceController;
+import ca.ualberta.cmput301f18t11.medicam.models.Patient;
 import ca.ualberta.cmput301f18t11.medicam.models.Problem;
 
 public class PatientProblemActivity extends AppCompatActivity {
     private static final int ADD_PROBLEM_REQUESTCODE = 0;
     private static final int EDIT_PROBLEM_REQUEST_CODE =1;
     private ListView listView;
-    private ArrayList<Problem> problemList = new ArrayList<Problem>();
+    private ArrayList<String> problemList = new ArrayList<>();
+    private PersistenceController<Problem> problemControler = new ProblemPersistenceController();
+    private PersistenceController<Patient> patientControler = new PatientPersistenceController();
+    private Patient patient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        problemList.add(new Problem("Title", new Date(), "Description"));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_profile);
+        ElasticSearchController.setIndex_url("cmput301f18t11test");
 
-        //Sets up the problemList adapter
-        ArrayAdapter<Problem> itemsAdapter = new ArrayAdapter<Problem>(this, android.R.layout.simple_list_item_1, problemList);
+        /**
+         * Get intent From previous activity(LoginActivity) that contains a String that represents the UUID of the patient
+         * Then load problems from the patient
+         */
+        Intent intent = getIntent();
+        String patientUUID = intent.getStringExtra("userid");
+        patient = patientControler.load(patientUUID,PatientProblemActivity.this);
+        problemList = patient.getProblems();
+
+        /**
+         * Setup the ArrayAdapter to show the list of problems
+         *
+         */
+        ArrayAdapter<String> itemsAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, problemList);
         listView = (ListView) findViewById(R.id.problemListView);
         listView.setAdapter(itemsAdapter);
-
+        /**
+         * Set on click listener so that clicking on one of the problem will bring the user to the recordViewing page(PatientRecordActivity) for that problem
+         */
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
@@ -58,14 +80,19 @@ public class PatientProblemActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * When came back from the createProblemActivity, get the created problem and add to the problemList
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == ADD_PROBLEM_REQUESTCODE && resultCode == RESULT_OK){
             Problem newProblem = (Problem) data.getExtras().getSerializable("newProblem");
-            problemList.add(newProblem);
-            ArrayAdapter<Problem> itemsAdapter = new ArrayAdapter<Problem>(this, android.R.layout.simple_list_item_1, problemList);
-            listView.setAdapter(itemsAdapter);
+            patient.addProblem(newProblem.getUuid());
+            patientControler.save(patient,this);
         }
     }
 

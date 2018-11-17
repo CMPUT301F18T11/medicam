@@ -1,5 +1,6 @@
 package ca.ualberta.cmput301f18t11.medicam.models;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -10,7 +11,7 @@ import ca.ualberta.cmput301f18t11.medicam.exceptions.StringTooShortException;
 
 public class Patient extends User {
 
-    private List<String> problems = new ArrayList<>();
+    private ArrayList<String> problems = new ArrayList<>();
     private String frontPhoto;
     private String backPhoto;
 
@@ -18,7 +19,7 @@ public class Patient extends User {
     }
 
     public Patient(String userID, String email, String phoneNumber,
-                   List<String> problems) throws StringTooShortException, InvalidEmailException {
+                   ArrayList<String> problems) throws StringTooShortException, InvalidEmailException {
         super(userID, email, phoneNumber);
         this.problems = problems;
     }
@@ -27,7 +28,7 @@ public class Patient extends User {
         super(userID);
     }
 
-    public Patient(String userID, String email, String phoneNumber, List<String> problems,
+    public Patient(String userID, String email, String phoneNumber, ArrayList<String> problems,
                    String frontPhoto, String backPhoto) throws StringTooShortException, InvalidEmailException {
         super(userID, email, phoneNumber);
         this.problems = problems;
@@ -35,11 +36,11 @@ public class Patient extends User {
         this.backPhoto = backPhoto;
     }
 
-    public List<String> getProblems() {
+    public ArrayList<String> getProblems() {
         return problems;
     }
 
-    public void setProblems(List<String> problems) {
+    public void setProblems(ArrayList<String> problems) {
         this.problems = problems;
     }
 

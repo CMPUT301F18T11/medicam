@@ -12,34 +12,45 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import ca.ualberta.cmput301f18t11.medicam.R;
-import ca.ualberta.cmput301f18t11.medicam.models.abstracts.Record;
+import ca.ualberta.cmput301f18t11.medicam.controllers.ElasticSearchController;
+import ca.ualberta.cmput301f18t11.medicam.controllers.abstracts.PersistenceController;
+import ca.ualberta.cmput301f18t11.medicam.controllers.per_model.CareProviderRecordPersistenceController;
+import ca.ualberta.cmput301f18t11.medicam.controllers.per_model.ProblemPersistenceController;
+import ca.ualberta.cmput301f18t11.medicam.models.CareProviderRecord;
+import ca.ualberta.cmput301f18t11.medicam.models.Problem;
 
 public class CareGiverRecordActivity extends AppCompatActivity {
     private ListView careGiverRecordsView;
-    private ArrayAdapter<Record> careProviderRecordArrayAdapter;
-    private ArrayList<Record> careProviderRecordArrayList = new ArrayList<Record>();
-
+    private ArrayAdapter<String> recordArrayAdapter;
+    private ArrayList<String> recordArrayList = new ArrayList<>();
+    private PersistenceController<Problem> problemControler = new ProblemPersistenceController();
+    private PersistenceController<CareProviderRecord> recordController = new CareProviderRecordPersistenceController();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_care_giver_record);
-
+        ElasticSearchController.setIndex_url("cmput301f18t11test");
         //Record example = new PatientRecord();
-        //careProviderRecordArrayList.add(example);
+        //recordArrayList.add(example);
 
+        Intent intent = getIntent();
+        String problemUUID = intent.getStringExtra("problemUUID");
+        Problem problem = problemControler.load(problemUUID,this);
+        recordArrayList = problem.getPatientRecords();
+        //TODO: add doctor NOTEs
+        //recordArrayList.add(recordController.load())
+
+        recordArrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, recordArrayList);
         careGiverRecordsView = findViewById(R.id.careGiverRecordListView);
-        ArrayList<String> anExampleStringList = new ArrayList<String>();
-        anExampleStringList.add("This is just an example");
-        ArrayAdapter<String> exampleArrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,anExampleStringList);
-        //careProviderRecordArrayAdapter = new ArrayAdapter<CareProviderRecord>(this,android.R.layout.simple_list_item_1,careProviderRecordArrayList);
-        careGiverRecordsView.setAdapter(exampleArrayAdapter);
+        careGiverRecordsView.setAdapter(recordArrayAdapter);
 
         // if Item Clicked
         careGiverRecordsView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                seeRecordDetail(view);
-
+                Intent intent = new Intent(CareGiverRecordActivity.this,CareGiverAttachActivity.class);
+                intent.putExtra("recordUUID", recordArrayList.get(position));
+                startActivity(intent);
             }
         });
 
@@ -55,8 +66,8 @@ public class CareGiverRecordActivity extends AppCompatActivity {
 
     }
 
-    public void seeRecordDetail(View view){
-        Intent intent = new Intent(this,CareGiverAttachActivity.class);
-        startActivity(intent);
+    @Override
+    protected void onStart() {
+        super.onStart();
     }
 }

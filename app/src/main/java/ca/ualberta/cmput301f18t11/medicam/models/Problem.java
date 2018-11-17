@@ -19,7 +19,7 @@ public class Problem extends PersistedModel {
     private Date date_started = new Date();
     private String description;
     //TODO: Implement Records UUID and Collection
-    private ArrayList<PatientRecord> patientRecords = new ArrayList<>();
+    private ArrayList<String> patientRecords = new ArrayList<>();
     private ArrayList<String> careProviderRecords = new ArrayList<>();
 
     public Problem(String title, Date date, String desc){
@@ -30,7 +30,7 @@ public class Problem extends PersistedModel {
     }
 
     public Problem(String uuid, String title, String description,
-                   ArrayList<PatientRecord> patientRecords, ArrayList<String> careProviderRecords) {
+                   ArrayList<String> patientRecords, ArrayList<String> careProviderRecords) {
         super(uuid);
         setTitle(title);
         setDescription(description);
@@ -87,7 +87,7 @@ public class Problem extends PersistedModel {
         return this.patientRecords.contains(record) || this.careProviderRecords.contains(record);
     }
 
-    public void addPatientRecord(PatientRecord record){
+    public void addPatientRecord(String record){
         this.patientRecords.add(record);
     }
 
@@ -111,7 +111,7 @@ public class Problem extends PersistedModel {
         this.careProviderRecords.remove(record);
     }
 
-    public ArrayList<PatientRecord> getPatientRecords(){
+    public ArrayList<String> getPatientRecords(){
         return this.patientRecords;
     }
 

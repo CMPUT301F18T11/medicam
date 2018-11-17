@@ -6,16 +6,25 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.Date;
+
 import ca.ualberta.cmput301f18t11.medicam.R;
+import ca.ualberta.cmput301f18t11.medicam.controllers.ElasticSearchController;
+import ca.ualberta.cmput301f18t11.medicam.controllers.abstracts.PersistenceController;
+import ca.ualberta.cmput301f18t11.medicam.controllers.per_model.CareProviderRecordPersistenceController;
+import ca.ualberta.cmput301f18t11.medicam.models.CareProviderRecord;
 
 public class AddDoctorNoteActivity extends AppCompatActivity {
     private EditText noteHeader;
     private  EditText noteComment;
-
+    private CareProviderRecord record = new CareProviderRecord();
+    private PersistenceController<CareProviderRecord> recordController = new CareProviderRecordPersistenceController();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_doctor_note);
+        ElasticSearchController.setIndex_url("cmput301f18t11test");
+
         noteHeader = findViewById(R.id.noteHeaderEditText);
         noteComment  = findViewById(R.id.noteCommentEditText);
 
@@ -27,8 +36,10 @@ public class AddDoctorNoteActivity extends AppCompatActivity {
     public void passTextAndFinish(View view){
         String noteStr = noteHeader.getText().toString();
         String commentStr = noteComment.getText().toString();
-        Toast.makeText(this,"Header : "+ noteStr +"\n" + "Comment: " + commentStr + "\n"+"Will be added",Toast.LENGTH_SHORT).show();
+        record.setTitle(noteStr);
+        record.setDescription(commentStr);
+        record.setTimestamp(new Date());
+        recordController.save(record,this);
         finish();
-
     }
 }

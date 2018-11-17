@@ -10,17 +10,22 @@ import android.widget.Toast;
 import java.util.Date;
 
 import ca.ualberta.cmput301f18t11.medicam.R;
+import ca.ualberta.cmput301f18t11.medicam.controllers.ElasticSearchController;
+import ca.ualberta.cmput301f18t11.medicam.controllers.abstracts.PersistenceController;
+import ca.ualberta.cmput301f18t11.medicam.controllers.per_model.ProblemPersistenceController;
 import ca.ualberta.cmput301f18t11.medicam.models.Problem;
 
 public class createProblemActivity extends AppCompatActivity {
 
     private EditText problemTitle;
     private EditText problemDescription;
+    private PersistenceController<Problem> problemControler = new ProblemPersistenceController();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_problem);
+        ElasticSearchController.setIndex_url("cmput301f18t11test");
 
         problemTitle = (EditText) findViewById(R.id.viewTitle);
         problemDescription = (EditText) findViewById(R.id.probDescription);
@@ -36,6 +41,7 @@ public class createProblemActivity extends AppCompatActivity {
         } else {
             Intent intent = new Intent();
             Problem newProblem = new Problem(problemTitle.getText().toString(), new Date(), problemDescription.getText().toString());
+            problemControler.save(newProblem,this);
             intent.putExtra("newProblem", newProblem);
             setResult(RESULT_OK, intent);
             finish();

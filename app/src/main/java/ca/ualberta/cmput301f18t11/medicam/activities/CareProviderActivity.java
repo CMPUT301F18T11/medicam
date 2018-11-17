@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.security.PrivateKey;
 import java.util.ArrayList;
@@ -17,31 +18,47 @@ import java.util.List;
 
 import ca.ualberta.cmput301f18t11.medicam.R;
 import ca.ualberta.cmput301f18t11.medicam.activities.AddPatientActivity;
+import ca.ualberta.cmput301f18t11.medicam.controllers.ElasticSearchController;
+import ca.ualberta.cmput301f18t11.medicam.controllers.abstracts.PersistenceController;
+import ca.ualberta.cmput301f18t11.medicam.controllers.per_model.CareProviderPersistenceController;
+import ca.ualberta.cmput301f18t11.medicam.controllers.per_model.PatientPersistenceController;
+import ca.ualberta.cmput301f18t11.medicam.models.CareProvider;
 import ca.ualberta.cmput301f18t11.medicam.models.Patient;
 
 import static java.sql.DriverManager.println;
 
 public class CareProviderActivity extends AppCompatActivity {
     private ListView patientListView;
-    private ArrayAdapter<Patient> patientArrayAdapter;
-    private ArrayList<Patient> patientArrayList = new ArrayList<>();
+    private CareProvider careProvider;
+    private ArrayAdapter<String> patientArrayAdapter;
+    private ArrayList<String> patientArrayList = new ArrayList<>();
     private int clickedIndex;
+    private PersistenceController<CareProvider> persistenceController = new CareProviderPersistenceController();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ElasticSearchController.setIndex_url("cmput301f18t11test");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_care_provider);
-        Patient examplePatient = new Patient("this is a user id");
-        patientArrayList.add(examplePatient);
+        //Patient examplePatient = new Patient("this is a user id");
+        //patientArrayList.add(examplePatient);
+        Intent intent = getIntent();
+        String uuid = intent.getStringExtra("userid");
 
+        careProvider = persistenceController.load(uuid,CareProviderActivity.this);
+        //ArrayList = careProvider.getPatients();
 
        // Set adapter and show the listView
+        patientArrayList = careProvider.getPatients();
+        Toast.makeText(this,careProvider.getPatients().toString(),Toast.LENGTH_SHORT).show();
         patientListView = findViewById(R.id.patientListView);
-        patientArrayAdapter = new ArrayAdapter<Patient>(this,android.R.layout.simple_list_item_1,patientArrayList);
+        patientArrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,patientArrayList);
         patientListView.setAdapter(patientArrayAdapter);
         patientListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                careProviderProblemActivity(view);
+                Intent intent = new Intent(CareProviderActivity.this,CareGiverProblemActivity.class);
+                intent.putExtra("patientUUID",patientArrayList.get(position));
+                startActivity(intent);
             }
         });
 
@@ -51,6 +68,10 @@ public class CareProviderActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        careProvider = persistenceController.load(careProvider.getUuid(),CareProviderActivity.this);
+        Toast.makeText(this,careProvider.getPatients().toString(),Toast.LENGTH_SHORT).show();
+        patientArrayList = careProvider.getPatients();
+        patientArrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,patientArrayList);
         patientListView.setAdapter(patientArrayAdapter);
     }
 
@@ -58,11 +79,7 @@ public class CareProviderActivity extends AppCompatActivity {
 
     public void goAddPatient(View view){
         Intent intent = new Intent(this,AddPatientActivity.class);
-        startActivity(intent);
-    }
-
-    public void careProviderProblemActivity(View view) {
-        Intent intent = new Intent(this,CareGiverProblemActivity.class);
+        intent.putExtra("careProviderUUID",careProvider.getUuid());
         startActivity(intent);
     }
 }

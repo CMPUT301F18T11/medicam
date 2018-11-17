@@ -16,6 +16,10 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import ca.ualberta.cmput301f18t11.medicam.R;
+import ca.ualberta.cmput301f18t11.medicam.controllers.ElasticSearchController;
+import ca.ualberta.cmput301f18t11.medicam.controllers.abstracts.PersistenceController;
+import ca.ualberta.cmput301f18t11.medicam.controllers.per_model.PatientRecordPersistenceController;
+import ca.ualberta.cmput301f18t11.medicam.controllers.per_model.ProblemPersistenceController;
 import ca.ualberta.cmput301f18t11.medicam.models.PatientRecord;
 import ca.ualberta.cmput301f18t11.medicam.models.Problem;
 
@@ -24,34 +28,35 @@ public class PatientRecordActivity extends AppCompatActivity {
     private static final int EDIT_RECORD_REQUEST_CODE = 1;
     private TextView viewTitle, viewDescription;
     private ListView listView;
-    private ArrayList<PatientRecord> records;
+    private ArrayList<String> records;
     private int indexOfClickedItem;
     private Problem previousProblem;
-
+    private PersistenceController<Problem> problemController = new ProblemPersistenceController();
+    private PersistenceController<PatientRecord> recordController = new PatientRecordPersistenceController();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-       /*
-        PatientRecord example = new PatientRecord();
-        example.setTitle("Example Title");
-        example.setTimestamp(new Date());
-        records.add(example);
-        */
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_problem);
+        ElasticSearchController.setIndex_url("cmput301f18t11test");
+
+
         viewTitle = (TextView) findViewById(R.id.viewTitle);
         viewDescription = (TextView) findViewById(R.id.viewDesc);
 
         //Sets the title and description of Problem
-        previousProblem = (Problem) getIntent().getExtras().getSerializable("previousProblem");
+        String problemUUID = getIntent().getStringExtra("previousProblem");
+        previousProblem = problemController.load(problemUUID,this);
         viewTitle.setText(previousProblem.getTitle());
         viewDescription.setText(previousProblem.getDescription());
         records = previousProblem.getPatientRecords();
 
         //Sets up the recordList adapter
-        ArrayAdapter<PatientRecord> itemsAdapter = new ArrayAdapter<PatientRecord>(this, android.R.layout.simple_list_item_1, records);
+        ArrayAdapter<String> itemsAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, records);
         listView = (ListView) findViewById(R.id.recordListView);
         listView.setAdapter(itemsAdapter);
+
+
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -65,6 +70,7 @@ public class PatientRecordActivity extends AppCompatActivity {
             }
         });
 
+
         //Sets up the floating action button
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -75,21 +81,22 @@ public class PatientRecordActivity extends AppCompatActivity {
         });
     }
 //This will return the object(PatientRecord) From create record activity.
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == ADD_RECORD_REQUEST_CODE && resultCode == Activity.RESULT_OK){
             PatientRecord newRecord = (PatientRecord) data.getExtras().getSerializable("newRecord");
-            //Toast.makeText(this, "HELLOTHISISHERE: "+newRecord.getTitle(), Toast.LENGTH_SHORT).show();
-            //records.add(newRecord);
-            previousProblem.addPatientRecord(newRecord);
-            ArrayAdapter<PatientRecord> itemsAdapter = new ArrayAdapter<PatientRecord>(this, android.R.layout.simple_list_item_1, records);
+            previousProblem.addPatientRecord(newRecord.getUuid());
+            problemController.save(previousProblem,this);
+            ArrayAdapter<String> itemsAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, records);
             listView.setAdapter(itemsAdapter);
         }
         else if (requestCode == EDIT_RECORD_REQUEST_CODE && resultCode == Activity.RESULT_OK){
             PatientRecord newRecord = (PatientRecord) data.getExtras().getSerializable("newRecord");
-            records.set(indexOfClickedItem,newRecord);
-            ArrayAdapter<PatientRecord> itemsAdapter = new ArrayAdapter<PatientRecord>(this, android.R.layout.simple_list_item_1, records);
+            records.set(indexOfClickedItem,newRecord.getUuid());
+
+            ArrayAdapter<String> itemsAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, records);
             listView.setAdapter(itemsAdapter);
         }
     }
@@ -103,7 +110,6 @@ public class PatientRecordActivity extends AppCompatActivity {
     }
 
     public void createRecord(View view){
-        //Toast.makeText(PatientRecordActivity.this, "Create new record", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this,createRecordActivity.class);
         intent.putExtra("purpose","add");
         startActivityForResult(intent,ADD_RECORD_REQUEST_CODE);
