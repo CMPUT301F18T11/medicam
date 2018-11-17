@@ -19,6 +19,7 @@ import ca.ualberta.cmput301f18t11.medicam.models.Problem;
 
 public class CareGiverAttachActivity extends AppCompatActivity {
     private TextView titleView;
+    private PatientRecord record;
     private PersistenceController<PatientRecord> recordController = new PatientRecordPersistenceController();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,14 +30,9 @@ public class CareGiverAttachActivity extends AppCompatActivity {
         titleView = findViewById(R.id.attachTitleTextView);
 
         Intent intent = getIntent();
-        String problemUUID = intent.getStringExtra("problemUUID");
-        PatientRecord record = recordController.load(problemUUID,this);
-
+        String recordUUID = intent.getStringExtra("recordUUID");
+        record = recordController.load(recordUUID,this);
         titleView.setText(record.getTitle());
     }
 
-    public void goAddDoctorNote(View view){
-        Intent intent = new Intent(this,AddDoctorNoteActivity.class);
-        startActivity(intent);
-    }
 }

@@ -21,12 +21,14 @@ import ca.ualberta.cmput301f18t11.medicam.controllers.abstracts.PersistenceContr
 import ca.ualberta.cmput301f18t11.medicam.controllers.per_model.PatientPersistenceController;
 import ca.ualberta.cmput301f18t11.medicam.controllers.per_model.ProblemPersistenceController;
 import ca.ualberta.cmput301f18t11.medicam.models.Patient;
+import ca.ualberta.cmput301f18t11.medicam.models.PatientRecord;
 import ca.ualberta.cmput301f18t11.medicam.models.Problem;
 
 public class PatientProblemActivity extends AppCompatActivity {
     private static final int ADD_PROBLEM_REQUESTCODE = 0;
     private static final int EDIT_PROBLEM_REQUEST_CODE =1;
     private ListView listView;
+    private ArrayList<Problem> problemDisplayList = new ArrayList<Problem>();
     private ArrayList<String> problemList = new ArrayList<>();
     private PersistenceController<Problem> problemControler = new ProblemPersistenceController();
     private PersistenceController<Patient> patientControler = new PatientPersistenceController();
@@ -46,12 +48,15 @@ public class PatientProblemActivity extends AppCompatActivity {
         String patientUUID = intent.getStringExtra("userid");
         patient = patientControler.load(patientUUID,PatientProblemActivity.this);
         problemList = patient.getProblems();
-
+        for (int i = 0; i < problemList.size(); i++){
+            Problem problem = problemControler.load(problemList.get(i), this);
+            problemDisplayList.add(problem);
+        }
         /**
          * Setup the ArrayAdapter to show the list of problems
          *
          */
-        ArrayAdapter<String> itemsAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, problemList);
+        ArrayAdapter<Problem> itemsAdapter = new ArrayAdapter<Problem>(this, android.R.layout.simple_list_item_1, problemDisplayList);
         listView = (ListView) findViewById(R.id.problemListView);
         listView.setAdapter(itemsAdapter);
         /**
@@ -92,6 +97,7 @@ public class PatientProblemActivity extends AppCompatActivity {
         if(requestCode == ADD_PROBLEM_REQUESTCODE && resultCode == RESULT_OK){
             Problem newProblem = (Problem) data.getExtras().getSerializable("newProblem");
             patient.addProblem(newProblem.getUuid());
+            problemDisplayList.add(newProblem);
             patientControler.save(patient,this);
         }
     }

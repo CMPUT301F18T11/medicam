@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -33,10 +32,10 @@ public class CreateUserActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_user);
 
         ElasticSearchController.setIndex_url("cmput301f18t11test");
-        enteredUserId = findViewById(R.id.newUserUserIdEdit);
-        enteredPhoneNumber = findViewById(R.id.newUserPhoneEdit);
-        enteredEmail = findViewById(R.id.newUserEmialEdit);
-        enteredAddress = findViewById(R.id.newUserAddressEdit);
+        enteredUserId = findViewById(R.id.userIDTextView);
+        enteredPhoneNumber = findViewById(R.id.editingPhoneNumberText);
+        enteredEmail = findViewById(R.id.editingEmailText);
+        enteredAddress = findViewById(R.id.editinAddressText);
         radioGroup = findViewById(R.id.radioGroup);
 
 

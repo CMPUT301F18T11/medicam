@@ -24,8 +24,9 @@ import ca.ualberta.cmput301f18t11.medicam.models.Problem;
 
 public class CareGiverProblemActivity extends AppCompatActivity {
     private ListView problemListView;
-    private ArrayAdapter<String> adapter;
+    private ArrayAdapter<Problem> adapter;
     private ArrayList<String> problemList = new ArrayList<>();
+    private ArrayList<Problem> problemDisplayList = new ArrayList<Problem>();
     private PersistenceController<Patient> patientController = new PatientPersistenceController();
     private PersistenceController<Problem> problemControler = new ProblemPersistenceController();
 
@@ -40,8 +41,12 @@ public class CareGiverProblemActivity extends AppCompatActivity {
         Patient patient = patientController.load(problemUUID,this);
         problemList = patient.getProblems();
 
+        for (int i=0; i < problemList.size();i++){
+            Problem problem = problemControler.load(problemList.get(i),this);
+            problemDisplayList.add(problem);
+        }
 
-        adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,problemList);
+        adapter = new ArrayAdapter<Problem>(this,android.R.layout.simple_list_item_1,problemDisplayList);
         problemListView =  findViewById(R.id.problems_list_view);
         problemListView.setAdapter(adapter);
         problemListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

@@ -14,12 +14,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import ca.ualberta.cmput301f18t11.medicam.R;
 import ca.ualberta.cmput301f18t11.medicam.controllers.ElasticSearchController;
 import ca.ualberta.cmput301f18t11.medicam.controllers.abstracts.PersistenceController;
+import ca.ualberta.cmput301f18t11.medicam.controllers.per_model.CareProviderRecordPersistenceController;
 import ca.ualberta.cmput301f18t11.medicam.controllers.per_model.PatientRecordPersistenceController;
 import ca.ualberta.cmput301f18t11.medicam.controllers.per_model.ProblemPersistenceController;
+import ca.ualberta.cmput301f18t11.medicam.models.CareProviderRecord;
 import ca.ualberta.cmput301f18t11.medicam.models.PatientRecord;
 import ca.ualberta.cmput301f18t11.medicam.models.Problem;
 
@@ -28,19 +31,24 @@ public class PatientRecordActivity extends AppCompatActivity {
     private static final int EDIT_RECORD_REQUEST_CODE = 1;
     private TextView viewTitle, viewDescription;
     private ListView listView;
+    private ListView doctorNoteView;
+    private ArrayList<PatientRecord> patientRecordDisplayArray= new ArrayList<PatientRecord>();
+    private ArrayList<CareProviderRecord> doctorRecordDisplayArray = new ArrayList<CareProviderRecord>();
     private ArrayList<String> records;
+    private ArrayList<String> doctorRecords;
     private int indexOfClickedItem;
     private Problem previousProblem;
     private PersistenceController<Problem> problemController = new ProblemPersistenceController();
     private PersistenceController<PatientRecord> recordController = new PatientRecordPersistenceController();
+    private PersistenceController<CareProviderRecord> doctorRecordController = new CareProviderRecordPersistenceController();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_problem);
         ElasticSearchController.setIndex_url("cmput301f18t11test");
-
-
+        doctorNoteView = findViewById(R.id.doctorNoteView);
+        listView = (ListView) findViewById(R.id.recordListView);
         viewTitle = (TextView) findViewById(R.id.viewTitle);
         viewDescription = (TextView) findViewById(R.id.viewDesc);
 
@@ -50,12 +58,30 @@ public class PatientRecordActivity extends AppCompatActivity {
         viewTitle.setText(previousProblem.getTitle());
         viewDescription.setText(previousProblem.getDescription());
         records = previousProblem.getPatientRecords();
+        doctorRecords = previousProblem.getCareProviderRecords();
+
+        for (int i = 0; i < records.size(); i++){
+            PatientRecord record = recordController.load(records.get(i), this);
+            patientRecordDisplayArray.add(record);
+        }
+
+        for (int i = 0; i < doctorRecords.size(); i++){
+            CareProviderRecord record = doctorRecordController.load(doctorRecords.get(i), this);
+            doctorRecordDisplayArray.add(record);
+        }
+
+
+        if(doctorRecords.size() == 0){
+            doctorNoteView.setVisibility(View.GONE);
+        }
 
         //Sets up the recordList adapter
-        ArrayAdapter<String> itemsAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, records);
-        listView = (ListView) findViewById(R.id.recordListView);
+
+        ArrayAdapter<PatientRecord> itemsAdapter = new ArrayAdapter<PatientRecord>(this, android.R.layout.simple_list_item_1, patientRecordDisplayArray);
         listView.setAdapter(itemsAdapter);
 
+        ArrayAdapter<CareProviderRecord> doctorAdapter = new ArrayAdapter<CareProviderRecord>(this, android.R.layout.simple_list_item_1, doctorRecordDisplayArray);
+        doctorNoteView.setAdapter(doctorAdapter);
 
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -89,14 +115,16 @@ public class PatientRecordActivity extends AppCompatActivity {
             PatientRecord newRecord = (PatientRecord) data.getExtras().getSerializable("newRecord");
             previousProblem.addPatientRecord(newRecord.getUuid());
             problemController.save(previousProblem,this);
-            ArrayAdapter<String> itemsAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, records);
+            patientRecordDisplayArray.add(newRecord);
+            ArrayAdapter<PatientRecord> itemsAdapter = new ArrayAdapter<PatientRecord>(this, android.R.layout.simple_list_item_1, patientRecordDisplayArray);
             listView.setAdapter(itemsAdapter);
         }
         else if (requestCode == EDIT_RECORD_REQUEST_CODE && resultCode == Activity.RESULT_OK){
             PatientRecord newRecord = (PatientRecord) data.getExtras().getSerializable("newRecord");
             records.set(indexOfClickedItem,newRecord.getUuid());
-
-            ArrayAdapter<String> itemsAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, records);
+            patientRecordDisplayArray.set(indexOfClickedItem,newRecord);
+            problemController.save(previousProblem,this);
+            ArrayAdapter<PatientRecord> itemsAdapter = new ArrayAdapter<PatientRecord>(this, android.R.layout.simple_list_item_1, patientRecordDisplayArray);
             listView.setAdapter(itemsAdapter);
         }
     }

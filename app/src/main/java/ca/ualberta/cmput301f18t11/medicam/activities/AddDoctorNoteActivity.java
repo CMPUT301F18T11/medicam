@@ -1,5 +1,6 @@
 package ca.ualberta.cmput301f18t11.medicam.activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -40,6 +41,9 @@ public class AddDoctorNoteActivity extends AppCompatActivity {
         record.setDescription(commentStr);
         record.setTimestamp(new Date());
         recordController.save(record,this);
+        Intent intent = new Intent();
+        intent.putExtra("doctorRecord",record);
+        setResult(RESULT_OK,intent);
         finish();
     }
 }

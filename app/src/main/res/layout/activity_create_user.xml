@@ -7,7 +7,7 @@
     tools:context="activities.CreateUserActivity">
 
     <EditText
-        android:id="@+id/newUserUserIdEdit"
+        android:id="@+id/userIDTextView"
         android:layout_width="323dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -23,7 +23,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/newUserPhoneEdit"
+        android:id="@+id/editingPhoneNumberText"
         android:layout_width="327dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -37,10 +37,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/newUserUserIdEdit" />
+        app:layout_constraintTop_toBottomOf="@+id/userIDTextView" />
 
     <EditText
-        android:id="@+id/newUserEmialEdit"
+        android:id="@+id/editingEmailText"
         android:layout_width="327dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -54,10 +54,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/newUserPhoneEdit" />
+        app:layout_constraintTop_toBottomOf="@+id/editingPhoneNumberText" />
 
     <EditText
-        android:id="@+id/newUserAddressEdit"
+        android:id="@+id/editinAddressText"
         android:layout_width="327dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -71,7 +71,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.512"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/newUserEmialEdit" />
+        app:layout_constraintTop_toBottomOf="@+id/editingEmailText" />
 
     <Button
         android:id="@+id/createButton"
@@ -103,7 +103,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.421"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/newUserAddressEdit"
+        app:layout_constraintTop_toBottomOf="@+id/editinAddressText"
         app:layout_constraintVertical_bias="0.128">
         <RadioButton
             android:id="@+id/patientRadioButton"
