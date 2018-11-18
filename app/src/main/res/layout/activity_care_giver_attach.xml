@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CareGiverAttachActivity">
+    tools:context="activities.CareGiverAttachActivity">
 
     <ImageView
         android:id="@+id/recorePhotoImageView4View"
