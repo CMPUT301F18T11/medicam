@@ -23,6 +23,7 @@ import ca.ualberta.cmput301f18t11.medicam.controllers.per_model.ProblemPersisten
 import ca.ualberta.cmput301f18t11.medicam.models.Patient;
 import ca.ualberta.cmput301f18t11.medicam.models.PatientRecord;
 import ca.ualberta.cmput301f18t11.medicam.models.Problem;
+import ca.ualberta.cmput301f18t11.medicam.utils.ProblemListAdapter;
 
 public class PatientProblemActivity extends AppCompatActivity {
     private static final int ADD_PROBLEM_REQUESTCODE = 0;
@@ -39,6 +40,9 @@ public class PatientProblemActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_profile);
         ElasticSearchController.setIndex_url("cmput301f18t11test");
+
+        //Problem problemo = new Problem("title", new Date(), "description");
+        //testProblemList.add(problemo);
 
         /**
          * Get intent From previous activity(LoginActivity) that contains a String that represents the UUID of the patient

@@ -3,6 +3,7 @@ package ca.ualberta.cmput301f18t11.medicam.activities;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -57,14 +58,15 @@ public class CreateUserActivity extends AppCompatActivity {
         } else if (patientPersistenceController.load(enteredUserId.getText().toString(),this)!= null || careProviderPersistenceController.load(enteredUserId.getText().toString(),this) != null){
             Toast.makeText(this,"User id existed, Enter another user id",Toast.LENGTH_SHORT).show();
         } else {
-            if (accountTypeButton.getText().toString().equals("Create Patient Account")) {
+            Log.d("check", accountTypeButton.getText().toString());
+            if (accountTypeButton.getText().toString().equals("Patient")) {
                 Patient newPatient = new Patient(enteredUserId.getText().toString());
                 patientPersistenceController.save(newPatient,this);
                 Intent intent = new Intent(CreateUserActivity.this, PatientProblemActivity.class);
                 intent.putExtra("userid",enteredUserId.getText().toString());
                 startActivity(intent);
 
-            } else if(accountTypeButton.getText().toString().equals("Create Doctor Account")){
+            } else if(accountTypeButton.getText().toString().equals("Caretaker")){
                 CareProvider newDoctor = new CareProvider(enteredUserId.getText().toString());
                 careProviderPersistenceController.save(newDoctor,this);
                 Intent intent = new Intent(CreateUserActivity.this, CareProviderActivity.class);
