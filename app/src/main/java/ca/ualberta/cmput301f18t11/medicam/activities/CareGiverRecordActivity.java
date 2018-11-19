@@ -11,6 +11,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import ca.ualberta.cmput301f18t11.medicam.R;
 import ca.ualberta.cmput301f18t11.medicam.controllers.ElasticSearchController;
@@ -26,12 +27,12 @@ public class CareGiverRecordActivity extends AppCompatActivity {
     private static final int ADD_RECORD_REQUESTCODE = 0;
     private ListView patientRecordsView;
     private ListView doctorRecordsView;
-    private ArrayList<PatientRecord> recordDisplayList = new ArrayList<PatientRecord>();
-    private ArrayList<CareProviderRecord> doctorRecordDisplayList = new ArrayList<CareProviderRecord>();
+    private List<PatientRecord> recordDisplayList = new ArrayList<PatientRecord>();
+    private List<CareProviderRecord> doctorRecordDisplayList = new ArrayList<CareProviderRecord>();
     private ArrayAdapter<PatientRecord> recordArrayAdapter;
     private ArrayAdapter<CareProviderRecord> careProviderRecordArrayAdapter;
-    private ArrayList<String> patientRecordsArray = new ArrayList<>();
-    private ArrayList<String> doctorRecordsArray = new ArrayList<>();
+    private List<String> patientRecordsArray = new ArrayList<>();
+    private List<String> doctorRecordsArray = new ArrayList<>();
     private PersistenceController<Problem> problemControler = new ProblemPersistenceController();
     private PersistenceController<PatientRecord> patientRecordController = new PatientRecordPersistenceController();
     private PersistenceController<CareProviderRecord> doctorRecordController = new CareProviderRecordPersistenceController();

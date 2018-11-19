@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import ca.ualberta.cmput301f18t11.medicam.R;
 import ca.ualberta.cmput301f18t11.medicam.controllers.ElasticSearchController;
@@ -25,8 +26,8 @@ import ca.ualberta.cmput301f18t11.medicam.models.Problem;
 public class CareGiverProblemActivity extends AppCompatActivity {
     private ListView problemListView;
     private ArrayAdapter<Problem> adapter;
-    private ArrayList<String> problemList = new ArrayList<>();
-    private ArrayList<Problem> problemDisplayList = new ArrayList<Problem>();
+    private List<String> problemList = new ArrayList<>();
+    private List<Problem> problemDisplayList = new ArrayList<Problem>();
     private PersistenceController<Patient> patientController = new PatientPersistenceController();
     private PersistenceController<Problem> problemControler = new ProblemPersistenceController();
 

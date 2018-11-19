@@ -31,7 +31,7 @@ public class CareProviderActivity extends AppCompatActivity {
     private ListView patientListView;
     private CareProvider careProvider;
     private ArrayAdapter<String> patientArrayAdapter;
-    private ArrayList<String> patientArrayList = new ArrayList<>();
+    private List<String> patientArrayList = new ArrayList<>();
     private int clickedIndex;
     private PersistenceController<CareProvider> persistenceController = new CareProviderPersistenceController();
     @Override
