@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import ca.ualberta.cmput301f18t11.medicam.exceptions.StringLengthTooLongException;
 import ca.ualberta.cmput301f18t11.medicam.models.abstracts.PersistedModel;
+import ca.ualberta.cmput301f18t11.medicam.models.abstracts.Record;
 
 
 //Dummy Problem Class
@@ -116,6 +117,9 @@ public class Problem extends PersistedModel {
 
     public ArrayList<String> getCareProviderRecords() {
         return careProviderRecords;
+    }
+    public String toString(){
+        return "Title: " + this.title +"\n"+"Detail: "+ description;
     }
 }
 

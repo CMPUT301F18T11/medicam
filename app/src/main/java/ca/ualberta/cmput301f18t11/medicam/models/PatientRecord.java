@@ -47,6 +47,11 @@ public class PatientRecord extends Record {
         this.patient = patient;
     }
 
+    public String toString(){
+        java.text.SimpleDateFormat timeformat = new java.text.SimpleDateFormat("dd-MM-yyyy         HH:mm");
+        String timeStr = timeformat.format(getTimestamp());
+        return "Title: "+getTitle()+"\n" +"Time: "+timeStr + "\n";
+    }
     //    Don't think we had a "Tags" field for records.
 //    @Override
 //    public ArrayList<String> getTags(){

@@ -34,7 +34,6 @@ public class CareProvider extends User {
 
     public CareProvider(String userID, String email, String phoneNumber,
                         List<String> patients) throws StringTooShortException, InvalidEmailException {
-
         super(userID, email, phoneNumber);
         this.patients = patients;
     }

@@ -1,5 +1,6 @@
 package ca.ualberta.cmput301f18t11.medicam.models;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
