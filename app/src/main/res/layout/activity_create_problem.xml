@@ -80,7 +80,7 @@
         android:width="4dp"
         android:background="@drawable/toggle_choice_background_boarder"
         android:ems="15"
-        android:inputType="phone"
+        android:inputType="textPersonName"
         android:paddingLeft="12dp"
         android:radius="10dp"
         android:textSize="14sp"
@@ -104,4 +104,5 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/probDescription" />
+
 </android.support.constraint.ConstraintLayout>

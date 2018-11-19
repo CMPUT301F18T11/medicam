@@ -22,80 +22,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/searchButton" />
 
-    <View
-        android:id="@+id/problemList_view"
-        android:layout_width="wrap_content"
-        android:layout_height="16dp"
-        android:layout_marginTop="8dp"
-        android:background="@color/colorPrimary"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-    <RelativeLayout
-        android:id="@+id/relativeLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginStart="60dp"
-        android:layout_marginLeft="60dp"
-        android:layout_marginTop="8dp"
-        android:paddingLeft="30dp"
-        android:paddingTop="10dp"
-        android:paddingRight="15dp"
-        android:paddingBottom="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/problemList_view">
-
-        <TextView
-            android:id="@+id/problemList_problem_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="0dp"
-            android:layout_marginRight="30dp"
-            android:text="TextView"
-            android:textAllCaps="true"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/problemList_text_records"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/problemList_problem_title"
-            android:layout_alignStart="@+id/problemList_Header"
-            android:layout_marginStart="1dp"
-            android:layout_marginTop="5dp"
-            android:text="Records:"
-            android:textSize="12sp" />
-
-        <TextView
-            android:id="@+id/problemList_record_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/problemList_text_records"
-            android:layout_marginStart="3dp"
-            android:layout_marginLeft="3dp"
-            android:layout_toEndOf="@+id/problemList_text_records"
-            android:layout_toRightOf="@+id/problemList_text_records"
-            android:text="#"
-            android:textSize="12sp" />
-
-        <TextView
-            android:id="@+id/problemList_problem_created_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="false"
-            android:layout_marginTop="23dp"
-            android:layout_marginRight="30dp"
-            android:text="##/##/####"
-            android:textSize="12sp" />
-    </RelativeLayout>
-
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/floatingActionButton"
         android:layout_width="wrap_content"
@@ -132,4 +58,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:drawable/ic_menu_search" />
+
+    <ListView
+        android:id="@+id/problemListView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 </android.support.constraint.ConstraintLayout>
