@@ -14,7 +14,7 @@ public class InstancePhoto extends PhotoAttachment {
     private String instancePhotoUUID;
     private Collection<Image> instanceImageCollection;
     private Bitmap photo;
-    private URI photo_uri;
+    private Uri photo_uri;
 
     public InstancePhoto(){}
 
@@ -28,16 +28,18 @@ public class InstancePhoto extends PhotoAttachment {
         }
     }
     */
+    //set
     public void setInstancePhotoUUID(String instancePhotoUUID) {
         this.instancePhotoUUID = instancePhotoUUID;
     }
-
-    public String getInstancePhotoUUID(){
-        return instancePhotoUUID;
-    }
     public void setCameraPhoto(Bitmap user_photo){this.photo = user_photo;}
-    public Bitmap getCameraPhoto(){return this.photo; /*placeholder*/}
-    public void setPhoto(Uri user_photo_uri){}
-    public Uri getPhoto(){return null;}
+    public void setPhoto(Uri user_photo_uri){this.photo_uri = user_photo_uri;}
+
+    //get
+    public String getInstancePhotoUUID(){
+        return this.instancePhotoUUID;
+    }
+    public Bitmap getCameraPhoto(){return this.photo;}
+    public Uri getPhoto(){return this.photo_uri;}
 
 }
