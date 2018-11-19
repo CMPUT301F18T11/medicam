@@ -37,6 +37,11 @@ public class ProfileEditting extends AppCompatActivity {
         Intent intent = getIntent();
         String userUUID = intent.getStringExtra("USERUUID");
         patient = patientController.load(userUUID,this);
+
+        userId.setText(patient.getUserID());
+        enteredPhoneNumber.setText(patient.getPhoneNumber());
+        enteredAddress.setText(patient.getAddress());
+        enteredEmail.setText(patient.getEmail());
     }
 
 

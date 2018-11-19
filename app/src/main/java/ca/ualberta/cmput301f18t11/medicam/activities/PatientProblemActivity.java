@@ -121,6 +121,10 @@ public class PatientProblemActivity extends AppCompatActivity {
     //User clicks Profile button
     public void viewProfile(View view){
         Toast.makeText(this, "Selected user profile button", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, ProfileEditting.class);
+        intent.putExtra("USERUUID", patient.getUuid());
+        startActivity(intent);
+
     }
 
     public void createProblem(View view){
