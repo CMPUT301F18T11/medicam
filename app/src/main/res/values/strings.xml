@@ -7,6 +7,7 @@
     <string name="problem_title">Problem Title</string>
     <string name="problem_description">General Description</string>
     <string name="problem_create">Create</string>
+    <string name="username">Username</string>
     <string-array name="body_location_spinner">
         <item> Head </item>
         <item> Arms </item>
