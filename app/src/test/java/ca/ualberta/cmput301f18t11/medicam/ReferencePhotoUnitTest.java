@@ -4,6 +4,8 @@ import org.junit.Test;
 
 import java.util.UUID;
 
+import ca.ualberta.cmput301f18t11.medicam.models.ReferencePhoto;
+
 import static org.junit.Assert.assertEquals;
 
 public class ReferencePhotoUnitTest {
@@ -11,9 +13,9 @@ public class ReferencePhotoUnitTest {
     @Test
     public void testGetReferencePhotoUUID() {
         ReferencePhoto testRefe = new ReferencePhoto();
-        UUID wanttedUUID = UUID.randomUUID();
+        String wanttedUUID = UUID.randomUUID().toString();
         testRefe.setReferencePhotoUUID(wanttedUUID);
-        UUID answerUUID = testRefe.getReferencePhotoUUID();
+        String answerUUID = testRefe.getReferencePhotoUUID();
         assertEquals(wanttedUUID,answerUUID);
     }
 

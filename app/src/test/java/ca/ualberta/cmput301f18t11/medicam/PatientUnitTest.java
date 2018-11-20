@@ -7,19 +7,22 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import ca.ualberta.cmput301f18t11.medicam.models.Patient;
+import ca.ualberta.cmput301f18t11.medicam.models.Problem;
+
 import static org.junit.Assert.*;
 
 public class PatientUnitTest {
     @Test
     public void testGetAndSetProblems() {
-        List<UUID> testProblemList = new ArrayList<>();
-        testProblemList.add(new UUID(123,123));
+        List<String> testProblemList = new ArrayList<>();
+        testProblemList.add(new UUID(123,123).toString());
         Patient testPatient = new Patient();
         testPatient.setProblems(testProblemList);
 
         assertArrayEquals(testPatient.getProblems().toArray(), testProblemList.toArray());
 
-        List<UUID> testProblemListEmpty = new ArrayList<>();
+        List<String> testProblemListEmpty = new ArrayList<>();
         testPatient.setProblems(testProblemListEmpty);
 
         assertTrue(testPatient.getProblems().isEmpty());
@@ -27,13 +30,13 @@ public class PatientUnitTest {
 
     @Test
     public void testAddProblem() {
-        List<UUID> testProblemList = new ArrayList<>();
-        testProblemList.add(UUID.randomUUID());
+        List<String> testProblemList = new ArrayList<>();
+        testProblemList.add(UUID.randomUUID().toString());
         Patient testPatient = new Patient();
         testPatient.setProblems(testProblemList);
 
         // test when adding with UUID of a problem directly
-        UUID addedUUID = UUID.randomUUID();
+        String addedUUID = UUID.randomUUID().toString();
         testPatient.addProblem(addedUUID);
         assertTrue(testPatient.getProblems().contains(addedUUID));
 
@@ -47,7 +50,7 @@ public class PatientUnitTest {
     @Test
     public void testGetAndSetFrontPhoto() {
         Patient testPatient = new Patient();
-        UUID testUUID = UUID.randomUUID();
+        String testUUID = UUID.randomUUID().toString();
         testPatient.setFrontPhoto(testUUID);
 
         assertEquals(testPatient.getFrontPhoto(), testUUID);
@@ -56,7 +59,7 @@ public class PatientUnitTest {
     @Test
     public void testGetAndSetBackPhoto() {
         Patient testPatient = new Patient();
-        UUID testUUID = UUID.randomUUID();
+        String testUUID = UUID.randomUUID().toString();
         testPatient.setBackPhoto(testUUID);
 
         assertEquals(testPatient.getBackPhoto(), testUUID);

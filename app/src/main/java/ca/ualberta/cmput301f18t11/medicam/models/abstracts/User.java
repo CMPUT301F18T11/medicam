@@ -1,17 +1,26 @@
-package ca.ualberta.cmput301f18t11.medicam;
+package ca.ualberta.cmput301f18t11.medicam.models.abstracts;
+
+import java.util.UUID;
+
+import ca.ualberta.cmput301f18t11.medicam.exceptions.InvalidEmailException;
+import ca.ualberta.cmput301f18t11.medicam.exceptions.StringTooShortException;
 
 public abstract class User extends PersistedModel {
-    private String userID;
+
     private String email;
     private String phoneNumber;
 
     public String getUserID() {
-        return userID;
+        return uuid;
     }
 
     public void setUserID(String userID) throws StringTooShortException {
-        this.userID = userID;
+        this.uuid = userID;
     }
+
+//    public void setUserID(UUID userID) throws StringTooShortException {
+//        this.uuid = userID;
+//    }
 
     public String getEmail() {
         return email;
@@ -34,10 +43,12 @@ public abstract class User extends PersistedModel {
     }
 
     public User(String userID, String email, String phoneNumber) throws StringTooShortException, InvalidEmailException {
-
+        setUserID(userID);
+        setEmail(email);
+        setPhoneNumber(phoneNumber);
     }
 
     public User(String userID) throws StringTooShortException {
-        this.userID = userID;
+        setUserID(userID);
     }
 }

@@ -1,14 +1,13 @@
 package ca.ualberta.cmput301f18t11.medicam;
 
-import android.icu.text.AlphabeticIndex;
-import android.util.Log;
-
 import org.junit.Test;
 
 import java.util.Date;
 import java.util.UUID;
 
-import static android.content.ContentValues.TAG;
+import ca.ualberta.cmput301f18t11.medicam.exceptions.StringLengthTooLongException;
+import ca.ualberta.cmput301f18t11.medicam.models.Problem;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -18,17 +17,17 @@ public class ProblemTest {
     @Test
     public void testAddRecord(){
         Problem test = new Problem("title", new Date(), "description");
-        UUID record = UUID.randomUUID();
-        test.addRecord(record);
+        String record = UUID.randomUUID().toString();
+        test.addPatientRecord(record);
         assertTrue(test.hasRecord(record));
     }
 
     @Test
     public void testRemoveRecord(){
         Problem test = new Problem("title", new Date(), "description");
-        UUID record = UUID.randomUUID();
-        test.addRecord(record);
-        test.deleteRecord(record);
+        String record = UUID.randomUUID().toString();
+        test.addPatientRecord(record);
+        test.deletePatientRecord(record);
         assertFalse(test.hasRecord(record));
 
     }
@@ -43,7 +42,7 @@ public class ProblemTest {
 
         try {
             test.setTitle(text);
-        } catch (StringLengthTooLong e) {
+        } catch (StringLengthTooLongException e) {
             thrown = true;
         }
         assertTrue(thrown);
@@ -56,7 +55,7 @@ public class ProblemTest {
 
         try {
             test.setDescription(text);
-        } catch (StringLengthTooLong e) {
+        } catch (StringLengthTooLongException e) {
             thrown = true;
         }
         assertTrue(thrown);

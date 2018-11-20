@@ -1,4 +1,4 @@
-package ca.ualberta.cmput301f18t11.medicam;
+package ca.ualberta.cmput301f18t11.medicam.models.abstracts;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -9,6 +9,14 @@ public abstract class Record extends PersistedModel {
     private String description;
     private Date timestamp;
     private ArrayList<String> tags;
+
+    public Record(String uuid) {
+        super(uuid);
+    }
+
+    public Record() {
+        super();
+    }
 
     //get methods
     public String getTitle() {
