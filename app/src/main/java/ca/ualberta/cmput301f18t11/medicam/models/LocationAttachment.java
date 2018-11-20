@@ -10,7 +10,6 @@ public class LocationAttachment extends Attachment {
     private Location location;
     private ArrayList<Double>map_coordinates = new ArrayList<Double>(2);
 
-
     public boolean nearby(Location oc, double dist){
         return false;
     }
