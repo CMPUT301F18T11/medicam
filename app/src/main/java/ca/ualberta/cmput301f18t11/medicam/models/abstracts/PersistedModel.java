@@ -21,7 +21,7 @@ public abstract class PersistedModel implements Serializable {
     /**
      * Constructor that sets the objects uuid to a user defined value.
      *
-     * @param uuid a string that is used to uniquely identify this object
+     * @param uuid a string that is used to uniquely identify this object.
      */
     public PersistedModel(String uuid) {
         this.uuid = uuid;

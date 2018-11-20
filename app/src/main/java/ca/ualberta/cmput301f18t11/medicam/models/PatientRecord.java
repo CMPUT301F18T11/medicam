@@ -7,6 +7,16 @@ import java.util.UUID;
 
 import ca.ualberta.cmput301f18t11.medicam.models.abstracts.Record;
 
+/**
+ * A extension of the <code>Record</code> class that allows a patient to record and track an affliction
+ * over time.
+ * <p>
+ *     That is, a model that holds a number of attachments of different types such as a geo-location,
+ *     photo and body location in addition to all the fields held by the abstract record class.
+ *     This model is also attributed to a specific <code>Patient</code> object by that patient's uniquely
+ *     identifiable <code>String</code> type uuid.
+ * </p>
+ */
 public class PatientRecord extends Record {
     private String patient;
     private Collection<String> attachments = new ArrayList<>();
