@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    Title: Custom Toggle Choice Widget
+    Author: Tebo
+    Date: Nov 16, 2018
+    Code version: 1.0
+    Availability: https://stackoverflow.com/a/48640424
+-->
+
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <corners android:radius="5dp"/>
+    <solid android:color="@android:color/transparent"/>
+    <stroke
+        android:width="2dp"
+        android:color="@color/colorPrimary"/>
+</shape>

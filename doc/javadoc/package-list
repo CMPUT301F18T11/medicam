@@ -1,0 +1,9 @@
+ca.ualberta.cmput301f18t11.medicam
+ca.ualberta.cmput301f18t11.medicam.activities
+ca.ualberta.cmput301f18t11.medicam.controllers
+ca.ualberta.cmput301f18t11.medicam.controllers.abstracts
+ca.ualberta.cmput301f18t11.medicam.controllers.per_model
+ca.ualberta.cmput301f18t11.medicam.exceptions
+ca.ualberta.cmput301f18t11.medicam.models
+ca.ualberta.cmput301f18t11.medicam.models.abstracts
+ca.ualberta.cmput301f18t11.medicam.utils

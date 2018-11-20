@@ -1,3 +1,21 @@
 <resources>
     <string name="app_name">medicam</string>
+    <string name="sign_in">Sign In</string>
+    <string name="Sign_up">Sign Up</string>
+    <string name="edit_text_hint">Enter username</string>
+    <string name="profile_header">My Problems</string>
+    <string name="problem_title">Problem Title</string>
+    <string name="problem_description">General Description</string>
+    <string name="problem_create">Create</string>
+    <string name="username">Username</string>
+    <string-array name="body_location_spinner">
+        <item> Head </item>
+        <item> Arms </item>
+        <item> Hands </item>
+        <item> Frond </item>
+        <item> Back </item>
+        <item> Legs </item>
+        <item> Feets </item>
+    </string-array>
+    >
 </resources>

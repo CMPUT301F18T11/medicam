@@ -61,7 +61,8 @@ public class CareProviderUnitTest {
     public void testRemovePatient() {
         CareProvider testCareProvider = new CareProvider();
 
-        List<String> testPatients = new ArrayList<>();
+        ArrayList<String> testPatients = new ArrayList<>();
+
         String testUUID1 = UUID.randomUUID().toString();
         String testUUID2 = UUID.randomUUID().toString();
         String testUUID3 = UUID.randomUUID().toString();

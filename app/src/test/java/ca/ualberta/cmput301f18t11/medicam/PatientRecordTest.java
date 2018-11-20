@@ -5,7 +5,7 @@ import org.junit.Test;
 import java.util.Date;
 import java.util.UUID;
 
-import ca.ualberta.cmput301f18t11.medicam.exceptions.ReassignmentException;
+
 import ca.ualberta.cmput301f18t11.medicam.models.PatientRecord;
 
 import static org.junit.Assert.*;
@@ -16,10 +16,23 @@ public class PatientRecordTest {
     public void testAssignProblem(){
         PatientRecord patient_rec =  new PatientRecord();
         String problem_uuid = UUID.randomUUID().toString();
+
         patient_rec.setPatient(problem_uuid);
         //To string because the object reference probably won't be preserved
         // if it is sent and brought back with ElasticSearch
         assertEquals(patient_rec.getPatient(),problem_uuid);
+
+        //To string because the object reference probably won't be preserved
+        // if it is sent and brought back with ElasticSearch
+    }
+
+    @Test
+    public void cannot_reassign_problem(){
+        //We should not be able to reassign which care_provider wrote this record
+        PatientRecord patient_rec =  new PatientRecord();
+        String problem_uuid = UUID.randomUUID().toString();
+        String other_uuid = UUID.randomUUID().toString();
+
     }
 
 //    @Test(expected = ReassignmentException.class)
@@ -37,9 +50,11 @@ public class PatientRecordTest {
         //I suppose this covers all the possible types of attachments
         //only the view cares about what the attachments actually are.
         PatientRecord patient_rec = new PatientRecord();
-        String added_attachment = UUID.randomUUID().toString();
-        patient_rec.addAttachment(added_attachment);
-        assertTrue(patient_rec.hasAttachment(added_attachment));
+
+        String added_attachement = UUID.randomUUID().toString();
+        patient_rec.addAttachment(added_attachement);
+        assertTrue(patient_rec.hasAttachment(added_attachement));
+
     }
 
     @Test

@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ca.ualberta.cmput301f18t11.medicam">
+    // For Rest API
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     // For Rest API
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -16,7 +20,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.MainActivity">
+        <activity android:name=".activities.LoginActivity">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,10 +29,26 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".activities.MainActivity" />
+        <activity android:name=".activities.CreateUserActivity" />
+        <activity android:name=".activities.AddPatientActivity" />
+        <activity android:name=".activities.CareProviderActivity" />
+        <activity android:name=".activities.CareGiverProblemActivity" />
+        <activity android:name=".activities.CareGiverRecordActivity" />
+        <activity android:name=".activities.CareGiverAttachActivity" />
+        <activity android:name=".activities.AddDoctorNoteActivity" />
+        <activity android:name=".activities.PatientProblemActivity" />
+        <activity android:name=".activities.PatientRecordActivity" />
+        <activity android:name=".activities.createProblemActivity" />
+        <activity android:name=".activities.createRecordActivity" />
+        <activity android:name=".activities.BodyLocationActivity" />
+
         // For Rest API
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
+
+        <activity android:name=".activities.ProfileEditting"></activity>
 
     </application>
 

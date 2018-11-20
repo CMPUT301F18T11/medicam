@@ -15,14 +15,15 @@ import static org.junit.Assert.*;
 public class PatientUnitTest {
     @Test
     public void testGetAndSetProblems() {
-        List<String> testProblemList = new ArrayList<>();
+        ArrayList<String> testProblemList = new ArrayList<>();
         testProblemList.add(new UUID(123,123).toString());
         Patient testPatient = new Patient();
         testPatient.setProblems(testProblemList);
 
         assertArrayEquals(testPatient.getProblems().toArray(), testProblemList.toArray());
 
-        List<String> testProblemListEmpty = new ArrayList<>();
+        ArrayList<String> testProblemListEmpty = new ArrayList<>();
+
         testPatient.setProblems(testProblemListEmpty);
 
         assertTrue(testPatient.getProblems().isEmpty());
@@ -30,7 +31,9 @@ public class PatientUnitTest {
 
     @Test
     public void testAddProblem() {
-        List<String> testProblemList = new ArrayList<>();
+
+        ArrayList<String> testProblemList = new ArrayList<>();
+
         testProblemList.add(UUID.randomUUID().toString());
         Patient testPatient = new Patient();
         testPatient.setProblems(testProblemList);
