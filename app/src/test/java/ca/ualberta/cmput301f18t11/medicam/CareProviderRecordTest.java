@@ -18,6 +18,7 @@ public class CareProviderRecordTest {
         CareProviderRecord cr_prvdr_rec =  new CareProviderRecord();
         String cr_prvdr_uuid = UUID.randomUUID().toString();
         cr_prvdr_rec.setCare_provider(cr_prvdr_uuid);
+
         //To string because the object reference probably won't be preserved
         // when it is sent and brought back with ElasticSearch
         assertEquals(cr_prvdr_rec.getCare_provider().toString(),cr_prvdr_uuid.toString());
