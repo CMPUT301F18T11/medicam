@@ -11,6 +11,10 @@ import ca.ualberta.cmput301f18t11.medicam.models.abstracts.Record;
 
 
 //Dummy Problem Class
+
+/**
+ *
+ */
 public class Problem extends PersistedModel {
     private static final int MAX_DESC_CHARS = 300;
     private static final int MAX_TITLE_CHARS = 30;
@@ -22,6 +26,17 @@ public class Problem extends PersistedModel {
     private ArrayList<String> patientRecords = new ArrayList<>();
     private ArrayList<String> careProviderRecords = new ArrayList<>();
 
+    /**
+     * Constructor that sets the title(<code>String</code>), date_started(<code>Date</code>), and
+     * description(<code>String</code>) for this problem.
+     *
+     * @param title <code>String</code> that represents the title for this problem
+     * @param date <code>Date</code> that represents the date that the issue this <code>Problem</code>
+     *             tracks began. User defined, else it defaults to the date the <code>Problem</code>
+     *             object was created.
+     * @param desc <code>String</code> description of the issue that this <code>Problem</code> object
+     *             is meant to keep track of.
+     */
     public Problem(String title, Date date, String desc){
         super();
         this.title = title;
@@ -29,6 +44,22 @@ public class Problem extends PersistedModel {
         this.description = desc;
     }
 
+    /**
+     * Constructor that captures inputs for the uuid(<code>String</code>), title(<code>String</code>),
+     * description(<code>String</code>), patientRecords(<code>ArrayList<String></code>), and
+     * careProviderRecords(<code>ArrayList<String></code>) fields of this <code>Problem</code> object.
+     *
+     * @param uuid <code>String</code> to represent the unique identifier for this <code>Problem</code> object.
+     * @param title <code>String</code> that represents the title for this problem
+     * @param description <code>String</code> description of the issue that this <code>Problem</code> object
+     *                    is meant to keep track of.
+     * @param patientRecords <code>ArrayList</code> of <code>String</code> objects that uniquely
+     *                       identify each <code>PatientRecord</code> object that is associated with
+     *                       this <code>Problem</code> object.
+     * @param careProviderRecords <code>ArrayList</code> of <code>String</code> objects that uniquely
+     *                            identify each <code>CareProviderRecord</code> object that is associated with
+     *                            this <code>Problem</code> object.
+     */
     public Problem(String uuid, String title, String description,
                    ArrayList<String> patientRecords, ArrayList<String> careProviderRecords) {
         super(uuid);
