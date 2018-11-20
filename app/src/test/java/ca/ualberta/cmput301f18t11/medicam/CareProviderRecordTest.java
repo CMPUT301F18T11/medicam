@@ -5,6 +5,7 @@ import org.junit.Test;
 import java.util.Date;
 import java.util.UUID;
 
+import ca.ualberta.cmput301f18t11.medicam.exceptions.ReassignmentException;
 import ca.ualberta.cmput301f18t11.medicam.models.CareProviderRecord;
 
 import static org.junit.Assert.*;
@@ -15,7 +16,7 @@ public class CareProviderRecordTest {
     public void testAssignCareProvider(){
         CareProviderRecord cr_prvdr_rec =  new CareProviderRecord();
         UUID cr_prvdr_uuid = UUID.randomUUID();
-        cr_prvdr_rec.setCare_provider(cr_prvdr_uuid);
+        cr_prvdr_rec.setCare_provider(cr_prvdr_uuid.toString());
         //To string because the object reference probably won't be preserved
         // when it is sent and brought back with ElasticSearch
         assertEquals(cr_prvdr_rec.getCare_provider().toString(),cr_prvdr_uuid.toString());
@@ -27,8 +28,8 @@ public class CareProviderRecordTest {
         CareProviderRecord cr_prvdr_rec =  new CareProviderRecord();
         UUID cr_prvdr_uuid = UUID.randomUUID();
         UUID other_uuid = UUID.randomUUID();
-        cr_prvdr_rec.setCare_provider(cr_prvdr_uuid);
-        cr_prvdr_rec.setCare_provider(other_uuid);
+        cr_prvdr_rec.setCare_provider(cr_prvdr_uuid.toString());
+        cr_prvdr_rec.setCare_provider(other_uuid.toString());
     }
 
     @Test
