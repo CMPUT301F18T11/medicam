@@ -9,13 +9,35 @@
     <string name="problem_create">Create</string>
     <string name="username">Username</string>
     <string-array name="body_location_spinner">
+        <item> Ankle </item>
+        <item> Arm </item>
+        <item> Breast </item>
+        <item> Buttocks </item>
+        <item> Calf </item>
+        <item> Chest </item>
+        <item> Collarbone </item>
+        <item> Ear </item>
+        <item> Elbow </item>
+        <item> Eye </item>
+        <item> Foot </item>
+        <item> Forearm </item>
+        <item> Hand </item>
         <item> Head </item>
-        <item> Arms </item>
-        <item> Hands </item>
-        <item> Frond </item>
-        <item> Back </item>
-        <item> Legs </item>
-        <item> Feets </item>
+        <item> Heart </item>
+        <item> Knee </item>
+        <item> Leg </item>
+        <item> Lung </item>
+        <item> Mouth </item>
+        <item> Neck </item>
+        <item> Nose </item>
+        <item> Pelvis </item>
+        <item> Shin </item>
+        <item> Shoulder </item>
+        <item> Spine </item>
+        <item> Stomach </item>
+        <item> Thigh </item>
+        <item> Throat </item>
+        <item> Wrist </item>
     </string-array>
     >
 </resources>
