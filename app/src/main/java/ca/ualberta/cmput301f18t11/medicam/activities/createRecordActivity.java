@@ -23,15 +23,13 @@ import android.widget.Toast;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
-import java.util.UUID;
 
 import ca.ualberta.cmput301f18t11.medicam.R;
 import ca.ualberta.cmput301f18t11.medicam.controllers.ElasticSearchController;
 import ca.ualberta.cmput301f18t11.medicam.controllers.abstracts.PersistenceController;
 import ca.ualberta.cmput301f18t11.medicam.controllers.per_model.PatientRecordPersistenceController;
-import ca.ualberta.cmput301f18t11.medicam.models.BodyLocation;
+import ca.ualberta.cmput301f18t11.medicam.models.attachments.BodyLocation;
 import ca.ualberta.cmput301f18t11.medicam.models.InstancePhoto;
-import ca.ualberta.cmput301f18t11.medicam.models.Patient;
 import ca.ualberta.cmput301f18t11.medicam.models.PatientRecord;
 
 public class createRecordActivity extends AppCompatActivity {

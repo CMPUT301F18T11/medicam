@@ -1,8 +1,8 @@
-package ca.ualberta.cmput301f18t11.medicam.models.abstracts;
+package ca.ualberta.cmput301f18t11.medicam.models.attachments;
 
 import android.media.Image;
 
-import ca.ualberta.cmput301f18t11.medicam.models.BodyLocation;
+import ca.ualberta.cmput301f18t11.medicam.models.abstracts.Attachment;
 
 /**
  * This class represents the functionality that every record attachment that involves a photo

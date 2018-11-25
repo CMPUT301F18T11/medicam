@@ -5,9 +5,8 @@ import android.media.Image;
 import android.net.Uri;
 
 import java.util.Collection;
-import java.util.UUID;
 
-import ca.ualberta.cmput301f18t11.medicam.models.abstracts.PhotoAttachment;
+import ca.ualberta.cmput301f18t11.medicam.models.attachments.PhotoAttachment;
 
 /**
  * A object that holds a Uri and a Bitmap to represent a photo that is to be attached to a
