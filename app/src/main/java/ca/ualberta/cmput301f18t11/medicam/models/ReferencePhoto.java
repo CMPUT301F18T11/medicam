@@ -2,9 +2,7 @@ package ca.ualberta.cmput301f18t11.medicam.models;
 
 import android.media.Image;
 
-import java.util.UUID;
-
-import ca.ualberta.cmput301f18t11.medicam.models.abstracts.PhotoAttachment;
+import ca.ualberta.cmput301f18t11.medicam.models.attachments.PhotoAttachment;
 import ca.ualberta.cmput301f18t11.medicam.utils.ReferenceSide;
 
 
