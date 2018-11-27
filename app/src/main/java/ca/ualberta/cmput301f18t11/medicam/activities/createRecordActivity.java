@@ -35,7 +35,7 @@ import ca.ualberta.cmput301f18t11.medicam.models.PatientRecord;
 
 public class createRecordActivity extends AppCompatActivity {
     private static final int OPEN_CAMERA_REQUEST_CODE = 0;
-    private static final int OPEN_GALLAY_REQUEST_CODE = 1;
+    private static final int OPEN_GALLERY_REQUEST_CODE = 1; //Refactored from GALLAY -> GALLERY
     private static final int ADD_BODYLOCATION_REQUEST_CODE = 3;
 
     private BodyLocation bodyLocation = null;
@@ -138,10 +138,10 @@ public class createRecordActivity extends AppCompatActivity {
             photo.setCameraPhoto(bitmap);
             record.addPhotoToList(photo.getAttachment_uuid());
             //recordController.save(record,this);
-            photoImageView.setImageURI(Uri.parse(photo.getPhoto()));
+            photoImageView.setImageBitmap(photo.getCameraPhoto());
         }
 
-        else if(requestCode == OPEN_GALLAY_REQUEST_CODE && resultCode == Activity.RESULT_OK){
+        else if(requestCode == OPEN_GALLERY_REQUEST_CODE && resultCode == Activity.RESULT_OK){
             Log.d("SELECT PHOTO DIALOG","onActivityResult: done SELECTING new photo");
             Uri selectedImageUri = data.getData();
             photo = new InstancePhoto();
@@ -184,7 +184,7 @@ public class createRecordActivity extends AppCompatActivity {
     public void goToGallery(View view){
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
-        startActivityForResult(intent,OPEN_GALLAY_REQUEST_CODE);
+        startActivityForResult(intent, OPEN_GALLERY_REQUEST_CODE);
     }
     public void goAddBodyLocation(View view){
         Intent intent = new Intent(this,BodyLocationActivity.class);

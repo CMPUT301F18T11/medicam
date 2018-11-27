@@ -27,7 +27,7 @@ public class CareGiverProblemActivity extends AppCompatActivity {
     private ListView problemListView;
     private ArrayAdapter<Problem> adapter;
     private List<String> problemList = new ArrayList<>();
-    private List<Problem> problemDisplayList = new ArrayList<Problem>();
+    private ArrayList<Problem> problemDisplayList = new ArrayList<Problem>();
     private PersistenceController<Patient> patientController = new PatientPersistenceController();
     private PersistenceController<Problem> problemControler = new ProblemPersistenceController();
 
