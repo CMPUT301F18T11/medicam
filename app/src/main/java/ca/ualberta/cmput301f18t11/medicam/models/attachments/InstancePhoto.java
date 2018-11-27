@@ -1,4 +1,4 @@
-package ca.ualberta.cmput301f18t11.medicam.models;
+package ca.ualberta.cmput301f18t11.medicam.models.attachments;
 
 import android.graphics.Bitmap;
 import android.media.Image;
@@ -6,7 +6,7 @@ import android.net.Uri;
 
 import java.util.Collection;
 
-import ca.ualberta.cmput301f18t11.medicam.models.attachments.PhotoAttachment;
+import ca.ualberta.cmput301f18t11.medicam.models.abstracts.PhotoAttachment;
 
 /**
  * A object that holds a Uri and a Bitmap to represent a photo that is to be attached to a
@@ -15,7 +15,7 @@ import ca.ualberta.cmput301f18t11.medicam.models.attachments.PhotoAttachment;
 public class InstancePhoto extends PhotoAttachment {
     //private UUID instancePhotoUUID;
     private Collection<Image> instanceImageCollection;
-    private Uri photo;
+    private String photo;
     private Bitmap cameraPhoto;
 
     /**
@@ -29,7 +29,7 @@ public class InstancePhoto extends PhotoAttachment {
      *
      * @param photo <code>Uri</code> for the photo this object is meant to hold.
      */
-    public void setPhoto(Uri photo) {
+    public void setPhoto(String photo) {
         this.photo = photo;
     }
 
@@ -56,7 +56,7 @@ public class InstancePhoto extends PhotoAttachment {
      *
      * @return <code>Uri</code> type object for the photo held by this attachment.
      */
-    public Uri getPhoto(){
+    public String getPhoto(){
         return photo;
     }
 
