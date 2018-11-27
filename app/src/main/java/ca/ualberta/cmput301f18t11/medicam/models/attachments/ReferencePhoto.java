@@ -1,8 +1,8 @@
-package ca.ualberta.cmput301f18t11.medicam.models;
+package ca.ualberta.cmput301f18t11.medicam.models.attachments;
 
 import android.media.Image;
 
-import ca.ualberta.cmput301f18t11.medicam.models.attachments.PhotoAttachment;
+import ca.ualberta.cmput301f18t11.medicam.models.abstracts.PhotoAttachment;
 import ca.ualberta.cmput301f18t11.medicam.utils.ReferenceSide;
 
 

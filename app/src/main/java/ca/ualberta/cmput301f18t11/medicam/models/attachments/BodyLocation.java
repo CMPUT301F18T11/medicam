@@ -1,6 +1,9 @@
 package ca.ualberta.cmput301f18t11.medicam.models.attachments;
 
 
+import android.graphics.Bitmap;
+import android.util.Pair;
+
 import java.util.UUID;
 
 import ca.ualberta.cmput301f18t11.medicam.models.abstracts.Attachment;
@@ -10,25 +13,64 @@ import ca.ualberta.cmput301f18t11.medicam.models.abstracts.Attachment;
  * holds this <code>Attachment</code>
  */
 public class BodyLocation extends Attachment {
-    private String bodyParts;
-
+    private Pair<Integer,Integer> imageCoordinates;
+    private String bodyPart;
+    private Bitmap frontPhoto;
+    private Bitmap backPhoto;
 
     /**
-     * Sets the <code>String</code> that describes the body part associated with this <code>Attachment</code>.
+     * Sets the String representing the body part indicated by this body location object.
      *
-     * @param bodyParts <code>String</code> that to be associated with this <code>Attachment</code>.
+     * @param user_bodyPart the String representing the body part indicated by this body location object.
      */
-    public void setBodyParts(String bodyParts){
-        this.bodyParts = bodyParts;
+    public void setBodyPart(String user_bodyPart){
+        this.bodyPart = user_bodyPart;
     }
 
     /**
-     * Gets the <code>String</code> that describes the body part associated with this <code>Attachment</code>.
+     * Sets the front-facing, full-body photo held by this body location attachment.
      *
-     * @return <code>String</code> that is associated with this <code>Attachment</code>.
+     * @param user_frontPhoto <code>Bitmap</code> type image of the users full body facing forward.
      */
-    public String getBodyParts(){
-        return this.bodyParts;
+    public void setFrontPhoto(Bitmap user_frontPhoto) {
+        this.frontPhoto = user_frontPhoto;
     }
 
+    /**
+     * Sets the front-facing, full-body photo held by this body location attachment.
+     *
+     * @param user_backPhoto <code>Bitmap</code> type image of the users full body facing backward.
+     */
+    public void setBackPhoto(Bitmap user_backPhoto) {
+        this.backPhoto = backPhoto;
+    }
+
+    /**
+     * Gets the String representing the body part indicated by this body location object.
+     *
+     * @return  the String representing the body part indicated by this body location object.
+     */
+    public String getBodyPart() {
+        return bodyPart;
+    }
+
+    /**
+     * Gets the front-facing, full-body photo held by this body location attachment.
+     *
+     * @return <code>Bitmap</code> type image of the users full body facing forward held by this
+     *          <code>BodyLocation</code> object.
+     */
+    public Bitmap getFrontPhoto() {
+        return frontPhoto;
+    }
+
+    /**
+     * Gets the back-facing, full-body photo held by this body location attachment.
+     *
+     * @return <code>Bitmap</code> type image of the users full body facing backward held by this
+     *          <code>BodyLocation</code> object.
+     */
+    public Bitmap getBackPhoto() {
+        return backPhoto;
+    }
 }
