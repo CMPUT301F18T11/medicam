@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
 import android.graphics.drawable.Drawable;
 import android.hardware.camera2.CameraAccessException;
@@ -11,10 +12,21 @@ import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CameraManager;
+import android.hardware.camera2.CaptureFailure;
 import android.hardware.camera2.CaptureRequest;
+import android.hardware.camera2.CaptureResult;
+import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.StreamConfigurationMap;
+import android.media.Image;
+import android.media.ImageReader;
+import android.nfc.Tag;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.provider.ContactsContract;
 import android.support.v4.app.ActivityCompat;
+import android.util.Log;
 import android.util.Size;
 import android.view.Surface;
 import android.view.TextureView;
@@ -23,6 +35,9 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -30,8 +45,14 @@ import java.util.Comparator;
 import java.util.List;
 
 import ca.ualberta.cmput301f18t11.medicam.R;
+import ca.ualberta.cmput301f18t11.medicam.controllers.ImageStorageController;
 
 public class CustomCameraActivity extends Activity {
+    //States for focus locking
+    private static final int STATE_PREVIEW = 0;
+    private static final int STATE_WAIT_LOCK = 1;
+    private int current_state;
+
     private Size mPreviewSize;
     private String mCameraId;
     private ImageView cameraOverlay;
@@ -87,11 +108,55 @@ public class CustomCameraActivity extends Activity {
     private CameraCaptureSession mCameraCaptureSession;
     private CameraCaptureSession.CaptureCallback mSessionCaptureCallback =
             new CameraCaptureSession.CaptureCallback() {
+
+                private void process(CaptureResult result){
+                    switch (current_state){
+                        case STATE_WAIT_LOCK:
+                            Integer afState = result.get(CaptureResult.CONTROL_AF_STATE);
+                            if(afState == CaptureRequest.CONTROL_AF_STATE_FOCUSED_LOCKED){
+                                unlockFocus();
+                                Toast.makeText(getApplicationContext(), "Focus has been locked", Toast.LENGTH_SHORT).show();
+                            }
+                            break;
+                        case STATE_PREVIEW:
+                            //Do nothing
+                            break;
+                    }
+
+                }
+
                 @Override
                 public void onCaptureStarted(CameraCaptureSession session, CaptureRequest request, long timestamp, long frameNumber) {
                     super.onCaptureStarted(session, request, timestamp, frameNumber);
                 }
+
+                @Override
+                public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result) {
+                    super.onCaptureCompleted(session, request, result);
+
+                    process(result);
+                }
+
+                @Override
+                public void onCaptureFailed(CameraCaptureSession session, CaptureRequest request, CaptureFailure failure) {
+                    super.onCaptureFailed(session, request, failure);
+
+                    Toast.makeText(getApplicationContext(), "Focus Lock Failed", Toast.LENGTH_SHORT).show();
+                }
             };
+    private HandlerThread mBackgroundThread;
+    private Handler mBackgroundHandler;
+    //TODO:Prompt user for image storage location. Or create one on build up.
+    private File userImageFd;
+    private ImageReader mImageReader;
+    private final ImageReader.OnImageAvailableListener mOnImageAvailableListener =
+            new ImageReader.OnImageAvailableListener() {
+                @Override
+                public void onImageAvailable(ImageReader reader) {
+                    mBackgroundHandler.post(new ImageStorageController(reader.acquireNextImage(),userImageFd));
+                }
+            };
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,10 +178,23 @@ public class CustomCameraActivity extends Activity {
     public void onResume() {
         super.onResume();
 
+        openBackgroundThread();
+
         if (mTextureView.isAvailable()) {
+            setCameraDimension(mTextureView.getWidth(), mTextureView.getHeight());
+            openCamera();
         } else {
             mTextureView.setSurfaceTextureListener(mSurfaceTextureListener);
         }
+    }
+
+    @Override
+    public void onPause(){
+
+        closeCamera();
+        closeBackgroundThread();
+
+        super.onPause();
     }
 
     private void setCameraDimension(int width, int height) {
@@ -129,6 +207,23 @@ public class CustomCameraActivity extends Activity {
                     continue;
                 }
                 StreamConfigurationMap scmap = camCharacteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
+
+                Size largestImageSize = Collections.max(
+                        Arrays.asList(scmap.getOutputSizes(ImageFormat.JPEG)),
+                        new Comparator<Size>() {
+                            @Override
+                            public int compare(Size lhs, Size rhs) {
+                                return Long.signum(lhs.getWidth() * lhs.getHeight() -
+                                rhs.getWidth() * rhs.getHeight());
+                            }
+                        }
+                );
+                mImageReader = ImageReader.newInstance(largestImageSize.getWidth(),
+                        largestImageSize.getHeight(),
+                        ImageFormat.JPEG,
+                        1);
+                mImageReader.setOnImageAvailableListener(mOnImageAvailableListener, mBackgroundHandler);
+
                 mPreviewSize = getPreferredPreviewSize(scmap.getOutputSizes(SurfaceTexture.class), width, height);
                 mCameraId = cameraId;
                 return;
@@ -136,6 +231,27 @@ public class CustomCameraActivity extends Activity {
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
+    }
+
+    public void capturePhoto(View view) {
+        userImageFd = createImageFilepath();
+        lockFocus();
+    }
+
+    //TODO:Move this into ImageStorageController as a pre-storage check if exist, else create.
+    public File createImageFilepath(){
+        File directory = new File(
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+                + File.separator + "medicam");
+        File parentDir = directory.getParentFile();
+
+        if(!directory.exists()) {
+            if(!directory.isDirectory()) {
+                directory.mkdirs();
+            }
+        }
+
+        return directory;
     }
 
     private Size getPreferredPreviewSize(Size[] mapSizes, int width, int height) {
@@ -178,9 +294,21 @@ public class CustomCameraActivity extends Activity {
                 // for ActivityCompat#requestPermissions for more details.
                 return;
             }
-            camManager.openCamera(mCameraId, mCameraDeviceStateCallback, null);
+            camManager.openCamera(mCameraId, mCameraDeviceStateCallback, mBackgroundHandler);
         }catch (CameraAccessException e){
             e.printStackTrace();
+        }
+    }
+
+    private void closeCamera() {
+
+        if(mCameraCaptureSession != null) {
+            mCameraCaptureSession.close();
+            mCameraCaptureSession = null;
+        }
+        if (mCameraDevice != null) {
+            mCameraDevice.close();
+            mCameraDevice = null;
         }
     }
 
@@ -205,7 +333,7 @@ public class CustomCameraActivity extends Activity {
                         mCameraCaptureSession.setRepeatingRequest(
                                 mPreviewCaptureRequest,
                                 mSessionCaptureCallback,
-                                null
+                                mBackgroundHandler
                         );
 
                     } catch (CameraAccessException e){
@@ -230,6 +358,49 @@ public class CustomCameraActivity extends Activity {
             cameraOverlay.setVisibility(View.VISIBLE);
         } else {
             cameraOverlay.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    private void openBackgroundThread() {
+        mBackgroundThread = new HandlerThread("Camera2 background thread");
+        mBackgroundThread.start();
+        mBackgroundHandler = new Handler(mBackgroundThread.getLooper());
+    }
+
+    private void closeBackgroundThread() {
+
+        //Clean up background threads
+        mBackgroundThread.quitSafely();
+        try{
+            mBackgroundThread.join();
+            mBackgroundThread = null;
+            mBackgroundHandler = null;
+        }catch (InterruptedException e){
+            e.printStackTrace();
+        }
+    }
+
+    private void unlockFocus(){
+        try {
+            current_state = STATE_PREVIEW;
+            mPreviewCaptureRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER,
+                    CaptureRequest.CONTROL_AF_TRIGGER_CANCEL);
+            mCameraCaptureSession.capture(mPreviewCaptureRequestBuilder.build(),
+                    mSessionCaptureCallback, mBackgroundHandler);
+        }catch (CameraAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void lockFocus(){
+        try {
+            current_state = STATE_WAIT_LOCK;
+            mPreviewCaptureRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER,
+                    CaptureRequest.CONTROL_AF_TRIGGER_START);
+            mCameraCaptureSession.capture(mPreviewCaptureRequestBuilder.build(),
+                    mSessionCaptureCallback, mBackgroundHandler);
+        }catch (CameraAccessException e) {
+            e.printStackTrace();
         }
     }
 }
