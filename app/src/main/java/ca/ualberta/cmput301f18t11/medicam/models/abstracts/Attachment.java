@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.UUID;
 
-public abstract class Attachment {
+public abstract class Attachment  {
     private String attachment_uuid;
     private Collection<String> details = new ArrayList<>();
     
