@@ -1,6 +1,10 @@
 package ca.ualberta.cmput301f18t11.medicam.activities;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -24,6 +28,16 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ElasticSearchController.setIndex_url("cmput301f18t11test");
+        //TODO: put this in the right spot so that the conditional execution actually does something
+        if (ContextCompat.checkSelfPermission(LoginActivity.this,Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
+            //This is the actual request.
+            //Gimme that permission boy!
+            Toast.makeText(LoginActivity.this, "Gimme that permission boy!", Toast.LENGTH_SHORT).show();
+            ActivityCompat.requestPermissions(LoginActivity.this,new String[]{Manifest.permission.CAMERA}, 1);
+        } else {
+            //We already have permissions
+            Toast.makeText(LoginActivity.this, "Camera permissions have already been granted btw", Toast.LENGTH_SHORT).show();
+        }
         //Assign buttons and text
         bodyText = (EditText) findViewById(R.id.editText);
     }
