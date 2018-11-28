@@ -1,14 +1,22 @@
 package ca.ualberta.cmput301f18t11.medicam.models.abstracts;
 
+import android.net.Uri;
+import android.provider.ContactsContract;
+
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
+
+import ca.ualberta.cmput301f18t11.medicam.models.attachments.BodyLocation;
+import ca.ualberta.cmput301f18t11.medicam.models.attachments.LocationAttachment;
 
 public abstract class Record extends PersistedModel {
     private String title;
     private String description;
     private Date timestamp;
     private ArrayList<String> tags;
+
 
     public Record(String uuid) {
         super(uuid);
@@ -22,11 +30,9 @@ public abstract class Record extends PersistedModel {
     public String getTitle() {
         return title;
     }
-
     public String getDescription() {
         return description;
     }
-
     public Date getTimestamp() {
         return timestamp;
     }
@@ -35,11 +41,9 @@ public abstract class Record extends PersistedModel {
     public void setTitle(String t) {
         this.title = t;
     }
-
     public void setDescription(String d) {
         this.description = d;
     }
-
     public void setTimestamp(Date ts) {
         this.timestamp = ts;
     }

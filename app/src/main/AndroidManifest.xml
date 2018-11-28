@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ca.ualberta.cmput301f18t11.medicam">
+
+    // For Camera, because this is a camera based app
+    <uses-feature android:name="android.hardware.camera" android:required="true"/>
+
     // For Rest API
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -64,8 +68,7 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".activities.MapsActivity"
-            android:label="@string/title_activity_maps"></activity>
+            android:name=".activities.MapsActivity"></activity>
     </application>
 
 </manifest>

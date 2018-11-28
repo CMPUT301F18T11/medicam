@@ -75,5 +75,4 @@ public class CareProviderRecord extends Record {
     public String toString(){
         return "Doctor Says: " + getTitle() + "\n"+"Comment: " + getDescription()+"\n";
     }
-
 }

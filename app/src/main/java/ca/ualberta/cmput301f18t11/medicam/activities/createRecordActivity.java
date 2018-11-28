@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.location.Location;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
@@ -14,36 +15,39 @@ import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 
+import java.net.URI;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
-import java.util.UUID;
 
 import ca.ualberta.cmput301f18t11.medicam.R;
 import ca.ualberta.cmput301f18t11.medicam.controllers.ElasticSearchController;
+import ca.ualberta.cmput301f18t11.medicam.controllers.GeolocationController;
 import ca.ualberta.cmput301f18t11.medicam.controllers.abstracts.PersistenceController;
 import ca.ualberta.cmput301f18t11.medicam.controllers.per_model.PatientRecordPersistenceController;
-import ca.ualberta.cmput301f18t11.medicam.models.BodyLocation;
-import ca.ualberta.cmput301f18t11.medicam.models.InstancePhoto;
-import ca.ualberta.cmput301f18t11.medicam.models.Patient;
+import ca.ualberta.cmput301f18t11.medicam.models.attachments.BodyLocation;
+import ca.ualberta.cmput301f18t11.medicam.models.attachments.InstancePhoto;
 import ca.ualberta.cmput301f18t11.medicam.models.PatientRecord;
 
 public class createRecordActivity extends AppCompatActivity {
     private static final int OPEN_CAMERA_REQUEST_CODE = 0;
-    private static final int OPEN_GALLAY_REQUEST_CODE = 1;
+    private static final int OPEN_GALLERY_REQUEST_CODE = 1; //Refactored from GALLAY -> GALLERY
     private static final int ADD_BODYLOCATION_REQUEST_CODE = 3;
+    private static final int UPDATE_CURRENT_LOCATION_REQUEST_CODE = 4;
 
     private BodyLocation bodyLocation = null;
     private InstancePhoto photo = null;
     private PatientRecord record = new PatientRecord();
     private Date datetime = new Date();
-    private String purpose; // this will give us the info of weither the user want to Edit the record Or add a Record
+    private String purpose; // this will give us the info of whether the user want to Edit the record Or add a Record
+    private Location location;
     //Resource used for date picker: https://www.youtube.com/watch?v=hwe1abDO2Ag
     //Resource used for time picker: https://www.youtube.com/watch?v=QMwaNN_aM3U
 
@@ -53,6 +57,7 @@ public class createRecordActivity extends AppCompatActivity {
     private TextView bodyLocationTextView;
     private EditText recordTitle;
     private EditText recordComment;
+    private ImageButton mapButton;
     private Calendar calendar = Calendar.getInstance();
     private PersistenceController<PatientRecord> recordController = new PatientRecordPersistenceController();
 
@@ -68,6 +73,7 @@ public class createRecordActivity extends AppCompatActivity {
         bodyLocationTextView = findViewById(R.id.bodyLocationTextView4View);
         recordTitle = findViewById(R.id.recordTitle4View);
         recordComment = findViewById(R.id.recordcomment4View);
+        mapButton = findViewById(R.id.mapButton);
 
         displayDateAndTime();
         purpose = getIntent().getStringExtra("purpose");
@@ -125,6 +131,21 @@ public class createRecordActivity extends AppCompatActivity {
         });
         //ent of set TIME picker
 
+        // set geolocation picker
+        mapButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (location == null) {
+                    startActivityForResult(GeolocationController.selectLocation(createRecordActivity.this),
+                            UPDATE_CURRENT_LOCATION_REQUEST_CODE);
+
+                } else {
+                    startActivityForResult(GeolocationController.selectLocation(createRecordActivity.this,
+                            location), UPDATE_CURRENT_LOCATION_REQUEST_CODE);
+                }
+            }
+        });
+
     }
 //Fetch Image From USER and Store as Bitmap / Uri type.
     @Override
@@ -137,20 +158,20 @@ public class createRecordActivity extends AppCompatActivity {
             bitmap = (Bitmap) data.getExtras().get("data");
             photo = new InstancePhoto();
             photo.setCameraPhoto(bitmap);
-            //record.addAttachment(photo.getAttachment_uuid());
+            record.addPhotoToList(photo.getAttachment_uuid());
             //recordController.save(record,this);
             photoImageView.setImageBitmap(photo.getCameraPhoto());
         }
 
-        else if(requestCode == OPEN_GALLAY_REQUEST_CODE && resultCode == Activity.RESULT_OK){
+        else if(requestCode == OPEN_GALLERY_REQUEST_CODE && resultCode == Activity.RESULT_OK){
             Log.d("SELECT PHOTO DIALOG","onActivityResult: done SELECTING new photo");
             Uri selectedImageUri = data.getData();
             photo = new InstancePhoto();
-            photo.setPhoto(selectedImageUri);
+            photo.setPhoto(selectedImageUri.toString());
             //RANDOM UUID FOR NOW
-            //record.addAttachment(photo.getAttachment_uuid());
+            record.addPhotoToList(photo.getAttachment_uuid());
             //recordController.save(record,this);
-            photoImageView.setImageURI(photo.getPhoto());
+            photoImageView.setImageURI(Uri.parse(photo.getPhoto()));
         }
 
         else if(requestCode == ADD_BODYLOCATION_REQUEST_CODE&& resultCode == Activity.RESULT_OK){
@@ -159,10 +180,15 @@ public class createRecordActivity extends AppCompatActivity {
             Toast.makeText(this,"BodyLocation set to be: "+bodylocationString,Toast.LENGTH_SHORT).show();
             bodyLocation = new BodyLocation();
             // Not BodyLocation is Stored as a Object contain a name of the body location
-            bodyLocation.setBodyParts(bodylocationString);
+            bodyLocation.setBodyPart(bodylocationString);
             //record.addAttachment(bodyLocation.getAttachment_uuid());
             //recordController.save(record,this);
-            bodyLocationTextView.setText(bodyLocation.getBodyParts());
+            bodyLocationTextView.setText(bodyLocation.getBodyPart());
+        }
+
+        else if(requestCode == UPDATE_CURRENT_LOCATION_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            location = data.getParcelableExtra("location");
+            //TODO
         }
     }
 
@@ -185,7 +211,7 @@ public class createRecordActivity extends AppCompatActivity {
     public void goToGallery(View view){
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
-        startActivityForResult(intent,OPEN_GALLAY_REQUEST_CODE);
+        startActivityForResult(intent, OPEN_GALLERY_REQUEST_CODE);
     }
     public void goAddBodyLocation(View view){
         Intent intent = new Intent(this,BodyLocationActivity.class);
@@ -199,10 +225,10 @@ public class createRecordActivity extends AppCompatActivity {
             record.setDescription(recordComment.getText().toString());
             record.setTimestamp(datetime);
             if (photo != null) {
-                record.addAttachment(photo.getAttachment_uuid().toString());
+                record.addPhotoToList(photo.getAttachment_uuid().toString());
             }
             if (bodyLocation != null) {
-                record.addAttachment(bodyLocation.getAttachment_uuid().toString());
+                record.addPhotoToList(bodyLocation.getAttachment_uuid().toString());
             }
             recordController.save(record,this);
             intent.putExtra("newRecord", record);
@@ -216,6 +242,8 @@ public class createRecordActivity extends AppCompatActivity {
         PatientRecord record = recordController.load(recordUUID,this);
         recordTitle.setText(record.getTitle());
         recordComment.setText(record.getDescription());
+        location = record.getMapLocation();
+
         Collection<String> attachmentsUUIDS = record.getAttachmentsUUIDS();
         Toast.makeText(this,"The record has flowing attachments: "+attachmentsUUIDS,Toast.LENGTH_LONG);
 

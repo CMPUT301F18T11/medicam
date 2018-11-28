@@ -25,7 +25,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         ElasticSearchController.setIndex_url("cmput301f18t11test");
         //Assign buttons and text
-        bodyText = (EditText) findViewById(R.id.editText);
+        bodyText = (EditText) findViewById(R.id.editText); //can we make this id more specific?
     }
 
     //Launches into the create user activity

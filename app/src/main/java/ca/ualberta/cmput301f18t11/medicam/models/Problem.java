@@ -6,6 +6,7 @@ import java.util.Date;
 
 import ca.ualberta.cmput301f18t11.medicam.exceptions.StringLengthTooLongException;
 import ca.ualberta.cmput301f18t11.medicam.models.abstracts.PersistedModel;
+import ca.ualberta.cmput301f18t11.medicam.models.abstracts.Record;
 
 /**
  * Model for a problem that tracks an affliction that a patient wants to document.

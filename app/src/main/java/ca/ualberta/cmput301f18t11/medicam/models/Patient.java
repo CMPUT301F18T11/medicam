@@ -1,5 +1,7 @@
 package ca.ualberta.cmput301f18t11.medicam.models;
 
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,7 +67,6 @@ public class Patient extends User {
         super(userID);
     }
 
-
     /**
      * Constructor that sets all possible fields for a <code>Patient</code> object, including front and back
      * photos.
@@ -83,7 +84,6 @@ public class Patient extends User {
      * @throws InvalidEmailException Warns that the specified email String is not in an approved format.
      * @see User
      */
-
     public Patient(String userID, String email, String phoneNumber, List<String> problems,
                    String frontPhoto, String backPhoto) throws StringTooShortException, InvalidEmailException {
         super(userID, email, phoneNumber);
@@ -92,14 +92,12 @@ public class Patient extends User {
         this.backPhoto = backPhoto;
     }
 
-
     /**
      * Gets a list of uuids for all the problems associated with this patient.
      *
      * @return <code>List</code> of <code>String</code> type uuids that represent all <code>Problem</code>
      *          objects that associated with this <code>Patient</code>.
      */
-
     public List<String> getProblems() {
         return problems;
     }
