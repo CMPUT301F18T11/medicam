@@ -5,7 +5,7 @@
     <string name="edit_text_hint">Enter username</string>
     <string name="profile_header">My Problems</string>
     <string name="problem_title">Problem Title</string>
-    <string name="problem_description">General Description</string>
+    <string name="problem_description">General Description:</string>
     <string name="problem_create">Create</string>
     <string name="username">Username</string>
     <string-array name="body_location_spinner">

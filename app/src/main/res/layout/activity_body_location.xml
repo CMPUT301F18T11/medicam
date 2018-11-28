@@ -6,18 +6,27 @@
     android:layout_height="match_parent"
     tools:context="activities.BodyLocationActivity">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/bodyLocation_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+
     <TextView
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginLeft="30dp"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="150dp"
         android:text="Choose a body part:"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/bodyLocation_toolbar" />
 
     <Spinner
         android:id="@+id/bodyLocationSpinner"
@@ -59,12 +68,14 @@
             android:layout_weight="1"
             android:background="@drawable/toggle_choice_background_selector_middle"
             android:button="@null"
+            android:checked="false"
             android:gravity="center"
             android:onClick="checkButton"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:text="Left"
-            android:textAllCaps="true" />
+            android:textAllCaps="true"
+            android:textColor="@drawable/toggle_color" />
 
         <RadioButton
             android:id="@+id/bodyLocation_RadioButton_02"
@@ -74,12 +85,14 @@
             android:layout_weight="1"
             android:background="@drawable/toggle_choice_background_selector_middle"
             android:button="@null"
+            android:checked="false"
             android:gravity="center"
             android:onClick="checkButton"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:text="Right"
-            android:textAllCaps="true" />
+            android:textAllCaps="true"
+            android:textColor="@drawable/toggle_color" />
 
         <RadioButton
             android:id="@+id/bodyLocation_RadioButton_03"
@@ -95,7 +108,8 @@
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:text="N/A"
-            android:textAllCaps="true" />
+            android:textAllCaps="true"
+            android:textColor="@drawable/toggle_color"/>
     </RadioGroup>
 
 

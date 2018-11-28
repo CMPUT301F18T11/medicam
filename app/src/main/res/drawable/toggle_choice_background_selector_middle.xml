@@ -6,11 +6,13 @@
             <solid android:color="@color/colorPrimary"></solid>
         </shape>
     </item>
+
     <item android:state_pressed="true">
         <shape>
             <solid android:color="@color/colorPrimary_Light"></solid>
         </shape>
     </item>
+
     <item>
         <layer-list>
             <item android:top="-1dp" android:bottom="-1dp" android:left="-1dp">
@@ -21,5 +23,4 @@
             </item>
         </layer-list>
     </item>
-
 </selector>
