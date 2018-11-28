@@ -178,7 +178,7 @@ public class createRecordActivity extends AppCompatActivity {
     }
 
     public void goToCamera(View view){
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        Intent intent = new Intent(this, CustomCameraActivity.class);
         startActivityForResult(intent,OPEN_CAMERA_REQUEST_CODE);
     }
     public void goToGallery(View view){

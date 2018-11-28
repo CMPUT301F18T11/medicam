@@ -17,5 +17,7 @@
         <item> Legs </item>
         <item> Feets </item>
     </string-array>
+    <string name="capture_image">Capture</string>
+    <string name="toggle_onion_skin">Show Overlay</string>
     >
 </resources>
