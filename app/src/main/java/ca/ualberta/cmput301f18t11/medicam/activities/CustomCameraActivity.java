@@ -5,18 +5,26 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.SurfaceTexture;
+import android.graphics.drawable.Drawable;
 import android.hardware.camera2.CameraAccessException;
+import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CameraManager;
+import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.util.Size;
+import android.view.Surface;
 import android.view.TextureView;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -26,6 +34,8 @@ import ca.ualberta.cmput301f18t11.medicam.R;
 public class CustomCameraActivity extends Activity {
     private Size mPreviewSize;
     private String mCameraId;
+    private ImageView cameraOverlay;
+    private ToggleButton overlayToggleButton;
     private TextureView mTextureView;
     private TextureView.SurfaceTextureListener mSurfaceTextureListener =
             new TextureView.SurfaceTextureListener() {
@@ -56,6 +66,7 @@ public class CustomCameraActivity extends Activity {
                 @Override
                 public void onOpened(CameraDevice camera) {
                     mCameraDevice = camera;
+                    createCameraPreviewSesh();
                     Toast.makeText(getApplicationContext(), "Camera has been opened.", Toast.LENGTH_LONG).show();
                 }
 
@@ -71,10 +82,25 @@ public class CustomCameraActivity extends Activity {
                     mCameraDevice = null;
                 }
             };
+    private CaptureRequest mPreviewCaptureRequest;
+    private CaptureRequest.Builder mPreviewCaptureRequestBuilder;
+    private CameraCaptureSession mCameraCaptureSession;
+    private CameraCaptureSession.CaptureCallback mSessionCaptureCallback =
+            new CameraCaptureSession.CaptureCallback() {
+                @Override
+                public void onCaptureStarted(CameraCaptureSession session, CaptureRequest request, long timestamp, long frameNumber) {
+                    super.onCaptureStarted(session, request, timestamp, frameNumber);
+                }
+            };
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_custom_camera);
+
+        //TODO:Pull most recent photo for this record from gallery and display as overlay
+        cameraOverlay = findViewById(R.id.camera_overlay);
+        cameraOverlay.setImageResource(R.drawable.ic_muscles_arm_svgrepo_com);
+        cameraOverlay.setAlpha(0.25f);
 
         //TODO: check the necessity of these declarations
         final int maxMemorySize = (int) Runtime.getRuntime().maxMemory() / 1024;
@@ -155,6 +181,55 @@ public class CustomCameraActivity extends Activity {
             camManager.openCamera(mCameraId, mCameraDeviceStateCallback, null);
         }catch (CameraAccessException e){
             e.printStackTrace();
+        }
+    }
+
+    private void createCameraPreviewSesh() {
+        try{
+            SurfaceTexture surfaceTexture = mTextureView.getSurfaceTexture();
+            surfaceTexture.setDefaultBufferSize(mPreviewSize.getWidth(), mPreviewSize.getHeight());
+            Surface previewSurface = new Surface(surfaceTexture);
+            mPreviewCaptureRequestBuilder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
+            mPreviewCaptureRequestBuilder.addTarget(previewSurface);
+            mCameraDevice.createCaptureSession(Arrays.asList(previewSurface), new CameraCaptureSession.StateCallback() {
+                @Override
+                public void onConfigured(CameraCaptureSession session) {
+                    if(mCameraDevice == null){
+                        //Something went wrong here
+                        //The camera never opened
+                        return;
+                    }
+                    try {
+                        mPreviewCaptureRequest = mPreviewCaptureRequestBuilder.build();
+                        mCameraCaptureSession = session;
+                        mCameraCaptureSession.setRepeatingRequest(
+                                mPreviewCaptureRequest,
+                                mSessionCaptureCallback,
+                                null
+                        );
+
+                    } catch (CameraAccessException e){
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onConfigureFailed(CameraCaptureSession session) {
+                    Toast.makeText(getApplicationContext(), "Something went wrong with create camera session", Toast.LENGTH_SHORT).show();
+                }
+            }, null);
+        }catch (CameraAccessException e){
+            e.printStackTrace();
+        }
+    }
+
+    public void toggleCameraOverlay(View view){
+        boolean isChecked = ((ToggleButton) view).isChecked();
+
+        if (isChecked) {
+            cameraOverlay.setVisibility(View.VISIBLE);
+        } else {
+            cameraOverlay.setVisibility(View.INVISIBLE);
         }
     }
 }

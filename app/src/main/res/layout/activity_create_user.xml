@@ -175,7 +175,7 @@ Availability: https://stackoverflow.com/a/48640424
     </RadioGroup>
 
     <Button
-        android:id="@+id/createButton"
+        android:id="@+id/create_user_button"
         android:layout_width="120dp"
         android:layout_height="40dp"
         android:layout_marginStart="30dp"
