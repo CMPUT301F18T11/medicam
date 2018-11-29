@@ -11,13 +11,17 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.List;
+
 import ca.ualberta.cmput301f18t11.medicam.R;
 import ca.ualberta.cmput301f18t11.medicam.controllers.ElasticSearchController;
 import ca.ualberta.cmput301f18t11.medicam.controllers.abstracts.PersistenceController;
 import ca.ualberta.cmput301f18t11.medicam.controllers.per_model.CareProviderPersistenceController;
 import ca.ualberta.cmput301f18t11.medicam.controllers.per_model.PatientPersistenceController;
+import ca.ualberta.cmput301f18t11.medicam.controllers.per_model.ProblemPersistenceController;
 import ca.ualberta.cmput301f18t11.medicam.models.CareProvider;
 import ca.ualberta.cmput301f18t11.medicam.models.Patient;
+import ca.ualberta.cmput301f18t11.medicam.models.Problem;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText bodyText;
@@ -40,6 +44,9 @@ public class LoginActivity extends AppCompatActivity {
         }
         //Assign buttons and text
         bodyText = (EditText) findViewById(R.id.editText); //can we make this id more specific?
+
+        // testing
+        test();
     }
 
     //Launches into the create user activity
@@ -72,6 +79,16 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(this,"Invalid user id try again",Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    private void test()
+    {
+        ProblemPersistenceController ps = new ProblemPersistenceController();
+
+        List<Problem> test_search_results = ps.searchFromREST("foot");
+
+        int x = 1;
+
     }
 
 
