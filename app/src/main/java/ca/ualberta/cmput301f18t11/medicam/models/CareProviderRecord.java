@@ -61,8 +61,6 @@ public class CareProviderRecord extends Record {
             throw new ReassignmentException("This record is already attributed to care provider with UUID: " + care_provider.toString());
         }
     }
-
-<<<<<<< HEAD
     /**
      * Returns all of this <code>CareProviderRecord</code> object's important components as a <code>String</code>
      * <p>
@@ -77,9 +75,4 @@ public class CareProviderRecord extends Record {
         return "Doctor Says: " + getTitle() + "\n"+"Comment: " + getDescription()+"\n";
     }
 
-=======
-    public String toString(){
-        return "Doctor Says: " + getTitle() + "\n"+"Comment: " + getDescription()+"\n";
-    }
->>>>>>> 77e512af75885e3a7e6c2767b26566b6059795cc
 }
