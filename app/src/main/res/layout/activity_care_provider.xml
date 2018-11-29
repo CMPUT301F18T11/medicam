@@ -6,20 +6,26 @@
     android:layout_height="match_parent"
     tools:context="activities.CareProviderActivity">
 
+    <!--Import of the toolbar: Blank Version -->
+    <include
+        android:id="@+id/careProvider_toolbar"
+        layout="@layout/toolbar"></include>
+
+    <!-- Page elements below -->
     <ListView
         android:id="@+id/patientListView"
-        android:layout_width="368dp"
+        android:layout_width="0dp"
         android:layout_height="495dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginRight="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/careProvider_toolbar" />
 
     <Button
         android:id="@+id/addPatientButton"

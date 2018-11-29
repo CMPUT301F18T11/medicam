@@ -6,15 +6,12 @@
     android:layout_height="match_parent"
     tools:context="activities.AddDoctorNoteActivity">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/addDoctorNote_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:elevation="4dp"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+    <!--Import of the toolbar: Blank Version -->
+    <include
+        android:id="@+id/addDotorNote_toolbar"
+        layout="@layout/toolbar"></include>
 
+    <!-- Page elements below -->
     <TextView
         android:id="@+id/addNote_Header01"
         android:layout_width="wrap_content"
@@ -26,7 +23,7 @@
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addDoctorNote_toolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/addDotorNote_toolbar" />
 
     <TextView
         android:id="@+id/addNote_Subheader01"

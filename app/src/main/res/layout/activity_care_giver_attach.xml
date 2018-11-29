@@ -6,6 +6,13 @@
     android:layout_height="match_parent"
     tools:context="activities.CareGiverAttachActivity">
 
+    <!--Import of the toolbar: Blank Version -->
+    <include
+        android:id="@+id/caregiverAttach_toolbar"
+        layout="@layout/toolbar"></include>
+
+    <!-- Page elements below -->
+
     <ImageView
         android:id="@+id/recorePhotoImageView4View"
         android:layout_width="80dp"

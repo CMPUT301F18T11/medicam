@@ -62,6 +62,11 @@ public class createRecordActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_record);
         ElasticSearchController.setIndex_url("cmput301f18t11test");
 
+        //Toolbar Setup
+        android.support.v7.widget.Toolbar toolbar = findViewById(R.id.createRecord_toolbar);
+        setSupportActionBar(toolbar);
+        setTitle("Create a New Record"); // Sets the title to be shown in the toolbar
+
         photoImageView = findViewById(R.id.recorePhotoImageView4View);
         displayDate = (TextView) findViewById(R.id.dateView4View);
         displayTime = (TextView) findViewById(R.id.timeView4View);

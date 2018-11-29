@@ -6,15 +6,12 @@
     android:layout_height="match_parent"
     tools:context="activities.BodyLocationActivity">
 
-    <android.support.v7.widget.Toolbar
+    <!--Import of the toolbar: Blank Version -->
+    <include
         android:id="@+id/bodyLocation_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:elevation="4dp"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+        layout="@layout/toolbar"></include>
 
+    <!-- Page elements below -->
     <TextView
         android:id="@+id/textView6"
         android:layout_width="wrap_content"

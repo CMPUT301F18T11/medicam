@@ -29,6 +29,11 @@ public class createProblemActivity extends AppCompatActivity {
 
         problemTitle = (EditText) findViewById(R.id.editText2);
         problemDescription = (EditText) findViewById(R.id.probDescription);
+
+        //Toolbar Setup
+        android.support.v7.widget.Toolbar toolbar = findViewById(R.id.createProblem_toolbar);
+        setSupportActionBar(toolbar);
+        setTitle("Create a New Problem"); // Sets the title to be shown in the toolbar
     }
 
     //Creates a new problem object with the filled in user-data
