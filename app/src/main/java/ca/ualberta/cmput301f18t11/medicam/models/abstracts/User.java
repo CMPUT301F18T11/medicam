@@ -9,6 +9,7 @@ public abstract class User extends PersistedModel {
 
     private String email;
     private String phoneNumber;
+    private String address;
 
     public String getUserID() {
         return uuid;
@@ -21,7 +22,7 @@ public abstract class User extends PersistedModel {
 //    public void setUserID(UUID userID) throws StringTooShortException {
 //        this.uuid = userID;
 //    }
-
+    public String getAddress() {return address;}
     public String getEmail() {
         return email;
     }

@@ -39,7 +39,7 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(LoginActivity.this, "Camera permissions have already been granted btw", Toast.LENGTH_SHORT).show();
         }
         //Assign buttons and text
-        bodyText = (EditText) findViewById(R.id.editText);
+        bodyText = (EditText) findViewById(R.id.editText); //can we make this id more specific?
     }
 
     //Launches into the create user activity

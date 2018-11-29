@@ -52,7 +52,7 @@ public class PatientProblemActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String patientUUID = intent.getStringExtra("userid");
         patient = patientControler.load(patientUUID,PatientProblemActivity.this);
-        problemList = patient.getProblems();
+        problemList.addAll(patient.getProblems()); //This is a decent convention for going from List up to ArrayList
         for (int i = 0; i < problemList.size(); i++){
             Problem problem = problemControler.load(problemList.get(i), this);
             problemDisplayList.add(problem);

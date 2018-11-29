@@ -20,23 +20,22 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 
+import java.net.URI;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
-import java.util.UUID;
 
 import ca.ualberta.cmput301f18t11.medicam.R;
 import ca.ualberta.cmput301f18t11.medicam.controllers.ElasticSearchController;
 import ca.ualberta.cmput301f18t11.medicam.controllers.abstracts.PersistenceController;
 import ca.ualberta.cmput301f18t11.medicam.controllers.per_model.PatientRecordPersistenceController;
-import ca.ualberta.cmput301f18t11.medicam.models.BodyLocation;
-import ca.ualberta.cmput301f18t11.medicam.models.InstancePhoto;
-import ca.ualberta.cmput301f18t11.medicam.models.Patient;
+import ca.ualberta.cmput301f18t11.medicam.models.attachments.BodyLocation;
+import ca.ualberta.cmput301f18t11.medicam.models.attachments.InstancePhoto;
 import ca.ualberta.cmput301f18t11.medicam.models.PatientRecord;
 
 public class createRecordActivity extends AppCompatActivity {
     private static final int OPEN_CAMERA_REQUEST_CODE = 0;
-    private static final int OPEN_GALLAY_REQUEST_CODE = 1;
+    private static final int OPEN_GALLERY_REQUEST_CODE = 1; //Refactored from GALLAY -> GALLERY
     private static final int ADD_BODYLOCATION_REQUEST_CODE = 3;
 
     private BodyLocation bodyLocation = null;
@@ -137,20 +136,20 @@ public class createRecordActivity extends AppCompatActivity {
             bitmap = (Bitmap) data.getExtras().get("data");
             photo = new InstancePhoto();
             photo.setCameraPhoto(bitmap);
-            //record.addAttachment(photo.getAttachment_uuid());
+            record.addPhotoToList(photo.getAttachment_uuid());
             //recordController.save(record,this);
             photoImageView.setImageBitmap(photo.getCameraPhoto());
         }
 
-        else if(requestCode == OPEN_GALLAY_REQUEST_CODE && resultCode == Activity.RESULT_OK){
+        else if(requestCode == OPEN_GALLERY_REQUEST_CODE && resultCode == Activity.RESULT_OK){
             Log.d("SELECT PHOTO DIALOG","onActivityResult: done SELECTING new photo");
             Uri selectedImageUri = data.getData();
             photo = new InstancePhoto();
-            photo.setPhoto(selectedImageUri);
+            photo.setPhoto(selectedImageUri.toString());
             //RANDOM UUID FOR NOW
-            //record.addAttachment(photo.getAttachment_uuid());
+            record.addPhotoToList(photo.getAttachment_uuid());
             //recordController.save(record,this);
-            photoImageView.setImageURI(photo.getPhoto());
+            photoImageView.setImageURI(Uri.parse(photo.getPhoto()));
         }
 
         else if(requestCode == ADD_BODYLOCATION_REQUEST_CODE&& resultCode == Activity.RESULT_OK){
@@ -159,10 +158,10 @@ public class createRecordActivity extends AppCompatActivity {
             Toast.makeText(this,"BodyLocation set to be: "+bodylocationString,Toast.LENGTH_SHORT).show();
             bodyLocation = new BodyLocation();
             // Not BodyLocation is Stored as a Object contain a name of the body location
-            bodyLocation.setBodyParts(bodylocationString);
+            bodyLocation.setBodyPart(bodylocationString);
             //record.addAttachment(bodyLocation.getAttachment_uuid());
             //recordController.save(record,this);
-            bodyLocationTextView.setText(bodyLocation.getBodyParts());
+            bodyLocationTextView.setText(bodyLocation.getBodyPart());
         }
     }
 
@@ -185,7 +184,7 @@ public class createRecordActivity extends AppCompatActivity {
     public void goToGallery(View view){
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
-        startActivityForResult(intent,OPEN_GALLAY_REQUEST_CODE);
+        startActivityForResult(intent, OPEN_GALLERY_REQUEST_CODE);
     }
     public void goAddBodyLocation(View view){
         Intent intent = new Intent(this,BodyLocationActivity.class);
@@ -199,10 +198,10 @@ public class createRecordActivity extends AppCompatActivity {
             record.setDescription(recordComment.getText().toString());
             record.setTimestamp(datetime);
             if (photo != null) {
-                record.addAttachment(photo.getAttachment_uuid().toString());
+                record.addPhotoToList(photo.getAttachment_uuid().toString());
             }
             if (bodyLocation != null) {
-                record.addAttachment(bodyLocation.getAttachment_uuid().toString());
+                record.addPhotoToList(bodyLocation.getAttachment_uuid().toString());
             }
             recordController.save(record,this);
             intent.putExtra("newRecord", record);
