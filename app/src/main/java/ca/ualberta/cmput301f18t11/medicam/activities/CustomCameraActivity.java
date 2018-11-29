@@ -28,6 +28,7 @@ import android.provider.ContactsContract;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.util.Size;
+import android.util.SparseIntArray;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
@@ -48,6 +49,16 @@ import ca.ualberta.cmput301f18t11.medicam.R;
 import ca.ualberta.cmput301f18t11.medicam.controllers.ImageStorageController;
 
 public class CustomCameraActivity extends Activity {
+    //Refernce: https://github.com/googlesamples/android-Camera2Basic/blob/master/Application/src/main/java/com/example/android/camera2basic/Camera2BasicFragment.java
+
+    private static final SparseIntArray ORIENTATIONS = new SparseIntArray();
+    static {
+        ORIENTATIONS.append(Surface.ROTATION_0, 90);
+        ORIENTATIONS.append(Surface.ROTATION_90, 0);
+        ORIENTATIONS.append(Surface.ROTATION_180, 270);
+        ORIENTATIONS.append(Surface.ROTATION_270, 180);
+    }
+
     //States for focus locking
     private static final int STATE_PREVIEW = 0;
     private static final int STATE_WAIT_LOCK = 1;
@@ -114,8 +125,7 @@ public class CustomCameraActivity extends Activity {
                         case STATE_WAIT_LOCK:
                             Integer afState = result.get(CaptureResult.CONTROL_AF_STATE);
                             if(afState == CaptureRequest.CONTROL_AF_STATE_FOCUSED_LOCKED){
-                                unlockFocus();
-                                Toast.makeText(getApplicationContext(), "Focus has been locked", Toast.LENGTH_SHORT).show();
+                                captureStillImage();
                             }
                             break;
                         case STATE_PREVIEW:
@@ -251,7 +261,7 @@ public class CustomCameraActivity extends Activity {
             }
         }
 
-        return directory;
+        return new File(directory.toString() + File.separator + "newpic.jpg");
     }
 
     private Size getPreferredPreviewSize(Size[] mapSizes, int width, int height) {
@@ -310,6 +320,10 @@ public class CustomCameraActivity extends Activity {
             mCameraDevice.close();
             mCameraDevice = null;
         }
+        if (mImageReader != null) {
+            mImageReader.close();
+            mImageReader = null;
+        }
     }
 
     private void createCameraPreviewSesh() {
@@ -319,7 +333,7 @@ public class CustomCameraActivity extends Activity {
             Surface previewSurface = new Surface(surfaceTexture);
             mPreviewCaptureRequestBuilder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
             mPreviewCaptureRequestBuilder.addTarget(previewSurface);
-            mCameraDevice.createCaptureSession(Arrays.asList(previewSurface), new CameraCaptureSession.StateCallback() {
+            mCameraDevice.createCaptureSession(Arrays.asList(previewSurface, mImageReader.getSurface()), new CameraCaptureSession.StateCallback() {
                 @Override
                 public void onConfigured(CameraCaptureSession session) {
                     if(mCameraDevice == null){
@@ -400,6 +414,33 @@ public class CustomCameraActivity extends Activity {
             mCameraCaptureSession.capture(mPreviewCaptureRequestBuilder.build(),
                     mSessionCaptureCallback, mBackgroundHandler);
         }catch (CameraAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void captureStillImage(){
+        try{
+        CaptureRequest.Builder captureStillBuilder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE);
+        captureStillBuilder.addTarget(mImageReader.getSurface());
+
+        int rotation = getWindowManager().getDefaultDisplay().getRotation();
+        captureStillBuilder.set(CaptureRequest.JPEG_ORIENTATION,
+                ORIENTATIONS.get(rotation));
+        CameraCaptureSession.CaptureCallback captureCallback =
+                new CameraCaptureSession.CaptureCallback() {
+                    @Override
+                    public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result) {
+                        super.onCaptureCompleted(session, request, result);
+
+                        Toast.makeText(getApplicationContext(), "Image Captured", Toast.LENGTH_SHORT).show();
+                        unlockFocus();
+                    }
+                };
+
+        mCameraCaptureSession.capture(
+                captureStillBuilder.build(), captureCallback, null );
+
+        } catch (CameraAccessException e){
             e.printStackTrace();
         }
     }
