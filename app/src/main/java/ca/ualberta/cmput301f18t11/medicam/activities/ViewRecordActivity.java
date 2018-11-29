@@ -82,7 +82,6 @@ public class ViewRecordActivity extends AppCompatActivity {
         java.text.SimpleDateFormat timeformat = new java.text.SimpleDateFormat("HH:mm");
         String timeStr = timeformat.format(patientRecord.getTimestamp());
         recordTime.setText(timeStr);
-        Collection<String> attachmentsUUIDS = patientRecord.getAttachmentsUUIDS();
 
         //TODO: fetch Also PHOTOS BODY LOCATIONS AND GEOLOCATIONS
     }

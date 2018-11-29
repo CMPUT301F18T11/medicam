@@ -17,5 +17,7 @@
         <item> Legs </item>
         <item> Feets </item>
     </string-array>
+    <string name="title_activity_maps">Map</string>
+    <string name="noLocation">No Location Provided</string>
     >
 </resources>

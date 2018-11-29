@@ -6,10 +6,10 @@ import ca.ualberta.cmput301f18t11.medicam.exceptions.InvalidEmailException;
 import ca.ualberta.cmput301f18t11.medicam.exceptions.StringTooShortException;
 
 public abstract class User extends PersistedModel {
+    private final static int MIN_USERNAME_LENGTH = 8;
 
     private String email;
     private String phoneNumber;
-    private String address;
 
     public String getUserID() {
         return uuid;
@@ -19,10 +19,6 @@ public abstract class User extends PersistedModel {
         this.uuid = userID;
     }
 
-//    public void setUserID(UUID userID) throws StringTooShortException {
-//        this.uuid = userID;
-//    }
-    public String getAddress() {return address;}
     public String getEmail() {
         return email;
     }

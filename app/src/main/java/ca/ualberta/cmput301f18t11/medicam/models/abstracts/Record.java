@@ -1,21 +1,16 @@
 package ca.ualberta.cmput301f18t11.medicam.models.abstracts;
 
-import android.net.Uri;
-import android.provider.ContactsContract;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import java.util.UUID;
 
 import ca.ualberta.cmput301f18t11.medicam.models.attachments.BodyLocation;
-import ca.ualberta.cmput301f18t11.medicam.models.attachments.LocationAttachment;
 
 public abstract class Record extends PersistedModel {
     private String title;
     private String description;
     private Date timestamp;
-    private ArrayList<String> tags;
+    private String creatorUUID;
 
 
     public Record(String uuid) {
@@ -26,49 +21,58 @@ public abstract class Record extends PersistedModel {
         super();
     }
 
+    public Record(String uuid, String title, String description, Date timestamp, String creatorUUID) {
+        super(uuid);
+        this.title = title;
+        this.description = description;
+        this.timestamp = timestamp;
+        this.creatorUUID = creatorUUID;
+    }
+
     //get methods
     public String getTitle() {
         return title;
     }
+
     public String getDescription() {
         return description;
     }
+
     public Date getTimestamp() {
         return timestamp;
+    }
+
+    /**
+     * Gets the user that this <code>Record</code> is associated with.
+     *
+     * @return <code>String</code> type UUID that represents the unique identifier of the <code>User</code>
+     *         object that this <code>Record</code> object is associated with.
+     */
+    public String getCreatorUUID() {
+        return creatorUUID;
     }
 
     //set methods
     public void setTitle(String t) {
         this.title = t;
     }
+
     public void setDescription(String d) {
         this.description = d;
     }
+
     public void setTimestamp(Date ts) {
         this.timestamp = ts;
     }
 
-    public ArrayList<String> getTags() {
-        //this should probably eventually get moved to PersistedModel
-
-        //Consider setting this up so that tags are updated when the
-        // objects property changes.
-        tags = new ArrayList<String>();
-
-        tags.add(getTitle());
-        tags.add(getDescription());
-        tags.add(getTimestamp().toString());
-
-        return tags;
-    }
-
-    public boolean search(String search_term) {
-        for (String tag : getTags()) {
-            if (tag.contains(search_term)) {
-                return true;
-            }
-        }
-        return false;
+    /**
+     * Sets the user that this <code>Record</code> is associated with.\
+     *
+     * @param creatorUUID <code>String</code> type UUID that represents the unique identifier of the <code>User</code>
+     *         object that this <code>Record</code> object is associated with.
+     */
+    public void setCreatorUUID(String creatorUUID) {
+        this.creatorUUID = creatorUUID;
     }
 }
 
