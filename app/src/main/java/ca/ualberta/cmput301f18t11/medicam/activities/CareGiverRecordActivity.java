@@ -11,6 +11,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import ca.ualberta.cmput301f18t11.medicam.R;
@@ -22,15 +24,13 @@ import ca.ualberta.cmput301f18t11.medicam.controllers.per_model.ProblemPersisten
 import ca.ualberta.cmput301f18t11.medicam.models.CareProviderRecord;
 import ca.ualberta.cmput301f18t11.medicam.models.PatientRecord;
 import ca.ualberta.cmput301f18t11.medicam.models.Problem;
+import ca.ualberta.cmput301f18t11.medicam.models.abstracts.Record;
 
 public class CareGiverRecordActivity extends AppCompatActivity {
     private static final int ADD_RECORD_REQUESTCODE = 0;
     private ListView patientRecordsView;
-    private ListView doctorRecordsView;
-    private List<PatientRecord> recordDisplayList = new ArrayList<PatientRecord>();
-    private List<CareProviderRecord> doctorRecordDisplayList = new ArrayList<CareProviderRecord>();
-    private ArrayAdapter<PatientRecord> recordArrayAdapter;
-    private ArrayAdapter<CareProviderRecord> careProviderRecordArrayAdapter;
+    private List<Record> displayList= new ArrayList<>();
+    private ArrayAdapter<Record> recordArrayAdapter;
     private List<String> patientRecordsArray = new ArrayList<>();
     private List<String> doctorRecordsArray = new ArrayList<>();
     private PersistenceController<Problem> problemControler = new ProblemPersistenceController();
@@ -42,7 +42,6 @@ public class CareGiverRecordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_care_giver_record);
         ElasticSearchController.setIndex_url("cmput301f18t11test");
-        doctorRecordsView = findViewById(R.id.doctorRecordView);
         patientRecordsView = findViewById(R.id.careGiverRecordListView);
 
 
@@ -52,34 +51,32 @@ public class CareGiverRecordActivity extends AppCompatActivity {
         patientRecordsArray = problem.getPatientRecords();
         doctorRecordsArray = problem.getCareProviderRecords();
 
-        if(doctorRecordsArray.size() == 0){
-            doctorRecordsView.setVisibility(View.GONE);
-        }
-        //TODO: add doctor NOTEs
-
-
         for (int i = 0; i < patientRecordsArray.size(); i++){
                 PatientRecord record = patientRecordController.load(patientRecordsArray.get(i), this);
-                recordDisplayList.add(record);
+                displayList.add(record);
         }
         for (int i = 0; i < doctorRecordsArray.size(); i++){
             CareProviderRecord record = doctorRecordController.load(doctorRecordsArray.get(i), this);
-            doctorRecordDisplayList.add(record);
+            displayList.add(record);
         }
-
-        recordArrayAdapter = new ArrayAdapter<PatientRecord>(this,android.R.layout.simple_list_item_1, recordDisplayList);
-        patientRecordsView.setAdapter(recordArrayAdapter);
-        careProviderRecordArrayAdapter = new ArrayAdapter<CareProviderRecord>(this,android.R.layout.simple_list_item_1,doctorRecordDisplayList);
-        doctorRecordsView.setAdapter(careProviderRecordArrayAdapter);
-
 
         // if Item Clicked
         patientRecordsView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(CareGiverRecordActivity.this,CareGiverAttachActivity.class);
-                intent.putExtra("recordUUID", patientRecordsArray.get(position));
-                startActivity(intent);
+                Record record = displayList.get(position);
+                if(patientRecordsArray.contains(record.getUuid())) {
+                    Intent intent = new Intent(CareGiverRecordActivity.this, ViewRecordActivity.class);
+                    intent.putExtra("editable","NO");
+                    intent.putExtra("previous", record.getUuid());
+                    startActivity(intent);
+                }else if(doctorRecordsArray.contains(record.getUuid())){
+                    Intent intent = new Intent(CareGiverRecordActivity.this, ViewCareProviderRecordActivity.class);
+                    intent.putExtra("editable","YES");
+                    intent.putExtra("previousProblem", problem.getUuid());
+                    intent.putExtra("previousDoctorRecord",record.getUuid());
+                    startActivity(intent);
+                }
             }
         });
 
@@ -96,21 +93,59 @@ public class CareGiverRecordActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        if (displayList.size() > 1){
+            sortDatArray();
+        }
+        recordArrayAdapter = new ArrayAdapter<Record>(this,android.R.layout.simple_list_item_1, displayList);
+        patientRecordsView.setAdapter(recordArrayAdapter);
+    }
+    protected void onResume() {
+        super.onResume();
+        patientRecordsArray = problem.getPatientRecords();
+        doctorRecordsArray = problem.getCareProviderRecords();
+        displayList.clear();
+        for (int i = 0; i < patientRecordsArray.size(); i++){
+            PatientRecord record = patientRecordController.load(patientRecordsArray.get(i), this);
+            displayList.add(record);
+        }
+
+        for (int i = 0; i < doctorRecordsArray.size(); i++){
+            CareProviderRecord record = doctorRecordController.load(doctorRecordsArray.get(i), this);
+            displayList.add(record);
+        }
+        if (displayList.size() > 1){
+            sortDatArray();
+        }
+        recordArrayAdapter = new ArrayAdapter<Record>(this,android.R.layout.simple_list_item_1, displayList);
+        patientRecordsView.setAdapter(recordArrayAdapter);
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == ADD_RECORD_REQUESTCODE && resultCode == RESULT_OK){
             CareProviderRecord careProviderRecord = (CareProviderRecord) data.getExtras().getSerializable("doctorRecord");
             problem.addCareProviderRecord(careProviderRecord.getUuid());
             problemControler.save(problem,this);
-            doctorRecordDisplayList.add(careProviderRecord);
-            careProviderRecordArrayAdapter = new ArrayAdapter<CareProviderRecord>(this,android.R.layout.simple_list_item_1,doctorRecordDisplayList);
-            doctorRecordsView.setAdapter(careProviderRecordArrayAdapter);
+            displayList.add(careProviderRecord);
         }
     }
 
     public void goAddDoctorRecord(View view){
         Intent intent = new Intent(CareGiverRecordActivity.this,AddDoctorNoteActivity.class);
         startActivityForResult(intent,ADD_RECORD_REQUESTCODE);
+    }
+
+    private void sortDatArray (){  // simple method of sorting an Array List that contains objects.
+        Collections.sort(displayList, new Comparator<Record>() {
+            @Override
+            public int compare(Record o1, Record o2) {
+
+                return Integer.valueOf((o1.getTimestamp()).compareTo(o2.getTimestamp()));
+            }
+        });
     }
 
 }

@@ -72,7 +72,9 @@ public class CareProviderRecord extends Record {
      *                        Description: comment string".
      */
     public String toString(){
-        return "Doctor Says: " + getTitle() + "\n"+"Comment: " + getDescription()+"\n";
+        java.text.SimpleDateFormat timeformat = new java.text.SimpleDateFormat("dd-MM-yyyy         HH:mm");
+        String timeStr = timeformat.format(getTimestamp());
+        return "Doctor Says: " + getTitle() + "\n"+"Comment: " + getDescription()+"\n"+timeStr;
     }
 
 }

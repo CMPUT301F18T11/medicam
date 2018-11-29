@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ca.ualberta.cmput301f18t11.medicam">
-
     //For Camera
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-feature android:name="android.hardware.camera2.full" android:required="true"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
+    <uses-feature
+        android:name="android.hardware.camera2.full"
+        android:required="true" />
     // For Rest API
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
-
 
     <application
         android:allowBackup="true"
@@ -39,12 +39,14 @@
         <activity android:name=".activities.createProblemActivity" />
         <activity android:name=".activities.createRecordActivity" />
         <activity android:name=".activities.BodyLocationActivity" />
-
         // For Rest API
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
-        <activity android:name=".activities.ProfileEditting"></activity>
+
+        <activity android:name=".activities.ProfileEditting" />
+        <activity android:name=".activities.ViewRecordActivity" />
+        <activity android:name=".activities.ViewCareProviderRecordActivity"></activity>
     </application>
 
 </manifest>

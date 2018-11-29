@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -71,56 +72,60 @@ public class createRecordActivity extends AppCompatActivity {
         displayDateAndTime();
         purpose = getIntent().getStringExtra("purpose");
         if(purpose.equals("edit")){
+            TextView textView = findViewById(R.id.recordCreate_Header01);
+            textView.setText("Editing Record");
+            Button button = findViewById(R.id.recordbutton);
+            button.setText("Save Changes");
             fetchPrevious();
         }
         // set DATE picker
         displayDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Calendar cal = Calendar.getInstance();
-                int year = cal.get(Calendar.YEAR);
-                int month = cal.get(Calendar.MONTH);
-                int day = cal.get(Calendar.DAY_OF_MONTH);
+                @Override
+                public void onClick(View v) {
+                    Calendar cal = Calendar.getInstance();
+                    int year = cal.get(Calendar.YEAR);
+                    int month = cal.get(Calendar.MONTH);
+                    int day = cal.get(Calendar.DAY_OF_MONTH);
 
-                DatePickerDialog datepicker = new DatePickerDialog(createRecordActivity.this, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int day) {
-                        calendar.set(Calendar.YEAR,year);
-                        calendar.set(Calendar.MONTH,month);
-                        calendar.set(Calendar.DAY_OF_MONTH,day);
-                        datetime = calendar.getTime();
-                        //Display date and set Date datetime to the selected date
-                        java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("dd-MM-yyyy");
-                        String dateStr = dateFormat.format(datetime);
-                        displayDate.setText(dateStr);
-                    }
-                },year,month,day);
-                datepicker.show();
-            }
+                    DatePickerDialog datepicker = new DatePickerDialog(createRecordActivity.this, new DatePickerDialog.OnDateSetListener() {
+                        @Override
+                        public void onDateSet(DatePicker view, int year, int month, int day) {
+                            calendar.set(Calendar.YEAR, year);
+                            calendar.set(Calendar.MONTH, month);
+                            calendar.set(Calendar.DAY_OF_MONTH, day);
+                            datetime = calendar.getTime();
+                            //Display date and set Date datetime to the selected date
+                            java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("dd-MM-yyyy");
+                            String dateStr = dateFormat.format(datetime);
+                            displayDate.setText(dateStr);
+                        }
+                    }, year, month, day);
+                    datepicker.show();
+                }
         });
         //ent of set DATE picker
 
         // set TIME picker
         displayTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final Calendar cal = Calendar.getInstance();
-                int hour = cal.get(Calendar.HOUR_OF_DAY);
-                int minute = cal.get(Calendar.MINUTE);
-                TimePickerDialog timepicker = new TimePickerDialog(createRecordActivity.this, new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        calendar.set(Calendar.HOUR_OF_DAY,hourOfDay);
-                        calendar.set(Calendar.MINUTE,minute);
-                        datetime = calendar.getTime();
-                        //Display time and set Date datetime to the selected time
-                        java.text.SimpleDateFormat timeformat = new java.text.SimpleDateFormat("HH:mm");
-                        String timeStr = timeformat.format(datetime);
-                        displayTime.setText(timeStr);
-                    }
-                },hour,minute,true);
-                timepicker.show();
-            }
+                @Override
+                public void onClick(View v) {
+                    final Calendar cal = Calendar.getInstance();
+                    int hour = cal.get(Calendar.HOUR_OF_DAY);
+                    int minute = cal.get(Calendar.MINUTE);
+                    TimePickerDialog timepicker = new TimePickerDialog(createRecordActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                        @Override
+                        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                            calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                            calendar.set(Calendar.MINUTE, minute);
+                            datetime = calendar.getTime();
+                            //Display time and set Date datetime to the selected time
+                            java.text.SimpleDateFormat timeformat = new java.text.SimpleDateFormat("HH:mm");
+                            String timeStr = timeformat.format(datetime);
+                            displayTime.setText(timeStr);
+                        }
+                    }, hour, minute, true);
+                    timepicker.show();
+                }
         });
         //ent of set TIME picker
 
@@ -212,9 +217,16 @@ public class createRecordActivity extends AppCompatActivity {
     public void fetchPrevious(){
         Intent intent =  getIntent();
         String recordUUID = intent.getStringExtra("previous");
-        PatientRecord record = recordController.load(recordUUID,this);
+        record = recordController.load(recordUUID,this);
         recordTitle.setText(record.getTitle());
         recordComment.setText(record.getDescription());
+        datetime = record.getTimestamp();
+        java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("dd/MM/YYYY");
+        String dateStr = dateFormat.format(datetime);
+        displayDate.setText(dateStr);
+        java.text.SimpleDateFormat timeformat = new java.text.SimpleDateFormat("HH:mm");
+        String timeStr = timeformat.format(datetime);
+        displayTime.setText(timeStr);
         Collection<String> attachmentsUUIDS = record.getAttachmentsUUIDS();
         Toast.makeText(this,"The record has flowing attachments: "+attachmentsUUIDS,Toast.LENGTH_LONG);
 
