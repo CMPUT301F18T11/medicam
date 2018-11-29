@@ -14,6 +14,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import ca.ualberta.cmput301f18t11.medicam.R;
@@ -25,15 +27,13 @@ import ca.ualberta.cmput301f18t11.medicam.controllers.per_model.ProblemPersisten
 import ca.ualberta.cmput301f18t11.medicam.models.CareProviderRecord;
 import ca.ualberta.cmput301f18t11.medicam.models.PatientRecord;
 import ca.ualberta.cmput301f18t11.medicam.models.Problem;
+import ca.ualberta.cmput301f18t11.medicam.models.abstracts.Record;
 
 public class PatientRecordActivity extends AppCompatActivity {
     private static final int ADD_RECORD_REQUEST_CODE = 0;
-    private static final int EDIT_RECORD_REQUEST_CODE = 1;
     private TextView viewTitle, viewDescription;
     private ListView listView;
-    private ListView doctorNoteView;
-    private ArrayList<PatientRecord> patientRecordDisplayArray= new ArrayList<PatientRecord>();
-    private ArrayList<CareProviderRecord> doctorRecordDisplayArray = new ArrayList<CareProviderRecord>();
+    private List<Record> displayList= new ArrayList<>();
     private ArrayList<String> records;
     private ArrayList<String> doctorRecords;
     private int indexOfClickedItem;
@@ -47,7 +47,6 @@ public class PatientRecordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_problem);
         ElasticSearchController.setIndex_url("cmput301f18t11test");
-        doctorNoteView = findViewById(R.id.doctorNoteView);
         listView = (ListView) findViewById(R.id.recordListView);
         viewTitle = (TextView) findViewById(R.id.viewTitle);
         viewDescription = (TextView) findViewById(R.id.viewDesc);
@@ -62,37 +61,33 @@ public class PatientRecordActivity extends AppCompatActivity {
 
         for (int i = 0; i < records.size(); i++){
             PatientRecord record = recordController.load(records.get(i), this);
-            patientRecordDisplayArray.add(record);
+            displayList.add(record);
         }
 
         for (int i = 0; i < doctorRecords.size(); i++){
             CareProviderRecord record = doctorRecordController.load(doctorRecords.get(i), this);
-            doctorRecordDisplayArray.add(record);
+            displayList.add(record);
         }
-
-
-        if(doctorRecords.size() == 0){
-            doctorNoteView.setVisibility(View.GONE);
-        }
-
-        //Sets up the recordList adapter
-
-        ArrayAdapter<PatientRecord> itemsAdapter = new ArrayAdapter<PatientRecord>(this, android.R.layout.simple_list_item_1, patientRecordDisplayArray);
-        listView.setAdapter(itemsAdapter);
-
-        ArrayAdapter<CareProviderRecord> doctorAdapter = new ArrayAdapter<CareProviderRecord>(this, android.R.layout.simple_list_item_1, doctorRecordDisplayArray);
-        doctorNoteView.setAdapter(doctorAdapter);
 
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                //Toast.makeText(PatientRecordActivity.this, "Selected Record" , Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(PatientRecordActivity.this,createRecordActivity.class);
-                intent.putExtra("purpose","edit");
-                indexOfClickedItem = position;
-                intent.putExtra("previous",records.get(indexOfClickedItem));
-                startActivityForResult(intent,EDIT_RECORD_REQUEST_CODE);
+                Record record = displayList.get(position);
+                if(records.contains(record.getUuid())) {
+                    Intent intent = new Intent(PatientRecordActivity.this, ViewRecordActivity.class);
+                    indexOfClickedItem = position;
+                    intent.putExtra("editable","YES");
+                    intent.putExtra("previous", record.getUuid());
+                    intent.putExtra("previousProblem", previousProblem.getUuid());
+                    startActivity(intent);
+                }else if(doctorRecords.contains(record.getUuid())){
+                    Intent intent = new Intent(PatientRecordActivity.this, ViewCareProviderRecordActivity.class);
+                    indexOfClickedItem = position;
+                    intent.putExtra("editable","NO");
+                    intent.putExtra("previousDoctorRecord",record.getUuid());
+                    startActivity(intent);
+                }
             }
         });
 
@@ -106,7 +101,40 @@ public class PatientRecordActivity extends AppCompatActivity {
             }
         });
     }
-//This will return the object(PatientRecord) From create record activity.
+    //This will return the object(PatientRecord) From create record activity.
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (displayList.size() > 1){
+            sortDatArray();
+        }
+        ArrayAdapter<Record> itemsAdapter = new ArrayAdapter<Record>(this, android.R.layout.simple_list_item_1, displayList);
+        listView.setAdapter(itemsAdapter);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        records = previousProblem.getPatientRecords();
+        doctorRecords = previousProblem.getCareProviderRecords();
+        displayList.clear();
+        for (int i = 0; i < records.size(); i++){
+            PatientRecord record = recordController.load(records.get(i), this);
+            displayList.add(record);
+        }
+
+        for (int i = 0; i < doctorRecords.size(); i++){
+            CareProviderRecord record = doctorRecordController.load(doctorRecords.get(i), this);
+            displayList.add(record);
+        }
+        if (displayList.size() > 1){
+            sortDatArray();
+        }
+        ArrayAdapter<Record> itemsAdapter = new ArrayAdapter<Record>(this, android.R.layout.simple_list_item_1, displayList);
+        listView.setAdapter(itemsAdapter);
+
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -115,17 +143,7 @@ public class PatientRecordActivity extends AppCompatActivity {
             PatientRecord newRecord = (PatientRecord) data.getExtras().getSerializable("newRecord");
             previousProblem.addPatientRecord(newRecord.getUuid());
             problemController.save(previousProblem,this);
-            patientRecordDisplayArray.add(newRecord);
-            ArrayAdapter<PatientRecord> itemsAdapter = new ArrayAdapter<PatientRecord>(this, android.R.layout.simple_list_item_1, patientRecordDisplayArray);
-            listView.setAdapter(itemsAdapter);
-        }
-        else if (requestCode == EDIT_RECORD_REQUEST_CODE && resultCode == Activity.RESULT_OK){
-            PatientRecord newRecord = (PatientRecord) data.getExtras().getSerializable("newRecord");
-            records.set(indexOfClickedItem,newRecord.getUuid());
-            patientRecordDisplayArray.set(indexOfClickedItem,newRecord);
-            problemController.save(previousProblem,this);
-            ArrayAdapter<PatientRecord> itemsAdapter = new ArrayAdapter<PatientRecord>(this, android.R.layout.simple_list_item_1, patientRecordDisplayArray);
-            listView.setAdapter(itemsAdapter);
+            displayList.add(newRecord);
         }
     }
 
@@ -141,5 +159,15 @@ public class PatientRecordActivity extends AppCompatActivity {
         Intent intent = new Intent(this,createRecordActivity.class);
         intent.putExtra("purpose","add");
         startActivityForResult(intent,ADD_RECORD_REQUEST_CODE);
+    }
+
+    private void sortDatArray (){  // simple method of sorting an Array List that contains objects.
+        Collections.sort(displayList, new Comparator<Record>() {
+            @Override
+            public int compare(Record o1, Record o2) {
+
+                return Integer.valueOf((o2.getTimestamp()).compareTo(o1.getTimestamp()));
+            }
+        });
     }
 }
