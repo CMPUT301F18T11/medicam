@@ -1,56 +1,53 @@
 package ca.ualberta.cmput301f18t11.medicam.models.attachments;
 
-import android.media.Image;
+import android.graphics.Bitmap;
 
-import ca.ualberta.cmput301f18t11.medicam.models.abstracts.PhotoAttachment;
-import ca.ualberta.cmput301f18t11.medicam.utils.ReferenceSide;
+import ca.ualberta.cmput301f18t11.medicam.models.abstracts.PersistedModel;
 
 
 /**
- * A front facing or back facing full body photo meant to be attached to <code>Problem</code> object
- * that can be set by a patient.
+ *  Model for storing information related to a reference photo.
+ *
+ *  Includes the photo itself, and a label to identify the photo.
  */
 
-public class ReferencePhoto extends PhotoAttachment {
-    private ReferenceSide reference_side;
-    private String referencePhotoUUID;
-
+public class ReferencePhoto extends PersistedModel {
+    private Bitmap photo;
+    private String label;
     /**
      * Empty constructor for initializing a empty instance of this object with blank reference_side
      * and referencePhotoUUID fields.
      */
-    public ReferencePhoto(){};
+    public ReferencePhoto(){
+
+    }
 
     /**
      * Constructor that accepts an image type to be held by this attachment.
      *
      * @param image
-     * @deprecated November 12th, 2018
+     * @param UUID
+     * @param label
      */
-    public ReferencePhoto(Image image){};
-
-    /**
-     * Sets the unique <code>String</code> type identifier for the photo that is to be held by this
-     * object.
-     *
-     * @param aUUID uniquely identifiable <code>String</code> for the photo that is to be held by this
-     *              attachment.
-     */
-
-    public void setReferencePhotoUUID(String aUUID) {
-        this.referencePhotoUUID = aUUID;
+    public ReferencePhoto(String UUID, Bitmap image, String label){
+        super(UUID);
+        this.photo = image;
+        this.label = label;
     }
 
+    public Bitmap getPhoto() {
+        return photo;
+    }
 
-    /**
-     * Gets the unique <code>String</code> type identifier for the photo that is to be held by this
-     * object.
-     *
-     * @return  a uniquely identifiable <code>String</code> for the photo that is held by this
-     *              attachment.
-     */
+    public void setPhoto(Bitmap photo) {
+        this.photo = photo;
+    }
 
-    public String getReferencePhotoUUID(){
-        return referencePhotoUUID;
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
     }
 }

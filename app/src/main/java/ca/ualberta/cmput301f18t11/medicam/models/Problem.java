@@ -1,6 +1,8 @@
 package ca.ualberta.cmput301f18t11.medicam.models;
 
 
+import android.support.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -310,6 +312,7 @@ public class Problem extends PersistedModel {
      *                         Detail: description string".
      * @return
      */
+    @Override
     public String toString(){
         return "Title: " + this.title +"\n"+"Detail: "+ description;
     }

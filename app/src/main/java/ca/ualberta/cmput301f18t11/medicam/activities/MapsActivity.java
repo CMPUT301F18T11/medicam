@@ -1,5 +1,13 @@
 package ca.ualberta.cmput301f18t11.medicam.activities;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
@@ -8,24 +16,45 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import ca.ualberta.cmput301f18t11.medicam.R;
+import ca.ualberta.cmput301f18t11.medicam.models.attachments.Geolocation;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+/**
+ * Functionality used from https://developers.google.come/maps/documentation/android-sdk/
+ */
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener, GoogleMap.OnMarkerClickListener {
+    private static final int MY_LOCATION_REQUEST_CODE = 1;
 
     private GoogleMap mMap;
+    public static Geolocation location;
+    private String mode;
+    private Marker currentMarker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
+        Intent intent = getIntent();
+        mode = intent.getStringExtra("mode");
+        if (mode.equals("selection")) {
+            location = new Geolocation(intent.getDoubleExtra("latitude", 0),
+                    intent.getDoubleExtra("longitude", 0));
+
+            if (location.getLatitude() == 0 && location.getLongitude() == 0) {
+                location = null;
+            }
+        } else if (mode.equals("viewing")) {
+            // TODO VIEWING LOGIC
+        }
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
-
 
     /**
      * Manipulates the map once available.
@@ -38,9 +67,77 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // TODO include SELECT mode functionality
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        LatLng startingMarker;
+        if (location == null) {
+
+            if (ActivityCompat.checkSelfPermission(this,
+                    Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                    && ActivityCompat.checkSelfPermission(this,
+                    Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                String[] permissions = new String[1];
+                permissions[0] = Manifest.permission.ACCESS_FINE_LOCATION;
+                ActivityCompat.requestPermissions(this, permissions, MY_LOCATION_REQUEST_CODE);
+                return;
+            }
+            mMap.setMyLocationEnabled(true);
+            startingMarker = getCurrentLocation();
+        } else {
+            startingMarker = new LatLng(location.getLatitude(), location.getLongitude());
+
+        }
+        currentMarker = mMap.addMarker(new MarkerOptions().position(startingMarker).title("Record Location"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(startingMarker));
+        mMap.setOnMapClickListener(this);
+        mMap.setOnMarkerClickListener(this);
+    }
+
+    private LatLng getCurrentLocation() {
+        LocationManager lm = (LocationManager) getSystemService(this.LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            return new LatLng(0,0);
+        }
+
+        Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        if (location == null) {
+            return new LatLng(0,0);
+        }
+        double longitude = location.getLongitude();
+        double latitude = location.getLatitude();
+        return new LatLng(latitude, longitude);
+    }
+
+
+    @SuppressLint("MissingPermission")
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == MY_LOCATION_REQUEST_CODE) {
+            if (permissions.length == 1 &&
+                    permissions[0].equals(Manifest.permission.ACCESS_FINE_LOCATION) &&
+                    grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                mMap.setMyLocationEnabled(true);
+            } else {
+                // TODO exit activity?
+            }
+        }
+    }
+
+    @Override
+    public void onMapClick(LatLng latLng) {
+        location = new Geolocation(latLng.latitude, latLng.longitude);
+        currentMarker.remove();
+        currentMarker = mMap.addMarker(new MarkerOptions().position(latLng).title("Record Location"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        marker.remove();
+        location = null;
+        return false;
     }
 }

@@ -1,54 +1,36 @@
 package ca.ualberta.cmput301f18t11.medicam.models.attachments;
 
 import android.graphics.Bitmap;
-import android.media.Image;
-import android.net.Uri;
 
-import java.util.Collection;
-
-import ca.ualberta.cmput301f18t11.medicam.models.abstracts.PhotoAttachment;
+import ca.ualberta.cmput301f18t11.medicam.models.abstracts.PersistedModel;
 
 /**
  * A object that holds a Uri and a Bitmap to represent a photo that is to be attached to a
  * <code>Record</code> object.
  */
-public class InstancePhoto extends PhotoAttachment {
-    //private UUID instancePhotoUUID;
-    private Collection<Image> instanceImageCollection;
-    private String photo;
-    private Bitmap cameraPhoto;
+public class InstancePhoto extends PersistedModel {
+    private Bitmap image;
 
     /**
      * Empty constructor for creating a blank <code>InstancePhoto</code> object
      * with empty <code>Uri</code> photo and <code>Bitmap</code> cameraPhoto fields.
      */
-    public InstancePhoto(){}
+    public InstancePhoto(){
+
+    }
+
+    public InstancePhoto(String UUID, Bitmap image) {
+        super(UUID);
+        this.image = image;
+    }
 
     /**
      * Sets the uri for the photo that this <code>InstancePhoto</code> object holds.
      *
      * @param photo <code>Uri</code> for the photo this object is meant to hold.
      */
-    public void setPhoto(String photo) {
-        this.photo = photo;
-    }
-
-    /**
-     * Sets the Bitmap that represents the photo held by this attachment.
-     *
-     * @param cameraPhoto <code>Bitmap</code> type photo to be held by this attachment.
-     */
-    public void setCameraPhoto(Bitmap cameraPhoto) {
-        this.cameraPhoto = cameraPhoto;
-    }
-
-    /**
-     * Gets the Bitmap that represents the photo held by this attachment.
-     *
-     * @return <code>Bitmap</code> type photo held by this attachment.
-     */
-    public Bitmap getCameraPhoto() {
-        return cameraPhoto;
+    public void setPhoto(Bitmap photo) {
+        this.image = photo;
     }
 
     /**
@@ -56,17 +38,8 @@ public class InstancePhoto extends PhotoAttachment {
      *
      * @return <code>Uri</code> type object for the photo held by this attachment.
      */
-    public String getPhoto(){
-        return photo;
+    public Bitmap getPhoto(){
+        return image;
     }
 
-    /*
-    public void addInstancePhotoImage (Image image){
-        // function for seeing wiether image size is good will be added later version.
-        boolean imageValidSize = true;
-        if (imageValidSize) {
-            instanceImageCollection.add(image);
-        }
-    }
-    */
 }

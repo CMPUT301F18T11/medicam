@@ -9,68 +9,25 @@ import java.util.UUID;
 import ca.ualberta.cmput301f18t11.medicam.models.abstracts.Attachment;
 
 /**
- * <code>Attachment</code> that represents the afflicted body part associated with the <code>Record</code> that
- * holds this <code>Attachment</code>
+ * Model for holding information related to a body-location selected
+ * by a patient for a record.
+ *
+ * Contains coordinates for drawing a marker on the photo,
+ * and the UUID of the bodylocation photo.
  */
-public class BodyLocation extends Attachment {
-    private Pair<Integer,Integer> imageCoordinates;
-    private String bodyPart;
-    private Bitmap frontPhoto;
-    private Bitmap backPhoto;
+public class BodyLocation {
+    private Pair<Integer, Integer> imageCoordinates;
+    private String bodyLocationPhotoUUID;
 
     /**
-     * Sets the String representing the body part indicated by this body location object.
-     *
-     * @param user_bodyPart the String representing the body part indicated by this body location object.
+     * Null contructor for body location.
      */
-    public void setBodyPart(String user_bodyPart){
-        this.bodyPart = user_bodyPart;
+    public BodyLocation() {
+
     }
 
-    /**
-     * Sets the front-facing, full-body photo held by this body location attachment.
-     *
-     * @param user_frontPhoto <code>Bitmap</code> type image of the users full body facing forward.
-     */
-    public void setFrontPhoto(Bitmap user_frontPhoto) {
-        this.frontPhoto = user_frontPhoto;
-    }
-
-    /**
-     * Sets the front-facing, full-body photo held by this body location attachment.
-     *
-     * @param user_backPhoto <code>Bitmap</code> type image of the users full body facing backward.
-     */
-    public void setBackPhoto(Bitmap user_backPhoto) {
-        this.backPhoto = backPhoto;
-    }
-
-    /**
-     * Gets the String representing the body part indicated by this body location object.
-     *
-     * @return  the String representing the body part indicated by this body location object.
-     */
-    public String getBodyPart() {
-        return bodyPart;
-    }
-
-    /**
-     * Gets the front-facing, full-body photo held by this body location attachment.
-     *
-     * @return <code>Bitmap</code> type image of the users full body facing forward held by this
-     *          <code>BodyLocation</code> object.
-     */
-    public Bitmap getFrontPhoto() {
-        return frontPhoto;
-    }
-
-    /**
-     * Gets the back-facing, full-body photo held by this body location attachment.
-     *
-     * @return <code>Bitmap</code> type image of the users full body facing backward held by this
-     *          <code>BodyLocation</code> object.
-     */
-    public Bitmap getBackPhoto() {
-        return backPhoto;
+    public BodyLocation(Pair<Integer, Integer> imageCoordinates, String bodyLocationPhotoUUID) {
+        this.imageCoordinates = imageCoordinates;
+        this.bodyLocationPhotoUUID = bodyLocationPhotoUUID;
     }
 }
