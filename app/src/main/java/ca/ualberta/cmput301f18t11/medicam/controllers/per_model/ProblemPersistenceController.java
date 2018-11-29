@@ -6,6 +6,7 @@ import android.net.NetworkInfo;
 
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import ca.ualberta.cmput301f18t11.medicam.controllers.ElasticSearchController;
@@ -55,6 +56,26 @@ public class ProblemPersistenceController extends PersistenceController<Problem>
 
         return null;
     }
+
+    public List<Problem> searchFromREST(String search_phrase)
+    {
+        ElasticSearchController.SearchObjectsTask task = new ElasticSearchController.SearchObjectsTask(getTypeURL());
+        try
+        {
+            JestResult result = task.execute(search_phrase).get();
+            return result.getSourceAsObjectList(Problem.class);
+        }
+
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+
+
 
 
     @Override

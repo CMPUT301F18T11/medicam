@@ -16,6 +16,7 @@ import io.searchbox.core.Delete;
 import io.searchbox.core.DocumentResult;
 import io.searchbox.core.Get;
 import io.searchbox.core.Index;
+import io.searchbox.core.Search;
 
 
 /** ElasticSearchController
@@ -149,6 +150,54 @@ public class ElasticSearchController {
         }
 
     }
+
+    public static class SearchObjectsTask extends AsyncTask<String, Void, JestResult> {
+
+
+        // Replace "%phrase" for searching
+        private String search_query = "{" +
+                "  \"size\": 100," +
+                "  \"query\": {" +
+                "    \"multi_match\" : {" +
+                "      \"query\":    \"%phrase%\", " +
+                "      \"fields\": [ \"title\", \"description\" ] " +
+                "    }" +
+                "  }" +
+                "}";
+
+        private String type_url;
+
+        public SearchObjectsTask(String type_url) {
+            this.type_url = type_url;
+        }
+
+        @Override
+        protected JestResult doInBackground(String ... search_phrases)
+        {
+            verifySettings();
+
+            for (String phrase: search_phrases) {
+                try {
+                    search_query = search_query.replace("%phrase%", phrase);
+
+                    Search search = new Search.Builder(search_query).addIndex(index_url).addType(type_url).build();
+
+                    JestResult result  = client.execute(search);
+
+                    if (result.isSucceeded()) {
+                     return result;
+                    }
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            }
+            return null;
+        }
+    }
+
+
 
     // Generator For Jest Client Singleton
     private static void verifySettings() {

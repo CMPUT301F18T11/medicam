@@ -5,32 +5,29 @@ import android.net.ConnectivityManager;
 
 import java.io.FileReader;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 import ca.ualberta.cmput301f18t11.medicam.controllers.ElasticSearchController;
 import ca.ualberta.cmput301f18t11.medicam.controllers.InternalStorageController;
 import ca.ualberta.cmput301f18t11.medicam.controllers.abstracts.PersistenceController;
-import ca.ualberta.cmput301f18t11.medicam.models.Patient;
-import ca.ualberta.cmput301f18t11.medicam.models.PatientRecord;
-import ca.ualberta.cmput301f18t11.medicam.models.Problem;
-import ca.ualberta.cmput301f18t11.medicam.models.abstracts.Record;
+import ca.ualberta.cmput301f18t11.medicam.models.CareProvider;
+import ca.ualberta.cmput301f18t11.medicam.models.ShortID;
 import io.searchbox.client.JestResult;
 
 /**
-    Persistence controller for Record objects
-    See PersistenceController for documentation
+ Persistence controller for ShortID objects
+ See PersistenceController for documentation
  */
-public class PatientRecordPersistenceController extends PersistenceController<PatientRecord> {
+public class ShortIDPersistenceController extends PersistenceController<ShortID> {
 
     @Override
-    public PatientRecord loadFromREST(String id)
+    public ShortID loadFromREST(String id)
     {
         ElasticSearchController.GetObjectsTask task = new ElasticSearchController.GetObjectsTask(getTypeURL());
         try
         {
             JestResult result = task.execute(id).get();
-            return result.getSourceAsObjectList(PatientRecord.class).get(0);
+            return result.getSourceAsObjectList(ShortID.class).get(0);
         }
 
         catch (Exception e)
@@ -42,13 +39,13 @@ public class PatientRecordPersistenceController extends PersistenceController<Pa
     }
 
     @Override
-    public PatientRecord loadFromStorage(String id, Context context)
+    public ShortID loadFromStorage(String id, Context context)
     {
         InternalStorageController.GetObjectsTask task = new InternalStorageController.GetObjectsTask(context);
         try
         {
             ArrayList<FileReader> readers = task.execute(id).get();
-            return gson.fromJson(readers.get(0), PatientRecord.class);
+            return gson.fromJson(readers.get(0), ShortID.class);
         }
         catch (Exception e)
         {
@@ -57,30 +54,9 @@ public class PatientRecordPersistenceController extends PersistenceController<Pa
 
         return null;
     }
-
-    public List<PatientRecord> searchFromREST(String search_phrase)
-    {
-        ElasticSearchController.SearchObjectsTask task = new ElasticSearchController.SearchObjectsTask(getTypeURL());
-        try
-        {
-            JestResult result = task.execute(search_phrase).get();
-            return result.getSourceAsObjectList(PatientRecord.class);
-        }
-
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
-
 
     @Override
     public String getTypeURL() {
-        return "PatientRecord";
+        return "ShortID";
     }
-
-
 }
