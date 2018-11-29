@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import ca.ualberta.cmput301f18t11.medicam.R;
 import ca.ualberta.cmput301f18t11.medicam.controllers.ElasticSearchController;
@@ -38,6 +39,11 @@ public class CreateUserActivity extends AppCompatActivity {
         enteredEmail = findViewById(R.id.editingEmailText);
         enteredAddress = findViewById(R.id.editinAddressText);
         radioGroup = findViewById(R.id.radioGroup);
+
+        //Toolbar Setup
+        android.support.v7.widget.Toolbar toolbar = findViewById(R.id.createUser_toolbar);
+        setSupportActionBar(toolbar);
+        setTitle("Create an Account"); // Sets the title to be shown in the toolbar
 
 
     }

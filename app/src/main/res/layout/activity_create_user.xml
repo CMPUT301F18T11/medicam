@@ -15,30 +15,12 @@ Availability: https://stackoverflow.com/a/48640424
     android:layout_height="match_parent"
     tools:context="activities.CreateUserActivity">
 
-    <android.support.v7.widget.Toolbar
+    <!--Import of the toolbar: Blank Version -->
+    <include
         android:id="@+id/createUser_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:elevation="4dp"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+        layout="@layout/toolbar"></include>
 
-    <TextView
-        android:id="@+id/createUser_Header01"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginRight="30dp"
-        android:text="Create an Account:"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/createUser_toolbar" />
+    <!-- Page elements below -->
 
     <TextView
         android:id="@+id/profileCreate_Subheader01"
@@ -46,10 +28,10 @@ Availability: https://stackoverflow.com/a/48640424
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginLeft="30dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="20dp"
         android:text="Username:"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/createUser_Header01" />
+        app:layout_constraintTop_toBottomOf="@+id/createUser_toolbar" />
 
     <EditText
         android:id="@+id/userIDTextView"
