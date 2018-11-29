@@ -1,16 +1,13 @@
 package ca.ualberta.cmput301f18t11.medicam.models.abstracts;
 
 
-import java.util.ArrayList;
 import java.util.Date;
-
-import ca.ualberta.cmput301f18t11.medicam.models.attachments.BodyLocation;
 
 public abstract class Record extends PersistedModel {
     private String title;
     private String description;
     private Date timestamp;
-    private String creatorUUID;
+    private String problemUUID;
 
 
     public Record(String uuid) {
@@ -21,12 +18,12 @@ public abstract class Record extends PersistedModel {
         super();
     }
 
-    public Record(String uuid, String title, String description, Date timestamp, String creatorUUID) {
+    public Record(String uuid, String title, String description, Date timestamp, String problemUUID) {
         super(uuid);
         this.title = title;
         this.description = description;
         this.timestamp = timestamp;
-        this.creatorUUID = creatorUUID;
+        this.problemUUID = problemUUID;
     }
 
     //get methods
@@ -48,8 +45,8 @@ public abstract class Record extends PersistedModel {
      * @return <code>String</code> type UUID that represents the unique identifier of the <code>User</code>
      *         object that this <code>Record</code> object is associated with.
      */
-    public String getCreatorUUID() {
-        return creatorUUID;
+    public String getProblemUUID() {
+        return problemUUID;
     }
 
     //set methods
@@ -68,11 +65,11 @@ public abstract class Record extends PersistedModel {
     /**
      * Sets the user that this <code>Record</code> is associated with.\
      *
-     * @param creatorUUID <code>String</code> type UUID that represents the unique identifier of the <code>User</code>
+     * @param problemUUID <code>String</code> type UUID that represents the unique identifier of the <code>User</code>
      *         object that this <code>Record</code> object is associated with.
      */
-    public void setCreatorUUID(String creatorUUID) {
-        this.creatorUUID = creatorUUID;
+    public void setProblemUUID(String problemUUID) {
+        this.problemUUID = problemUUID;
     }
 }
 

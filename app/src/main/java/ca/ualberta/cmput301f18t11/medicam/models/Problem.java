@@ -27,6 +27,8 @@ public class Problem extends PersistedModel {
     private String title;
     private Date date_started = new Date();
     private String description;
+    private String creatorUUID;
+
     //TODO: Implement Records UUID and Collection
     private ArrayList<String> patientRecords = new ArrayList<>();
     private ArrayList<String> careProviderRecords = new ArrayList<>();
@@ -86,13 +88,15 @@ public class Problem extends PersistedModel {
      *                    object was created.
      * @param description<code>String</code> description of the issue that this <code>Problem</code> object
      *                         is meant to keep track of.
+     * @param creatorUUID String uuid of the patient which created this problem. Helpful for searching.
      */
 
-    public Problem(String uuid, String title, Date date_started, String description) {
+    public Problem(String uuid, String title, Date date_started, String description, String creatorUUID) {
         super(uuid);
         this.title = title;
         this.date_started = date_started;
         this.description = description;
+        this.creatorUUID = creatorUUID;
     }
 
     /**
