@@ -6,7 +6,6 @@
     android:layout_height="match_parent" >
     <!-- tools:context=".patientProfileActivity"> Also what is this? its been red for a long time -->
 
-    <!--Import of the toolbar: Blank Version -->
     <RelativeLayout
         android:id="@+id/relativeLayout_patientProfile"
         android:layout_width="wrap_content"
@@ -21,6 +20,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="5dp"
+            android:background="@android:color/transparent"
             android:elevation="6dp"
             android:onClick="searchButton"
             app:srcCompat="@android:drawable/ic_menu_search"
@@ -36,12 +36,14 @@
             android:layout_marginTop="5dp"
             android:layout_marginEnd="20dp"
             android:layout_marginRight="20dp"
+            android:background="@android:color/transparent"
             android:elevation="6dp"
             android:onClick="viewProfile"
             app:srcCompat="@drawable/icon_body_location"
             tools:layout_editor_absoluteX="306dp"
             tools:layout_editor_absoluteY="64dp" />
 
+        <!--Import of the toolbar: Blank Version -->
         <include
             android:id="@+id/patientProfile_toolbar"
             layout="@layout/toolbar"></include>
