@@ -15,6 +15,7 @@ import ca.ualberta.cmput301f18t11.medicam.models.Patient;
 import ca.ualberta.cmput301f18t11.medicam.models.PatientRecord;
 import ca.ualberta.cmput301f18t11.medicam.models.Problem;
 import ca.ualberta.cmput301f18t11.medicam.models.abstracts.Record;
+import ca.ualberta.cmput301f18t11.medicam.models.attachments.Geolocation;
 import io.searchbox.client.JestResult;
 
 /**
@@ -76,6 +77,47 @@ public class PatientRecordPersistenceController extends PersistenceController<Pa
 
             search_query = search_query.replace("%search_phrase%", search_phrase);
             search_query = search_query.replace("%search_problem_uuid%", problem_uuid);
+
+            JestResult result = task.execute(search_query).get();
+            return result.getSourceAsObjectList(PatientRecord.class);
+        }
+
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public List<PatientRecord> searchGeoLocationFromREST(int lat, int lon, int distance, String problem_uuid)
+    {
+        ElasticSearchController.SearchObjectsTask task = new ElasticSearchController.SearchObjectsTask(getTypeURL());
+        try
+        {
+            String search_query = "{" +
+                    "  \"query\": {" +
+                    "    \"bool\" : {" +
+                    "      \"must\" : {" +
+                    "        \"match\" : {\"problemUUID\" : \"%record_problem_uuid%\"}" +
+                    "      }" +
+                    "    }" +
+                    "  }," +
+                    "  \"filter\" : {" +
+                    "    \"geo_distance\" : {" +
+                    "      \"distance\" : \"%kms_away% km\"," +
+                    "      \"location\" : {" +
+                    "        \"lat\" : \"%search_lat%\"," +
+                    "        \"lon\" : \"%search_lon%\"" +
+                    "      }" +
+                    "    }" +
+                    "  }" +
+                    "}";
+
+            search_query = search_query.replace("%search_lat%", Integer.toString(lat));
+            search_query = search_query.replace("%search_lon%", Integer.toString(lon));
+            search_query = search_query.replace("%kms_away%", Integer.toString(distance));
+            search_query = search_query.replace("%record_problem_uuid%", problem_uuid);
 
             JestResult result = task.execute(search_query).get();
             return result.getSourceAsObjectList(PatientRecord.class);

@@ -45,8 +45,6 @@ public class LoginActivity extends AppCompatActivity {
         //Assign buttons and text
         bodyText = (EditText) findViewById(R.id.editText); //can we make this id more specific?
 
-        // testing
-        test();
     }
 
     //Launches into the create user activity
@@ -81,15 +79,6 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void test()
-    {
-        ProblemPersistenceController ps = new ProblemPersistenceController();
-
-        List<Problem> test_search_results = ps.searchFromREST("foot");
-
-        int x = 1;
-
-    }
 
 
 
