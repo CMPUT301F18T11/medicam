@@ -62,6 +62,7 @@ import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
@@ -553,15 +554,28 @@ public class NewCameraActivity extends Activity {
                         maxPreviewWidth, maxPreviewHeight,
                         largestImageSize);
 
+                //Set overlay size to match texture view
+                RelativeLayout.LayoutParams overlayDimensions =
+                        (RelativeLayout.LayoutParams)cameraOverlay.getLayoutParams();
+
                 // We fit the aspect ratio of TextureView to the size of preview we picked.
                 int orientation = getResources().getConfiguration().orientation;
                 if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
                     mTextureView.setAspectRatio(
                             mPreviewSize.getWidth(), mPreviewSize.getHeight());
+                    overlayDimensions.width = mPreviewSize.getWidth();
+                    overlayDimensions.height = mPreviewSize.getHeight();
                 } else {
                     mTextureView.setAspectRatio(
                             mPreviewSize.getHeight(), mPreviewSize.getWidth());
+                    overlayDimensions.width = mPreviewSize.getHeight();
+                    overlayDimensions.height = mPreviewSize.getWidth();
                 }
+
+                cameraOverlay.setLayoutParams(overlayDimensions);
+
+
+
 
                 // Check if the flash is supported.
                 Boolean available = characteristics.get(CameraCharacteristics.FLASH_INFO_AVAILABLE);
