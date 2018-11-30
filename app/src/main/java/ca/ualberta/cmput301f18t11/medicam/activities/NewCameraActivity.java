@@ -2,6 +2,7 @@ package ca.ualberta.cmput301f18t11.medicam.activities;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Camera;
 import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraCaptureSession;
@@ -90,6 +91,7 @@ import ca.ualberta.cmput301f18t11.medicam.utils.CustomTextureView;
 
 public class NewCameraActivity extends Activity {
 
+    private static final String IMAGE_FILE_PATH = "image_file_path";
     /**
      * Conversion from screen rotation to JPEG orientation.
      */
@@ -182,7 +184,7 @@ public class NewCameraActivity extends Activity {
 
         @Override
         public void onImageAvailable(ImageReader reader) {
-            mBackgroundHandler.post(new ImageStorageController(reader.acquireNextImage(), mOutputFile)); //TODO:Extract to controller
+            mBackgroundHandler.post(new ImageStorageController(reader.acquireNextImage(), mOutputFile));
         }
 
     };
@@ -235,9 +237,6 @@ public class NewCameraActivity extends Activity {
                                 capturePhoto();
                             }
                             break;
-                        }
-                        case STATE_PICTURE_TAKEN: {
-                            //Launch photo viewer activity
                         }
                     }
                 }
@@ -435,6 +434,8 @@ public class NewCameraActivity extends Activity {
                         public void onCaptureCompleted(@NonNull CameraCaptureSession session,
                                                        @NonNull CaptureRequest request,
                                                        @NonNull TotalCaptureResult result) {
+                            Toast.makeText(getApplicationContext(),"Saved: " + mOutputFile,Toast.LENGTH_SHORT).show();
+                            Log.d("CAMERA_ACTIVITY", mOutputFile.toString());
                             unlockFocus();
                         }
                     };
@@ -699,6 +700,10 @@ public class NewCameraActivity extends Activity {
 
     public void capturePhotoButtonPressed(View view) {
         initiatePhotoCapture();
+        Intent resultIntent = new Intent();
+        resultIntent.putExtra(IMAGE_FILE_PATH, mOutputFile.toString());
+        setResult(RESULT_OK,resultIntent);
+        finish();
     }
 
     public void new_toggleCameraOverlay(View view){

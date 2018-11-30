@@ -19,12 +19,14 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 
+import java.io.File;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 
 import ca.ualberta.cmput301f18t11.medicam.R;
 import ca.ualberta.cmput301f18t11.medicam.controllers.ElasticSearchController;
+import ca.ualberta.cmput301f18t11.medicam.controllers.ImageStorageController;
 import ca.ualberta.cmput301f18t11.medicam.controllers.abstracts.PersistenceController;
 import ca.ualberta.cmput301f18t11.medicam.controllers.per_model.PatientRecordPersistenceController;
 import ca.ualberta.cmput301f18t11.medicam.models.attachments.BodyLocation;
@@ -35,6 +37,8 @@ public class createRecordActivity extends AppCompatActivity {
     private static final int OPEN_CAMERA_REQUEST_CODE = 0;
     private static final int OPEN_GALLAY_REQUEST_CODE = 1;
     private static final int ADD_BODYLOCATION_REQUEST_CODE = 3;
+
+    private static final String IMAGE_FILE_PATH = "image_file_path";
 
     private BodyLocation bodyLocation = null;
     private InstancePhoto photo = null;
@@ -130,13 +134,17 @@ public class createRecordActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == OPEN_CAMERA_REQUEST_CODE && resultCode == Activity.RESULT_OK){
             Log.d("SELECT PHOTO DIALOG","onActivityResult: done takeing new photo");
-            Bitmap bitmap;
-            bitmap = (Bitmap) data.getExtras().get("data");
-            photo = new InstancePhoto();
-            photo.setCameraPhoto(bitmap);
-            record.addPhotoToList(photo.getAttachment_uuid());
+
+            String mImageFilePath = data.getExtras().getString(IMAGE_FILE_PATH);
+            File mImageFile = new File(mImageFilePath);
+            Uri imageUri = Uri.fromFile(mImageFile);
+//            Bitmap bitmap;
+//            bitmap = (Bitmap) data.getExtras().get("data");
+//            photo = new InstancePhoto();
+//            photo.setCameraPhoto(bitmap);
+            record.addPhotoToList(imageUri.toString());
             //recordController.save(record,this);
-            photoImageView.setImageURI(Uri.parse(photo.getPhoto()));
+            photoImageView.setImageURI(imageUri);
         }
 
         else if(requestCode == OPEN_GALLAY_REQUEST_CODE && resultCode == Activity.RESULT_OK){
