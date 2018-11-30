@@ -120,7 +120,7 @@
         app:srcCompat="@drawable/icon_body_location" />
 
     <ImageButton
-        android:id="@+id/mapButton"
+        android:id="@+id/viewRecordMapButton"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_marginStart="30dp"
@@ -147,7 +147,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mapButton" />
+        app:layout_constraintTop_toBottomOf="@+id/viewRecordMapButton" />
 
     <TextView
         android:id="@+id/bodyLocationTextView4View"
@@ -164,7 +164,7 @@
         app:layout_constraintStart_toEndOf="@+id/bodyLocationButton4View" />
 
     <TextView
-        android:id="@+id/addressTextView"
+        android:id="@+id/viewRecordGeolocationTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -173,9 +173,9 @@
         android:layout_marginRight="30dp"
         android:layout_marginBottom="8dp"
         android:text="NoAddressProvided"
-        app:layout_constraintBottom_toBottomOf="@+id/mapButton"
+        app:layout_constraintBottom_toBottomOf="@+id/viewRecordMapButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/mapButton" />
+        app:layout_constraintStart_toEndOf="@+id/viewRecordMapButton" />
 
     <TextView
         android:id="@+id/record_view_title_textView"

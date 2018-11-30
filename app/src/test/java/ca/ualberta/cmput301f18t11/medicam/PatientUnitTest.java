@@ -44,27 +44,20 @@ public class PatientUnitTest {
         assertTrue(testPatient.getProblems().contains(addedUUID));
 
         // test when adding with problem object
-        Problem addedProblem = new Problem("title", new Date(), "description");
+        Problem addedProblem = new Problem(UUID.randomUUID().toString(), "title", new Date(),
+                "description", "56546");
         addedProblem.createUuid();
         testPatient.addProblem(addedProblem);
         assertTrue(testPatient.getProblems().contains(addedProblem.getUuid()));
     }
 
     @Test
-    public void testGetAndSetFrontPhoto() {
+    public void testGetAndSetAPhoto() {
         Patient testPatient = new Patient();
         String testUUID = UUID.randomUUID().toString();
-        testPatient.setFrontPhoto(testUUID);
+        testPatient.addReferencePhoto(testUUID);
 
-        assertEquals(testPatient.getFrontPhoto(), testUUID);
+        assertEquals(testPatient.getReferencePhotos().get(0), testUUID);
     }
 
-    @Test
-    public void testGetAndSetBackPhoto() {
-        Patient testPatient = new Patient();
-        String testUUID = UUID.randomUUID().toString();
-        testPatient.setBackPhoto(testUUID);
-
-        assertEquals(testPatient.getBackPhoto(), testUUID);
-    }
 }

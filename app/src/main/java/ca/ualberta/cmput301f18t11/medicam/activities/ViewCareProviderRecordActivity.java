@@ -13,6 +13,7 @@ import ca.ualberta.cmput301f18t11.medicam.R;
 import ca.ualberta.cmput301f18t11.medicam.controllers.abstracts.PersistenceController;
 import ca.ualberta.cmput301f18t11.medicam.controllers.per_model.CareProviderRecordPersistenceController;
 import ca.ualberta.cmput301f18t11.medicam.controllers.per_model.ProblemPersistenceController;
+import ca.ualberta.cmput301f18t11.medicam.models.CareProvider;
 import ca.ualberta.cmput301f18t11.medicam.models.CareProviderRecord;
 import ca.ualberta.cmput301f18t11.medicam.models.PatientRecord;
 import ca.ualberta.cmput301f18t11.medicam.models.Problem;
@@ -24,6 +25,7 @@ public class ViewCareProviderRecordActivity extends AppCompatActivity {
     private CareProviderRecord careProviderRecord;
     private Problem problem;
     private String editable;
+    private CareProvider careProvider;
     private PersistenceController<CareProviderRecord> careProviderRecordController = new CareProviderRecordPersistenceController();
     private PersistenceController<Problem> problemController = new ProblemPersistenceController();
     @Override
@@ -66,6 +68,7 @@ public class ViewCareProviderRecordActivity extends AppCompatActivity {
         Intent intent = new Intent(ViewCareProviderRecordActivity.this,AddDoctorNoteActivity.class);
         intent.putExtra("purpose","edit");
         intent.putExtra("previous",careProviderRecord.getUuid());
+        intent.putExtra("userID", careProvider.getUuid());
         startActivityForResult(intent,EDIT_RECORD_REQUEST_CODE);
     }
 }

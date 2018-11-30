@@ -30,4 +30,20 @@ public class BodyLocation {
         this.imageCoordinates = imageCoordinates;
         this.bodyLocationPhotoUUID = bodyLocationPhotoUUID;
     }
+
+    public Pair<Integer, Integer> getImageCoordinates() {
+        return imageCoordinates;
+    }
+
+    public void setImageCoordinates(Pair<Integer, Integer> imageCoordinates) {
+        this.imageCoordinates = imageCoordinates;
+    }
+
+    public String getBodyLocationPhotoUUID() {
+        return bodyLocationPhotoUUID;
+    }
+
+    public void setBodyLocationPhotoUUID(String bodyLocationPhotoUUID) {
+        this.bodyLocationPhotoUUID = bodyLocationPhotoUUID;
+    }
 }

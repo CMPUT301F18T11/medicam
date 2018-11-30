@@ -37,14 +37,12 @@ public class AddPatientActivity extends AppCompatActivity {
 
     }
     public void finishAdding(View view){
-                // TODO: check if the id exists in database
 
         if (enteredUserid.getText().toString().equals("")){Toast.makeText(AddPatientActivity.this,"Please Enter User Id",Toast.LENGTH_SHORT).show();
         } else {
             newPatient = patientController.load(enteredUserid.getText().toString(),AddPatientActivity.this);
             careProvider.addPatient(newPatient.getUuid());
             doctorController.save(careProvider,AddPatientActivity.this);
-            // TODO: change the type to Json object instead of a String
             finish();
         }
     }

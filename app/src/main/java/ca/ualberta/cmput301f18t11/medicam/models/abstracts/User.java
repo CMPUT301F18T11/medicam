@@ -16,6 +16,9 @@ public abstract class User extends PersistedModel {
     }
 
     public void setUserID(String userID) throws StringTooShortException {
+        if (userID.length() < MIN_USERNAME_LENGTH) {
+            throw new StringTooShortException();
+        }
         this.uuid = userID;
     }
 

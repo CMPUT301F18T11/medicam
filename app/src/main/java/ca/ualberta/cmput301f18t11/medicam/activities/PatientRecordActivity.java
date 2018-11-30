@@ -158,6 +158,7 @@ public class PatientRecordActivity extends AppCompatActivity {
     public void createRecord(View view){
         Intent intent = new Intent(this,createRecordActivity.class);
         intent.putExtra("purpose","add");
+        intent.putExtra("problemUUID", previousProblem.getUuid());
         startActivityForResult(intent,ADD_RECORD_REQUEST_CODE);
     }
 

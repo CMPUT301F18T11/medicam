@@ -48,9 +48,11 @@ public class ProblemListAdapter extends ArrayAdapter<Problem> {
         String title = getItem(position).getTitle();
         Date date = getItem(position).getDate();
         String description = getItem(position).getDescription();
+        String userID = getItem(position).getCreatorUUID();
+        String problemUUID = getItem(position).getUuid();
 
         //Create the person object with the information
-        Problem problem = new Problem(title,date, description);
+        Problem problem = new Problem(problemUUID,title,date, description, userID);
 
         LayoutInflater inflater = LayoutInflater.from(mContext);
         convertView = inflater.inflate(mResource, parent, false);

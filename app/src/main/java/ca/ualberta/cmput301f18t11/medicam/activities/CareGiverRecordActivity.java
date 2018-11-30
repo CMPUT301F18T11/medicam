@@ -134,7 +134,8 @@ public class CareGiverRecordActivity extends AppCompatActivity {
     }
 
     public void goAddDoctorRecord(View view){
-        Intent intent = new Intent(CareGiverRecordActivity.this,AddDoctorNoteActivity.class);
+        Intent intent = new Intent(CareGiverRecordActivity.this, AddDoctorNoteActivity.class);
+        intent.putExtra("problemUUID", problem.getUuid());
         startActivityForResult(intent,ADD_RECORD_REQUESTCODE);
     }
 

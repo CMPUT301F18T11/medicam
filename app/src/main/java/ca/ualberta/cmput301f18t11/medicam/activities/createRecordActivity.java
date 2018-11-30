@@ -73,7 +73,7 @@ public class createRecordActivity extends AppCompatActivity {
         bodyLocationTextView = findViewById(R.id.bodyLocationTextView4View);
         recordTitle = findViewById(R.id.recordTitle4View);
         recordComment = findViewById(R.id.recordcomment4View);
-        mapButton = findViewById(R.id.mapButton);
+        mapButton = findViewById(R.id.viewRecordMapButton);
         geoLocationTextView = findViewById(R.id.addressTextView);
 
         displayDateAndTime();
@@ -253,7 +253,8 @@ public class createRecordActivity extends AppCompatActivity {
 
             record.setBodyLocation(bodyLocation);
 
-            record.setMapLocation(location);
+            record.setLocation(location);
+            record.setProblemUUID(getIntent().getStringExtra("problemUUID"));
             recordController.save(record,this);
             intent.putExtra("newRecord", record);
             setResult(RESULT_OK, intent);
@@ -277,7 +278,7 @@ public class createRecordActivity extends AppCompatActivity {
         String timeStr = timeFormat.format(datetime);
         displayTime.setText(timeStr);
 
-        location = record.getMapLocation();
+        location = record.getLocation();
         displayGeolocation();
 
         //TODO: fetch Also PHOTOS BODY LOCATIONS AND PHOTO LIST

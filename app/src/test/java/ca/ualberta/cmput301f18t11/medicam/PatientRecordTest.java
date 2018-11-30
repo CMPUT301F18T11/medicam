@@ -7,6 +7,8 @@ import java.util.UUID;
 
 
 import ca.ualberta.cmput301f18t11.medicam.models.PatientRecord;
+import ca.ualberta.cmput301f18t11.medicam.models.attachments.BodyLocation;
+import ca.ualberta.cmput301f18t11.medicam.models.attachments.Geolocation;
 
 import static org.junit.Assert.*;
 
@@ -17,61 +19,39 @@ public class PatientRecordTest {
         PatientRecord patient_rec =  new PatientRecord();
         String problem_uuid = UUID.randomUUID().toString();
 
-        patient_rec.setPatient(problem_uuid);
+        patient_rec.setProblemUUID(problem_uuid);
         //To string because the object reference probably won't be preserved
         // if it is sent and brought back with ElasticSearch
-        assertEquals(patient_rec.getPatient(),problem_uuid);
+        assertEquals(patient_rec.getProblemUUID(),problem_uuid);
 
         //To string because the object reference probably won't be preserved
         // if it is sent and brought back with ElasticSearch
     }
 
     @Test
-    public void cannot_reassign_problem(){
-        //We should not be able to reassign which care_provider wrote this record
-        PatientRecord patient_rec =  new PatientRecord();
-        String problem_uuid = UUID.randomUUID().toString();
-        String other_uuid = UUID.randomUUID().toString();
+    public void testGetterSetters() {
+        String uuid = "12391230923";
+        String title = "title";
+        String description = "description";
+        Date time = new Date();
+        String creatoruuid = "112312312312";
+        BodyLocation bodylocation = new BodyLocation();
+        Geolocation mapLocation = new Geolocation(0.1,0.1);
+        PatientRecord patientRecord = new PatientRecord(uuid, title, description, time, creatoruuid, bodylocation, mapLocation);
 
-    }
+        assertEquals(patientRecord.getUuid(), uuid);
+        assertEquals(patientRecord.getTitle(), title);
+        assertEquals(patientRecord.getDescription(), description);
+        assertEquals(patientRecord.getTimestamp(), time);
+        assertEquals(patientRecord.getProblemUUID(), creatoruuid);
+        assertEquals(patientRecord.getBodyLocation().getImageCoordinates(), bodylocation.getImageCoordinates());
+        assertEquals(patientRecord.getBodyLocation().getBodyLocationPhotoUUID(), bodylocation.getBodyLocationPhotoUUID());
 
-//    @Test(expected = ReassignmentException.class)
-//    public void cannot_reassign_problem(){
-//        //We should not be able to reassign which care_provider wrote this record
-//        PatientRecord patient_rec =  new PatientRecord();
-//        UUID problem_uuid = UUID.randomUUID();
-//        UUID other_uuid = UUID.randomUUID();
-//        patient_rec.setPatient(problem_uuid);
-//        patient_rec.setPatient(other_uuid);
-//    }
 
-    @Test
-    public void testAddAttachment() {
-        //I suppose this covers all the possible types of attachments
-        //only the view cares about what the attachments actually are.
-        PatientRecord patient_rec = new PatientRecord();
+        assertTrue(patientRecord.getLocation().getLatitude() > 0.09);
+        assertTrue(patientRecord.getLocation().getLongitude() > 0.09);
 
-        String added_attachement = UUID.randomUUID().toString();
-        patient_rec.addAttachment(added_attachement);
-        assertTrue(patient_rec.hasAttachment(added_attachement));
-
-    }
-
-    @Test
-    public void testRemoveAttachment() {
-        PatientRecord patient_rec = new PatientRecord();
-        String added_attachement = UUID.randomUUID().toString();
-        patient_rec.addAttachment(added_attachement);
-        patient_rec.removeAttachment(added_attachement);
-        assertFalse(patient_rec.hasAttachment(added_attachement));
-    }
-    @Test
-    public void testSearchability(){
-        PatientRecord patient_rec = new PatientRecord();
-        patient_rec.setTitle("Title");
-        patient_rec.setDescription("searchable key-word");
-        patient_rec.setTimestamp(new Date());
-        assertTrue(patient_rec.search("key"));
-        assertFalse(patient_rec.search("banana"));
+        assertTrue(patientRecord.getLocation().getLatitude() < 0.11);
+        assertTrue(patientRecord.getLocation().getLongitude() < 0.11);
     }
 }

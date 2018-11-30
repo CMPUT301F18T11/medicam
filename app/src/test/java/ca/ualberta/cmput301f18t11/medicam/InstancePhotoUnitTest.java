@@ -11,11 +11,9 @@ import static org.junit.Assert.*;
 public class InstancePhotoUnitTest {
     @Test
     public void getInstancePhotoUUID(){
-        String wanttedUUID = UUID.randomUUID().toString();
-        InstancePhoto testInsta = new InstancePhoto();
-        testInsta.setInstancePhotoUUID(wanttedUUID);
-        String answerUUID = testInsta.getInstancePhotoUUID();
-        assertEquals(wanttedUUID,answerUUID);
+        String wantedUUID = UUID.randomUUID().toString();
+        InstancePhoto testInsta = new InstancePhoto(wantedUUID);
+        assertEquals(wantedUUID, testInsta.getUuid());
     }
 
 }

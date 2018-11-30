@@ -50,9 +50,12 @@ public class AddDoctorNoteActivity extends AppCompatActivity {
         record.setTitle(noteStr);
         record.setDescription(commentStr);
         record.setTimestamp(new Date());
+
+        record.setProblemUUID(getIntent().getStringExtra("problemUUID"));
+
         recordController.save(record,this);
         Intent intent = new Intent();
-        intent.putExtra("doctorRecord",record);
+        intent.putExtra("doctorRecord", record);
         setResult(RESULT_OK,intent);
         finish();
     }

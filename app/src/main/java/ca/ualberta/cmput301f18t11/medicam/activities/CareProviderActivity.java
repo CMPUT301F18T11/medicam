@@ -39,8 +39,6 @@ public class CareProviderActivity extends AppCompatActivity {
         ElasticSearchController.setIndex_url("cmput301f18t11test");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_care_provider);
-        //Patient examplePatient = new Patient("this is a user id");
-        //patientArrayList.add(examplePatient);
         Intent intent = getIntent();
         String uuid = intent.getStringExtra("userid");
 

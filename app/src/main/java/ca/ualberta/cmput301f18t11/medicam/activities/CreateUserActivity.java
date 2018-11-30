@@ -22,7 +22,6 @@ public class CreateUserActivity extends AppCompatActivity {
     private EditText enteredUserId;
     private EditText enteredPhoneNumber;
     private EditText enteredEmail;
-    private EditText enteredAddress;
     private RadioGroup radioGroup;
     private RadioButton accountTypeButton;
 
@@ -40,7 +39,7 @@ public class CreateUserActivity extends AppCompatActivity {
 
 
     }
-    //TODO : generate user id as a doctor/patient.
+
     public void checkButton(View view){
         int radio = radioGroup.getCheckedRadioButtonId();
         accountTypeButton = findViewById(radio);
@@ -52,21 +51,30 @@ public class CreateUserActivity extends AppCompatActivity {
         accountTypeButton = findViewById(radio);
         PersistenceController<Patient> patientPersistenceController = new PatientPersistenceController();
         PersistenceController<CareProvider> careProviderPersistenceController = new CareProviderPersistenceController();
+
         if (enteredUserId.getText().toString().equals("")){
             Toast.makeText(this,"Please Enter a user id",Toast.LENGTH_SHORT).show();
-        } else if (patientPersistenceController.load(enteredUserId.getText().toString(),this)!= null || careProviderPersistenceController.load(enteredUserId.getText().toString(),this) != null){
+
+        } else if (patientPersistenceController.load(enteredUserId.getText().toString(),this)
+                != null || careProviderPersistenceController.load(enteredUserId.getText().toString(),
+                this) != null){
+
             Toast.makeText(this,"User id existed, Enter another user id",Toast.LENGTH_SHORT).show();
         } else {
             Log.d("check", accountTypeButton.getText().toString());
             if (accountTypeButton.getText().toString().equals("Patient")) {
-                Patient newPatient = new Patient(enteredUserId.getText().toString());
+                Patient newPatient = new Patient(enteredUserId.getText().toString(),
+                        enteredEmail.getText().toString(), enteredPhoneNumber.getText().toString());
+
                 patientPersistenceController.save(newPatient,this);
                 Intent intent = new Intent(CreateUserActivity.this, PatientProblemActivity.class);
                 intent.putExtra("userid",enteredUserId.getText().toString());
                 startActivity(intent);
 
             } else if(accountTypeButton.getText().toString().equals("Caretaker")){
-                CareProvider newDoctor = new CareProvider(enteredUserId.getText().toString());
+                CareProvider newDoctor = new CareProvider(enteredUserId.getText().toString(),
+                        enteredEmail.getText().toString(), enteredPhoneNumber.getText().toString());
+
                 careProviderPersistenceController.save(newDoctor,this);
                 Intent intent = new Intent(CreateUserActivity.this, CareProviderActivity.class);
                 intent.putExtra("userid", enteredUserId.getText().toString());

@@ -73,7 +73,7 @@ public class PatientProblemActivity extends AppCompatActivity {
                 Intent intent = new Intent(PatientProblemActivity.this,PatientRecordActivity.class);
                 //intent.putExtra("purpose","edit");
                 //indexOfClickedItem = position;
-                intent.putExtra("previousProblem",problemList.get(position));
+                intent.putExtra("previousProblem", problemList.get(position));
                 //startActivityForResult(intent,EDIT_PROBLEM_REQUEST_CODE);;
                 startActivity(intent);
             }
@@ -103,6 +103,8 @@ public class PatientProblemActivity extends AppCompatActivity {
             Problem newProblem = (Problem) data.getExtras().getSerializable("newProblem");
             patient.addProblem(newProblem.getUuid());
             problemDisplayList.add(newProblem);
+            problemList.add(newProblem.getUuid());
+
             patientControler.save(patient,this);
         }
     }
@@ -129,7 +131,8 @@ public class PatientProblemActivity extends AppCompatActivity {
 
     public void createProblem(View view){
         Toast.makeText(this, "Add a new problem", Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(this,createProblemActivity.class);
+        Intent intent = new Intent(this, createProblemActivity.class);
+        intent.putExtra("patientUUID", patient.getUuid());
         startActivityForResult(intent,ADD_PROBLEM_REQUESTCODE);
     }
 }

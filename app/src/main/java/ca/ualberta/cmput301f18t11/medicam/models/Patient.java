@@ -21,8 +21,7 @@ import ca.ualberta.cmput301f18t11.medicam.exceptions.StringTooShortException;
 public class Patient extends User {
 
     private List<String> problems = new ArrayList<>();
-    private String frontPhoto;
-    private String backPhoto;
+    private List<String> referencePhotos = new ArrayList<>();
 
     /**
      * Empty constructor for initializing a blank <code>Patient</code> object, with an implicit call
@@ -51,6 +50,9 @@ public class Patient extends User {
         this.problems = problems;
     }
 
+    public Patient(String userID, String email, String phoneNumber) throws StringTooShortException, InvalidEmailException {
+        super(userID, email, phoneNumber);
+    }
 
     /**
      * Constructor for setting just the userID (uuid) of this <code>Patient</code> and leaving the rest
@@ -76,20 +78,16 @@ public class Patient extends User {
      * @param phoneNumber <code>String</code> to represent the phone number for this <code>Patient</code> object.
      * @param problems <code>List</code> that holds all the <code>String</code> type uuids that represent
      *                 all the <code>Problem</code> objects associated with this <code>Patient</code>.
-     * @param frontPhoto a <code>String</code> that represents the <code>Uri</code> for the front facing
-     *                   full-body photo associated with this <code>Patient</code>.
-     * @param backPhoto a <code>String</code> that represents the <code>Uri</code> for the back facing
-     *                  full-body photo associated with this <code>Patient</code>.
+     * @param referencePhotos a List holding the set of reference photos taken by this Patient.
      * @throws StringTooShortException Warns that uuid String is shorter than 8 characters.
      * @throws InvalidEmailException Warns that the specified email String is not in an approved format.
      * @see User
      */
     public Patient(String userID, String email, String phoneNumber, List<String> problems,
-                   String frontPhoto, String backPhoto) throws StringTooShortException, InvalidEmailException {
+                   List<String> referencePhotos) throws StringTooShortException, InvalidEmailException {
         super(userID, email, phoneNumber);
         this.problems = problems;
-        this.frontPhoto = frontPhoto;
-        this.backPhoto = backPhoto;
+        this.referencePhotos = referencePhotos;
     }
 
     /**
@@ -141,53 +139,26 @@ public class Patient extends User {
 
 
     /**
-     * Gets the uri <code>String</code> that represents the, user defined, front-facing full-body
-     * photo associated with this patient.
+     * Methods for handling reference photos stored on the patient
      *
-     * @return <code>String</code> that represents the uri for the user defined, front-facing full-body
-     *         photo associated with this patient.
+     * Get and set for the list itself
+     * Add a photoUUID, remove a photoUUID
      */
-
-    public String getFrontPhoto() {
-        return frontPhoto;
+    public List<String> getReferencePhotos() {
+        return referencePhotos;
     }
 
-
-    /**
-     * Sets the uri <code>String</code> that represents the, user defined, front-facing full-body
-     * photo associated with this patient.
-     *
-     * @param frontPhoto <code>String</code> that is to represents the uri for the user defined, front-facing full-body
-     *         photo associated with this patient.
-     */
-
-    public void setFrontPhoto(String frontPhoto) {
-        this.frontPhoto = frontPhoto;
+    public void setReferencePhotos(List<String> referencePhotos) {
+        this.referencePhotos = referencePhotos;
     }
 
-    /**
-     * Gets the uri <code>String</code> that represents the, user defined, back-facing full-body
-     * photo associated with this patient.
-     *
-     * @return <code>String</code> that represents the uri for the user defined, back-facing full-body
-     *         photo associated with this patient.
-     */
-
-    public String getBackPhoto() {
-        return backPhoto;
+    public void addReferencePhoto(String referencePhotoUUID) {
+        referencePhotos.add(referencePhotoUUID);
     }
 
-
-    /**
-     * Sets the uri <code>String</code> that represents the, user defined, front-facing full-body
-     * photo associated with this patient.
-     *
-     * @param backPhoto <code>String</code> that is to represents the uri for the user defined, back-facing full-body
-     *         photo associated with this patient.
-     */
-
-    public void setBackPhoto(String backPhoto) {
-        this.backPhoto = backPhoto;
+    public void removeReferencePhoto(String referencePhotoUUID) {
+        referencePhotos.remove(referencePhotoUUID);
     }
+
 
 }
