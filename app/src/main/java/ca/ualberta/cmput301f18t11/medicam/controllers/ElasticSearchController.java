@@ -154,17 +154,6 @@ public class ElasticSearchController {
     public static class SearchObjectsTask extends AsyncTask<String, Void, JestResult> {
 
 
-        // Replace "%phrase" for searching
-        private String search_query = "{" +
-                "  \"size\": 100," +
-                "  \"query\": {" +
-                "    \"multi_match\" : {" +
-                "      \"query\":    \"%phrase%\", " +
-                "      \"fields\": [ \"title\", \"description\" ] " +
-                "    }" +
-                "  }" +
-                "}";
-
         private String type_url;
 
         public SearchObjectsTask(String type_url) {
@@ -172,15 +161,13 @@ public class ElasticSearchController {
         }
 
         @Override
-        protected JestResult doInBackground(String ... search_phrases)
+        protected JestResult doInBackground(String ... search_queries)
         {
             verifySettings();
 
-            for (String phrase: search_phrases) {
+            for (String query: search_queries) {
                 try {
-                    search_query = search_query.replace("%phrase%", phrase);
-
-                    Search search = new Search.Builder(search_query).addIndex(index_url).addType(type_url).build();
+                    Search search = new Search.Builder(query).addIndex(index_url).addType(type_url).build();
 
                     JestResult result  = client.execute(search);
 
