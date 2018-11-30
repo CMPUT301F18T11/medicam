@@ -18,7 +18,6 @@ public class ProfileEditting extends AppCompatActivity {
     private TextView userId;
     private EditText enteredPhoneNumber;
     private EditText enteredEmail;
-    private EditText enteredAddress;
     private Patient patient;
     private PersistenceController<Patient> patientController = new PatientPersistenceController();
 
@@ -37,7 +36,6 @@ public class ProfileEditting extends AppCompatActivity {
         userId = findViewById(R.id.userIDTextView);
         enteredPhoneNumber = findViewById(R.id.editingPhoneNumberText);
         enteredEmail = findViewById(R.id.editingEmailText);
-        enteredAddress = findViewById(R.id.editinAddressText);
 
         Intent intent = getIntent();
         String userUUID = intent.getStringExtra("USERUUID");
@@ -45,7 +43,6 @@ public class ProfileEditting extends AppCompatActivity {
 
         userId.setText(patient.getUserID());
         enteredPhoneNumber.setText(patient.getPhoneNumber());
-        enteredAddress.setText(patient.getAddress());
         enteredEmail.setText(patient.getEmail());
     }
 
@@ -53,7 +50,6 @@ public class ProfileEditting extends AppCompatActivity {
     public void finishEditing(View view){
         patient.setPhoneNumber(enteredPhoneNumber.getText().toString());
         patient.setEmail(enteredEmail.getText().toString());
-        patient.setAddress(enteredAddress.getText().toString());
         patientController.save(patient,this);
         finish();
     }

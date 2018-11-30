@@ -5,6 +5,7 @@ import android.net.ConnectivityManager;
 
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import ca.ualberta.cmput301f18t11.medicam.controllers.ElasticSearchController;
@@ -12,6 +13,7 @@ import ca.ualberta.cmput301f18t11.medicam.controllers.InternalStorageController;
 import ca.ualberta.cmput301f18t11.medicam.controllers.abstracts.PersistenceController;
 import ca.ualberta.cmput301f18t11.medicam.models.Patient;
 import ca.ualberta.cmput301f18t11.medicam.models.PatientRecord;
+import ca.ualberta.cmput301f18t11.medicam.models.Problem;
 import ca.ualberta.cmput301f18t11.medicam.models.abstracts.Record;
 import io.searchbox.client.JestResult;
 
@@ -55,6 +57,24 @@ public class PatientRecordPersistenceController extends PersistenceController<Pa
 
         return null;
     }
+
+    public List<PatientRecord> searchFromREST(String search_phrase)
+    {
+        ElasticSearchController.SearchObjectsTask task = new ElasticSearchController.SearchObjectsTask(getTypeURL());
+        try
+        {
+            JestResult result = task.execute(search_phrase).get();
+            return result.getSourceAsObjectList(PatientRecord.class);
+        }
+
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
 
 
     @Override

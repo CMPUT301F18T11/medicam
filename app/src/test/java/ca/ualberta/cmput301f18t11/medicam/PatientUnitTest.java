@@ -23,6 +23,7 @@ public class PatientUnitTest {
         assertArrayEquals(testPatient.getProblems().toArray(), testProblemList.toArray());
 
         ArrayList<String> testProblemListEmpty = new ArrayList<>();
+
         testPatient.setProblems(testProblemListEmpty);
 
         assertTrue(testPatient.getProblems().isEmpty());
@@ -30,7 +31,9 @@ public class PatientUnitTest {
 
     @Test
     public void testAddProblem() {
+
         ArrayList<String> testProblemList = new ArrayList<>();
+
         testProblemList.add(UUID.randomUUID().toString());
         Patient testPatient = new Patient();
         testPatient.setProblems(testProblemList);

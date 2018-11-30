@@ -37,7 +37,6 @@ public class CreateUserActivity extends AppCompatActivity {
         enteredUserId = findViewById(R.id.userIDTextView);
         enteredPhoneNumber = findViewById(R.id.editingPhoneNumberText);
         enteredEmail = findViewById(R.id.editingEmailText);
-        enteredAddress = findViewById(R.id.editinAddressText);
         radioGroup = findViewById(R.id.radioGroup);
 
         //Toolbar Setup
@@ -76,7 +75,7 @@ public class CreateUserActivity extends AppCompatActivity {
                 CareProvider newDoctor = new CareProvider(enteredUserId.getText().toString());
                 careProviderPersistenceController.save(newDoctor,this);
                 Intent intent = new Intent(CreateUserActivity.this, CareProviderActivity.class);
-                intent.putExtra("userid",enteredUserId.getText().toString());
+                intent.putExtra("userid", enteredUserId.getText().toString());
                 startActivity(intent);
             }
         }

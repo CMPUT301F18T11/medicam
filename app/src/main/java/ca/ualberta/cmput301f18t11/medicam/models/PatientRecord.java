@@ -1,11 +1,13 @@
 package ca.ualberta.cmput301f18t11.medicam.models;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Enumeration;
-import java.util.UUID;
+import java.util.Date;
+import java.util.List;
 
 import ca.ualberta.cmput301f18t11.medicam.models.abstracts.Record;
+import ca.ualberta.cmput301f18t11.medicam.models.attachments.BodyLocation;
+import ca.ualberta.cmput301f18t11.medicam.models.attachments.Geolocation;
+
 
 /**
  * A extension of the <code>Record</code> class that allows a patient to record and track an affliction
@@ -17,34 +19,24 @@ import ca.ualberta.cmput301f18t11.medicam.models.abstracts.Record;
  *     identifiable <code>String</code> type uuid.
  * </p>
  */
+
 public class PatientRecord extends Record {
-    private String patient;
-    private Collection<String> attachments = new ArrayList<>();
-    private Collection<Enumeration> location;
 
+    //attachments
+    private BodyLocation bodyLocation;
+    private Geolocation mapLocation;
+    private List<String> photoList = new ArrayList<>();
+
+    //Constructors
     /**
      * Constructor that sets the unique <code>String</code> that identifies this <code>PatientRecord</code>
      *
-     * @param uuid a <code>String</code> that uniquely identifies this <code>PatientRecord</code> object.
+     * @param UUID a <code>String</code> that uniquely identifies this <code>PatientRecord</code> object.
      * @see Record
      */
-    public PatientRecord(String uuid) {
-        super(uuid);
+    public PatientRecord(String UUID) {
+        super(UUID);
     }
-
-    /**
-     * Constructor that sets the unique <code>String</code> that identifies this <code>PatientRecord</code>
-     * and assigns which <code>Patient</code> this <code>Record</code> belongs to.
-     *
-     * @param uuid a <code>String</code> that uniquely identifies this <code>PatientRecord</code> object.
-     * @param patient a uuid for the <code>Patient</code> that this <code>Record</code> belongs to.
-     * @see Record
-     */
-    public PatientRecord(String uuid, String patient) {
-        super(uuid);
-        this.patient = patient;
-    }
-
     /**
      * Empty Constructor for initializing a blank <code>PatientRecord</code>.
      */
@@ -52,67 +44,40 @@ public class PatientRecord extends Record {
         super();
     }
 
-    /**
-     * Adds a <code>String</code> that uniquely identifies an <code>Attachment</code> that should be
-     * associated with this <code>PatientRecord</code> via the attachments <code>Collection</code>.
-     *
-     * @param attachment_uuid The <code>String</code> that uniquely identifies the <code>Attachment</code> to be
-     *                        associate with this <code>PatientRecord</code>.
-     */
-    public void addAttachment(String attachment_uuid){
-        attachments.add(attachment_uuid);
+    public PatientRecord(String uuid, String title, String description, Date timestamp, String creatorUUID) {
+        super(uuid, title, description, timestamp, creatorUUID);
     }
 
-    /**
-     * Removes a <code>String</code> that uniquely identifies an <code>Attachment</code> that may be
-     * associated with this <code>PatientRecord</code> via the attachments <code>Collection</code>.
-     *
-     * @param attachment_uuid The <code>String</code> that uniquely identifies the <code>Attachment</code> to be
-     *                        removed from this <code>PatientRecord</code>.
-     */
-    public void removeAttachment(String attachment_uuid){
-        if(this.hasAttachment(attachment_uuid)){
-            attachments.remove(attachment_uuid);
-        }
+    public PatientRecord(String uuid, String title, String description, Date timestamp, String creatorUUID,
+                         BodyLocation bodyLocation, Geolocation mapLocation, List<String> photoList) {
+        super(uuid, title, description, timestamp, creatorUUID);
+        this.bodyLocation = bodyLocation;
+        this.mapLocation = mapLocation;
+        this.photoList = photoList;
     }
 
-    /**
-     * Returns all <code>Strings</code> that uniquely identify all <code>Attachment</code> objects
-     * associated with this <code>PatientRecord</code>.
-     *
-     * @return A <code>Collection</code> of <code>Strings</code> that uniquely identify all <code>Attachment</code> objects
-     *         associated with this <code>PatientRecord</code>.
-     */
-    public Collection<String> getAttachmentsUUIDS(){ return attachments;}
-
-    /**
-     * Returns boolean variable that informs if the <code>Attachment</code> object with specified uuid <code>String</code> is
-     * associated with this <code>PatientRecord</code>.
-     *
-     * @param attachment_uuid the uuid <code>String</code> of <code>Attachment</code> object to be found
-     * @return true if the <code>Attachment</code> object with specified uuid <code>String</code> is
-     *         associated with this <code>PatientRecord</code>, false if it is not.
-     */
-    public boolean hasAttachment(String attachment_uuid){
-        return attachments.contains(attachment_uuid);
+    public PatientRecord(String uuid, String title, String description, Date timestamp,
+                         String creatorUUID, BodyLocation bodyLocation, Geolocation mapLocation) {
+        super(uuid, title, description, timestamp, creatorUUID);
+        this.bodyLocation = bodyLocation;
+        this.mapLocation = mapLocation;
     }
 
-    /**
-     * Gets the <code>Patient</code> object that is associate with this <code>PatientRecord</code>.
-     *
-     * @return Reference to the <code>Patient</code> object that this <code>PatientRecord</code> is associate with.
-     */
-    public String getPatient() {
-        return patient;
-    }
+    //end constructors
 
-    /**
-     * Sets the <code>Patient</code> object that is associate with this <code>PatientRecord</code>.
-     * @param patient Reference to the <code>Patient</code> object that this <code>PatientRecord</code> is to be associate with.
-     */
-    public void setPatient(String patient) {
-        this.patient = patient;
-    }
+    //getters
+    public BodyLocation getBodyLocation() { return bodyLocation; }
+    public Geolocation getMapLocation() { return mapLocation; }
+    public String getPhotoFromList(int index) { return photoList.get(index); }
+    public List<String> getPhotoList() { return photoList; }
+    //end getters
+
+
+    //setters
+    public void setBodyLocation(BodyLocation bodyLocation) { this.bodyLocation = bodyLocation; }
+    public void setMapLocation(Geolocation user_mapLocation) { this.mapLocation = user_mapLocation; }
+    public void addPhotoToList(String user_photo){ this.photoList.add(user_photo); }
+    //end setters
 
     /**
      * Returns all of this <code>PatientRecord</code> object's components as a <code>String</code>
@@ -126,17 +91,4 @@ public class PatientRecord extends Record {
         String timeStr = timeformat.format(getTimestamp());
         return "Title: "+getTitle()+"\n" +"Time: "+timeStr + "\n";
     }
-
-    //    Don't think we had a "Tags" field for records.
-//    @Override
-//    public ArrayList<String> getTags(){
-//        this should probably eventually get moved to PersistedModel
-//        for(Attachment attachment: attachments){
-//            for(String a_tag: attachment.getTags()){
-//                tags.add(a_tag);
-//            }
-//        }
-//        Consider setting this up so that tags are updated when the
-//         objects property changes.
-//    }
 }

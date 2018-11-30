@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.UUID;
 
 import ca.ualberta.cmput301f18t11.medicam.exceptions.ReassignmentException;
+
 import ca.ualberta.cmput301f18t11.medicam.models.CareProviderRecord;
 
 import static org.junit.Assert.*;
@@ -15,8 +16,9 @@ public class CareProviderRecordTest {
     @Test
     public void testAssignCareProvider(){
         CareProviderRecord cr_prvdr_rec =  new CareProviderRecord();
-        UUID cr_prvdr_uuid = UUID.randomUUID();
-        cr_prvdr_rec.setCare_provider(cr_prvdr_uuid.toString());
+        String cr_prvdr_uuid = UUID.randomUUID().toString();
+        cr_prvdr_rec.setCare_provider(cr_prvdr_uuid);
+
         //To string because the object reference probably won't be preserved
         // when it is sent and brought back with ElasticSearch
         assertEquals(cr_prvdr_rec.getCare_provider().toString(),cr_prvdr_uuid.toString());
@@ -26,10 +28,10 @@ public class CareProviderRecordTest {
     public void cannot_reassign_care_provider(){
         //We should not be able to reassign which care_provider wrote this record
         CareProviderRecord cr_prvdr_rec =  new CareProviderRecord();
-        UUID cr_prvdr_uuid = UUID.randomUUID();
-        UUID other_uuid = UUID.randomUUID();
-        cr_prvdr_rec.setCare_provider(cr_prvdr_uuid.toString());
-        cr_prvdr_rec.setCare_provider(other_uuid.toString());
+        String cr_prvdr_uuid = UUID.randomUUID().toString();
+        String other_uuid = UUID.randomUUID().toString();
+        cr_prvdr_rec.setCare_provider(cr_prvdr_uuid);
+        cr_prvdr_rec.setCare_provider(other_uuid);
     }
 
     @Test

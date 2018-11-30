@@ -1,5 +1,7 @@
 package ca.ualberta.cmput301f18t11.medicam.models;
 
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,11 +44,13 @@ public class Patient extends User {
      * @throws InvalidEmailException Warns that the specified email String is not in an approved format.
      * @see User
      */
+
     public Patient(String userID, String email, String phoneNumber,
                    List<String> problems) throws StringTooShortException, InvalidEmailException {
         super(userID, email, phoneNumber);
         this.problems = problems;
     }
+
 
     /**
      * Constructor for setting just the userID (uuid) of this <code>Patient</code> and leaving the rest
@@ -58,6 +62,7 @@ public class Patient extends User {
      * @throws StringTooShortException Warns that uuid String is shorter than 8 characters.
      * @see User
      */
+
     public Patient(String userID) throws StringTooShortException {
         super(userID);
     }
@@ -97,12 +102,14 @@ public class Patient extends User {
         return problems;
     }
 
+
     /**
      * Sets a list of uuids for all the problems associated with this patient.
      *
      * @param problems <code>List</code> of <code>String</code> type uuids that represent all <code>Problem</code>
      *          objects that are to be associated with this <code>Patient</code>.
      */
+
     public void setProblems(List<String> problems) {
         this.problems = problems;
     }
@@ -113,10 +120,12 @@ public class Patient extends User {
      * @param problem A <code>String</code> that uniquely identifies the <code>Problem</code> object
      *                being added to the <code>List</code> of problems for this <code>Patient</code>.
      */
+
     public void addProblem(String problem)
     {
         problems.add(problem);
     }
+
 
     /**
      * Adds a <code>Problem</code> object to the list of problems that are associated with this patient.
@@ -125,9 +134,11 @@ public class Patient extends User {
      * @param problem A <code>Problem</code> object who's uuid <code>String</code> is to be added to the <code>List</code> of problems
      *                for this <code>Patient</code>.
      */
+
     public void addProblem(Problem problem) {
         problems.add(problem.getUuid());
     }
+
 
     /**
      * Gets the uri <code>String</code> that represents the, user defined, front-facing full-body
@@ -136,9 +147,11 @@ public class Patient extends User {
      * @return <code>String</code> that represents the uri for the user defined, front-facing full-body
      *         photo associated with this patient.
      */
+
     public String getFrontPhoto() {
         return frontPhoto;
     }
+
 
     /**
      * Sets the uri <code>String</code> that represents the, user defined, front-facing full-body
@@ -147,6 +160,7 @@ public class Patient extends User {
      * @param frontPhoto <code>String</code> that is to represents the uri for the user defined, front-facing full-body
      *         photo associated with this patient.
      */
+
     public void setFrontPhoto(String frontPhoto) {
         this.frontPhoto = frontPhoto;
     }
@@ -158,9 +172,11 @@ public class Patient extends User {
      * @return <code>String</code> that represents the uri for the user defined, back-facing full-body
      *         photo associated with this patient.
      */
+
     public String getBackPhoto() {
         return backPhoto;
     }
+
 
     /**
      * Sets the uri <code>String</code> that represents the, user defined, front-facing full-body
@@ -169,6 +185,7 @@ public class Patient extends User {
      * @param backPhoto <code>String</code> that is to represents the uri for the user defined, back-facing full-body
      *         photo associated with this patient.
      */
+
     public void setBackPhoto(String backPhoto) {
         this.backPhoto = backPhoto;
     }

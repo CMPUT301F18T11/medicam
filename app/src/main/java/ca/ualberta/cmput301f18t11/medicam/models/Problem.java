@@ -1,16 +1,14 @@
 package ca.ualberta.cmput301f18t11.medicam.models;
 
 
+import android.support.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.UUID;
 
 import ca.ualberta.cmput301f18t11.medicam.exceptions.StringLengthTooLongException;
 import ca.ualberta.cmput301f18t11.medicam.models.abstracts.PersistedModel;
 import ca.ualberta.cmput301f18t11.medicam.models.abstracts.Record;
-
-
-//Dummy Problem Class
 
 /**
  * Model for a problem that tracks an affliction that a patient wants to document.
@@ -21,6 +19,7 @@ import ca.ualberta.cmput301f18t11.medicam.models.abstracts.Record;
  *     respectively collected by their uniquely identifiable <code>String</code> type uuids.
  * </p>
  */
+
 public class Problem extends PersistedModel {
     private static final int MAX_DESC_CHARS = 300;
     private static final int MAX_TITLE_CHARS = 30;
@@ -28,6 +27,8 @@ public class Problem extends PersistedModel {
     private String title;
     private Date date_started = new Date();
     private String description;
+    private String creatorUUID;
+
     //TODO: Implement Records UUID and Collection
     private ArrayList<String> patientRecords = new ArrayList<>();
     private ArrayList<String> careProviderRecords = new ArrayList<>();
@@ -66,6 +67,7 @@ public class Problem extends PersistedModel {
      *                            identify each <code>CareProviderRecord</code> object that is associated with
      *                            this <code>Problem</code> object.
      */
+
     public Problem(String uuid, String title, String description,
                    ArrayList<String> patientRecords, ArrayList<String> careProviderRecords) {
         super(uuid);
@@ -86,24 +88,27 @@ public class Problem extends PersistedModel {
      *                    object was created.
      * @param description<code>String</code> description of the issue that this <code>Problem</code> object
      *                         is meant to keep track of.
+     * @param creatorUUID String uuid of the patient which created this problem. Helpful for searching.
      */
-    public Problem(String uuid, String title, Date date_started, String description) {
+
+    public Problem(String uuid, String title, Date date_started, String description, String creatorUUID) {
         super(uuid);
         this.title = title;
         this.date_started = date_started;
         this.description = description;
+        this.creatorUUID = creatorUUID;
     }
-
-    //Getters and Setters
 
     /**
      * Gets the title associated with this problem.
      *
      * @return <code>String</code> that represents the title for this problem.
      */
+
     public String getTitle(){
         return this.title;
     }
+
 
     /**
      * Sets the title associated with this problem. The title parameter must be less than MAX_TITLE_CHARS
@@ -113,6 +118,7 @@ public class Problem extends PersistedModel {
      * @throws StringLengthTooLongException Warns that the title <code>String</code> is over MAX_TITLE_CHARS
      *                                      long.
      */
+
     public void setTitle(String title) throws StringLengthTooLongException {
         if (title.length() <= MAX_TITLE_CHARS) {
             this.title = title;
@@ -121,6 +127,7 @@ public class Problem extends PersistedModel {
         }
     }
 
+
     /**
      * Sets the date that the issue tracked by this problem began.
      *
@@ -128,9 +135,11 @@ public class Problem extends PersistedModel {
      *             tracks began. User defined, else it defaults to the date the <code>Problem</code>
      *             object was created.
      */
+
     public void setDate(Date date){
         this.date_started = date;
     }
+
 
     /**
      * Gets the date that the issue tracked by this problem began.
@@ -139,9 +148,11 @@ public class Problem extends PersistedModel {
      *      *             tracks began. User defined, else it defaults to the date the <code>Problem</code>
      *      *             object was created.
      */
+
     public Date getDate(){
         return this.date_started;
     }
+
 
     /**
      * Sets the text that describes the issue tracked by this problem. The description <code>String</code>
@@ -152,6 +163,7 @@ public class Problem extends PersistedModel {
      * @throws StringLengthTooLongException Warns that the description <code>String</code> is over
      *                                      MAX_DESC_CHARS long.
      */
+
     public void setDescription(String desc) throws StringLengthTooLongException {
 
         if (desc.length() <= MAX_DESC_CHARS){
@@ -162,18 +174,21 @@ public class Problem extends PersistedModel {
 
     }
 
+
     /**
      * Gets the text that describes the issue tracked by this problem.
      *
      * @return <code>String</code> description of the issue that this <code>Problem</code> object
      *         is meant to keep track of.
      */
+
     public String getDescription(){
         return this.description;
     }
 
 
     //Adding/deleting records
+
 
     /**
      * Returns true if the problem has the specified record, false if not.
@@ -187,9 +202,11 @@ public class Problem extends PersistedModel {
      *               to be found or not found in this <code>Problem</code> object.
      * @return true if the record was found, false if it was not.
      */
+
     public boolean hasRecord(String record){
         return this.patientRecords.contains(record) || this.careProviderRecords.contains(record);
     }
+
 
     /**
      * Adds a patient record by its uuid to the list of patient records that held by this problem.
@@ -198,9 +215,11 @@ public class Problem extends PersistedModel {
      *               be added to the <code>List</code> of patient records held by this <code>Problem</code>
      *               object.
      */
+
     public void addPatientRecord(String record){
         this.patientRecords.add(record);
     }
+
 
     /**
      * Adds a care provider record by its uuid to the list of care provider records that held by this problem.
@@ -209,6 +228,7 @@ public class Problem extends PersistedModel {
      *               be added to the <code>List</code> of care provider records held by this <code>Problem</code>
      *               object.
      */
+
     public void addCareProviderRecord(String record){
         this.careProviderRecords.add(record);
     }
@@ -221,9 +241,11 @@ public class Problem extends PersistedModel {
      *              object that is to be removed from to the <code>List</code> of patient records
      *              held by this <code>Problem</code> object.
      */
+
     public void deletePatientRecord(int index){
         this.patientRecords.remove(index);
     }
+
 
     /**
      * Removes a record by its uuid <code>String</code> in the list of patient records that held by this problem.
@@ -232,9 +254,11 @@ public class Problem extends PersistedModel {
      *               be removed from to the <code>List</code> of patient records held by this <code>Problem</code>
      *               object.
      */
+
     public void deletePatientRecord(String record){
         this.patientRecords.remove(record);
     }
+
 
     /**
      * Removes a record by its index in the list of care provider records that held by this problem.
@@ -243,9 +267,11 @@ public class Problem extends PersistedModel {
      *              object that is to be removed from to the <code>List</code> of care provider records
      *              held by this <code>Problem</code> object.
      */
+
     public void deleteCareProviderRecord(int index){
         this.careProviderRecords.remove(index);
     }
+
 
     /**
      * Removes a record by its uuid <code>String</code> in the list of care provider records that held by this problem.
@@ -254,9 +280,11 @@ public class Problem extends PersistedModel {
      *              object that is to be removed from to the <code>List</code> of care provider records
      *              held by this <code>Problem</code> object.
      */
+
     public void deleteCareProviderRecord(String record){
         this.careProviderRecords.remove(record);
     }
+
 
     /**
      * Gets the list of patient records that are held by this problem.
@@ -264,9 +292,11 @@ public class Problem extends PersistedModel {
      * @return <code>ArrayList<String></code> of <code>String</code> type uuids that uniquely identify
      *         each <code>PatientRecord</code> held by this <code>Problem</code> object.
      */
+
     public ArrayList<String> getPatientRecords(){
         return this.patientRecords;
     }
+
 
     /**
      * Gets the list of care provider records that are held by this problem.
@@ -286,8 +316,10 @@ public class Problem extends PersistedModel {
      *                         Detail: description string".
      * @return
      */
+    @Override
     public String toString(){
         return "Title: " + this.title +"\n"+"Detail: "+ description;
     }
+
 }
 

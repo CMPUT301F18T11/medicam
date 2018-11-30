@@ -104,40 +104,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profileCreate_Subheader03" />
 
-    <TextView
-        android:id="@+id/profileCreate_Subheader04"
-        android:layout_width="wrap_content"
-        android:layout_height="16dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="16dp"
-        android:text="Address:"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editingEmailText" />
-
-    <EditText
-        android:id="@+id/editinAddressText"
-        android:layout_width="0dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginRight="30dp"
-        android:width="4dp"
-        android:background="@drawable/toggle_choice_background_boarder"
-        android:color="#000000"
-        android:ems="15"
-        android:hint="Address"
-        android:inputType="textPersonName"
-        android:paddingLeft="12dp"
-        android:radius="10dp"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profileCreate_Subheader04" />
-
     <Button
         android:id="@+id/createButton"
         android:layout_width="120dp"
@@ -152,6 +118,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editinAddressText" />
+        app:layout_constraintTop_toBottomOf="@+id/editingEmailText" />
 
 </android.support.constraint.ConstraintLayout>
