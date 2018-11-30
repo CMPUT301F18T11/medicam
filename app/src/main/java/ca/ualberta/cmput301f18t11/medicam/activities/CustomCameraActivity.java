@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.ImageFormat;
+import android.graphics.Point;
 import android.graphics.SurfaceTexture;
 import android.graphics.drawable.Drawable;
 import android.hardware.camera2.CameraAccessException;
@@ -39,14 +40,17 @@ import android.widget.ToggleButton;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 import ca.ualberta.cmput301f18t11.medicam.R;
 import ca.ualberta.cmput301f18t11.medicam.controllers.ImageStorageController;
+import ca.ualberta.cmput301f18t11.medicam.utils.CustomTextureView;
 
 public class CustomCameraActivity extends Activity {
     //Refernce: https://github.com/googlesamples/android-Camera2Basic/blob/master/Application/src/main/java/com/example/android/camera2basic/Camera2BasicFragment.java
@@ -60,8 +64,42 @@ public class CustomCameraActivity extends Activity {
     }
 
     //States for focus locking
+
+    /**
+     * Camera state: Showing camera preview.
+     */
     private static final int STATE_PREVIEW = 0;
+
+    /**
+     * Camera state: Waiting for the focus to be locked.
+     */
     private static final int STATE_WAIT_LOCK = 1;
+
+    /**
+     * Camera state: Waiting for the exposure to be precapture state.
+     */
+    private static final int STATE_WAITING_PRECAPTURE = 2;
+
+    /**
+     * Camera state: Waiting for the exposure state to be something other than precapture.
+     */
+    private static final int STATE_WAITING_NON_PRECAPTURE = 3;
+
+    /**
+     * Camera state: Picture was taken.
+     */
+    private static final int STATE_PICTURE_TAKEN = 4;
+
+    /**
+     * Max preview width that is guaranteed by Camera2 API
+     */
+    private static final int MAX_PREVIEW_WIDTH = 1920;
+
+    /**
+     * Max preview height that is guaranteed by Camera2 API
+     */
+    private static final int MAX_PREVIEW_HEIGHT = 1080;
+
     private int current_state;
 
     private Size mPreviewSize;
@@ -73,13 +111,12 @@ public class CustomCameraActivity extends Activity {
             new TextureView.SurfaceTextureListener() {
                 @Override
                 public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
-                    setCameraDimension(width, height);
-                    openCamera();
+                    openCamera(width, height);
                 }
 
                 @Override
                 public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
-
+                    //configureTransform(width,height);
                 }
 
                 @Override
@@ -112,6 +149,7 @@ public class CustomCameraActivity extends Activity {
                 public void onError(CameraDevice camera, int error) {
                     camera.close();
                     mCameraDevice = null;
+                    finish();
                 }
             };
     private CaptureRequest mPreviewCaptureRequest;
@@ -129,7 +167,7 @@ public class CustomCameraActivity extends Activity {
                             }
                             break;
                         case STATE_PREVIEW:
-                            //Do nothing
+                            //Do nothing, the camera is working.
                             break;
                     }
 
@@ -138,6 +176,13 @@ public class CustomCameraActivity extends Activity {
                 @Override
                 public void onCaptureStarted(CameraCaptureSession session, CaptureRequest request, long timestamp, long frameNumber) {
                     super.onCaptureStarted(session, request, timestamp, frameNumber);
+                }
+
+                @Override
+                public void onCaptureProgressed(CameraCaptureSession session, CaptureRequest request, CaptureResult partialResult) {
+                    super.onCaptureProgressed(session, request, partialResult);
+
+                    process(partialResult);
                 }
 
                 @Override
@@ -181,7 +226,7 @@ public class CustomCameraActivity extends Activity {
         final int maxMemorySize = (int) Runtime.getRuntime().maxMemory() / 1024;
         final int cacheSize = maxMemorySize / 10;
 
-        mTextureView = (TextureView) findViewById(R.id.camera_texture_view);
+        mTextureView = (CustomTextureView) findViewById(R.id.camera_texture_view);
     }
 
     @Override
@@ -191,8 +236,7 @@ public class CustomCameraActivity extends Activity {
         openBackgroundThread();
 
         if (mTextureView.isAvailable()) {
-            setCameraDimension(mTextureView.getWidth(), mTextureView.getHeight());
-            openCamera();
+            openCamera(mTextureView.getWidth(), mTextureView.getHeight());
         } else {
             mTextureView.setSurfaceTextureListener(mSurfaceTextureListener);
         }
@@ -208,33 +252,47 @@ public class CustomCameraActivity extends Activity {
     }
 
     private void setCameraDimension(int width, int height) {
+
         CameraManager camManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
         try {
             for (String cameraId : camManager.getCameraIdList()) {
                 CameraCharacteristics camCharacteristics = camManager.getCameraCharacteristics(cameraId);
+
+                //TODO: Allow front-facing camera.
                 if (camCharacteristics.get(CameraCharacteristics.LENS_FACING) ==
                         CameraCharacteristics.LENS_FACING_FRONT) {
                     continue;
                 }
-                StreamConfigurationMap scmap = camCharacteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
+
+                StreamConfigurationMap scmap = camCharacteristics.get(
+                        CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
+
+                //Something broke, probably camera hardware doesn't exist somehow.
+                if(scmap == null){ continue; }
 
                 Size largestImageSize = Collections.max(
                         Arrays.asList(scmap.getOutputSizes(ImageFormat.JPEG)),
-                        new Comparator<Size>() {
-                            @Override
-                            public int compare(Size lhs, Size rhs) {
-                                return Long.signum(lhs.getWidth() * lhs.getHeight() -
-                                rhs.getWidth() * rhs.getHeight());
-                            }
-                        }
+                        new CompareByArea()
                 );
                 mImageReader = ImageReader.newInstance(largestImageSize.getWidth(),
                         largestImageSize.getHeight(),
-                        ImageFormat.JPEG,
+                        ImageFormat.JPEG, //Set image format.
                         1);
                 mImageReader.setOnImageAvailableListener(mOnImageAvailableListener, mBackgroundHandler);
 
-                mPreviewSize = getPreferredPreviewSize(scmap.getOutputSizes(SurfaceTexture.class), width, height);
+                //TODO:check device orientation to orient photo in storage
+
+                Point displayDimensions = new Point();
+                getWindowManager().getDefaultDisplay().getSize(displayDimensions);
+
+                mPreviewSize = getPreferredPreviewSize(scmap.getOutputSizes(SurfaceTexture.class),
+                                            width,
+                                            height,
+                                            displayDimensions.x,
+                                            displayDimensions.y,
+                                            largestImageSize);
+
+
                 mCameraId = cameraId;
                 return;
             }
@@ -244,12 +302,20 @@ public class CustomCameraActivity extends Activity {
     }
 
     public void capturePhoto(View view) {
-        userImageFd = createImageFilepath();
+        try {
+            userImageFd = createImageFilepath();
+        }catch (IOException e ){
+            e.printStackTrace();
+        }
         lockFocus();
     }
 
     //TODO:Move this into ImageStorageController as a pre-storage check if exist, else create.
-    public File createImageFilepath(){
+    File createImageFilepath() throws IOException{
+
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+
+
         File directory = new File(
                 Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
                 + File.separator + "medicam");
@@ -261,37 +327,74 @@ public class CustomCameraActivity extends Activity {
             }
         }
 
-        return new File(directory.toString() + File.separator + "newpic.jpg");
+        return File.createTempFile(String.format("IMG_%s", timeStamp), ".jpg", directory );
     }
 
-    private Size getPreferredPreviewSize(Size[] mapSizes, int width, int height) {
-        List<Size> collectorSizes = new ArrayList<>();
+    private Size getPreferredPreviewSize(Size[] mapSizes, int texWidth, int texHeight,
+                                         int maxWidth, int maxHeight, Size aspectRatio) {
+
+        List<Size> collectorSizes = new ArrayList<Size>();
+        List<Size> tooSmall = new ArrayList<Size>();
+        int w = aspectRatio.getWidth();
+        int h = aspectRatio.getHeight();
 
         //ensuring that the height and width are actually the correct dimensions
         for (Size option : mapSizes) {
-            if (width > height) {
-                if (option.getWidth() > width && option.getHeight() > height) {
-                    collectorSizes.add(option);
-                }
-            } else {
-                if (option.getWidth() > height &&
-                        option.getHeight() > width) {
-                    collectorSizes.add(option);
+            if (texWidth > texHeight) {
+                if (option.getWidth() <= maxWidth && option.getHeight() <= maxHeight
+                        && option.getHeight() == option.getWidth() * h / w) {
+                    if (option.getWidth() >= texWidth &&
+                            option.getHeight() >= texHeight) {
+                        collectorSizes.add(option);
+                    } else {
+                        tooSmall.add(option);
+                    }
                 }
             }
         }
-        if (collectorSizes.size() > 0) {
-            return Collections.min(collectorSizes, new Comparator<Size>() {
-                @Override
-                public int compare(Size lhs, Size rhs) {
-                    return Long.signum(lhs.getWidth() * lhs.getHeight() - rhs.getWidth() * rhs.getHeight());
-                }
-            });
+
+        if(collectorSizes.size() > 0) {
+            return  Collections.min(collectorSizes,new CompareByArea());
+        } else if (tooSmall.size() > 0){
+            return Collections.max(tooSmall, new CompareByArea());
+        } else {
+            //We a usable size which as a serious problem
+            Log.d("SET PREVIEW DIMENSIONS", "COULD NOT FIND SUITABLE DIMENSIONS.");
+            return mapSizes[0];
         }
-        return mapSizes[0];
+
+//            } else {
+//                if (option.getWidth() > height &&
+//                        option.getHeight() > width) {
+//                    collectorSizes.add(option);
+//                }
+//            }
+//        }
+//        if (collectorSizes.size() > 0) {
+//            return Collections.min(collectorSizes, new Comparator<Size>() {
+//                @Override
+//                public int compare(Size lhs, Size rhs) {
+//                    return Long.signum(lhs.getWidth() * lhs.getHeight() - rhs.getWidth() * rhs.getHeight());
+//                }
+//            });
+//        }
+//        return mapSizes[0];
     }
 
-    private void openCamera() {
+    static class CompareByArea implements Comparator<Size> {
+
+        @Override
+        public int compare(Size lhs, Size rhs) {
+            return Long.signum((long) lhs.getWidth() * lhs.getHeight() -
+                    (long) rhs.getWidth() * rhs.getHeight());
+        }
+    }
+
+    private void openCamera(int width, int height) {
+
+        setCameraDimension(width, height);
+        //configureTransform(width,height);
+
         CameraManager camManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
         try {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
@@ -312,18 +415,18 @@ public class CustomCameraActivity extends Activity {
 
     private void closeCamera() {
 
-        if(mCameraCaptureSession != null) {
-            mCameraCaptureSession.close();
-            mCameraCaptureSession = null;
-        }
-        if (mCameraDevice != null) {
-            mCameraDevice.close();
-            mCameraDevice = null;
-        }
-        if (mImageReader != null) {
-            mImageReader.close();
-            mImageReader = null;
-        }
+            if (mCameraCaptureSession != null) {
+                mCameraCaptureSession.close();
+                mCameraCaptureSession = null;
+            }
+            if (mCameraDevice != null) {
+                mCameraDevice.close();
+                mCameraDevice = null;
+            }
+            if (mImageReader != null) {
+                mImageReader.close();
+                mImageReader = null;
+            }
     }
 
     private void createCameraPreviewSesh() {

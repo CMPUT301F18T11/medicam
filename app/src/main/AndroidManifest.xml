@@ -43,7 +43,8 @@
         <activity android:name=".activities.createProblemActivity" />
         <activity android:name=".activities.createRecordActivity" />
         <activity android:name=".activities.BodyLocationActivity" />
-        <activity android:name=".activities.CustomCameraActivity" />
+        <activity android:name=".activities.NewCameraActivity"
+                  android:screenOrientation="portrait"/>
 
         // For Rest API
         <uses-library
