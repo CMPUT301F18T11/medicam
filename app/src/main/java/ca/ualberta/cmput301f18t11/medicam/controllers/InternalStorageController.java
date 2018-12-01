@@ -36,9 +36,15 @@ public class InternalStorageController {
     public static class SaveObjectsTask<T extends PersistedModel> extends AsyncTask<T,Void,Boolean> {
 
         private Context context;
+        private String prefix;
 
         public SaveObjectsTask(Context context) {
             this.context = context;
+        }
+
+        public SaveObjectsTask(Context context, String prefix) {
+            this.context = context;
+            this.prefix = prefix;
         }
 
         @Override
@@ -48,8 +54,15 @@ public class InternalStorageController {
             {
                 try
                 {
+                    String filePath;
+                    if (prefix == null) {
+                        filePath = getModelSavePath(object);
 
-                    File save_file = new File(context.getFilesDir(), getModelSavePath(object));
+                    } else {
+                        filePath = prefix + getModelSavePath(object);
+                    }
+
+                    File save_file = new File(context.getFilesDir(), filePath);
 
                     if (!save_file.exists()) {
                         save_file.createNewFile();
@@ -84,10 +97,16 @@ public class InternalStorageController {
     public static class GetObjectsTask extends AsyncTask<String, Void, ArrayList<FileReader>> {
 
         private Context context;
+        private String prefix;
 
         public GetObjectsTask(Context context)
         {
             this.context = context;
+        }
+
+        public GetObjectsTask(Context context, String prefix) {
+            this.context = context;
+            this.prefix = prefix;
         }
 
         @Override
@@ -98,8 +117,15 @@ public class InternalStorageController {
             {
                 try
                 {
+                    String filePath;
+                    if (prefix == null) {
+                        filePath = getModelSavePath(id);
 
-                    File save_file = new File(context.getFilesDir(), getModelSavePath(id));
+                    } else {
+                        filePath = prefix + getModelSavePath(id);
+                    }
+
+                    File save_file = new File(context.getFilesDir(), filePath);
 
                     FileReader reader = new FileReader(save_file);
 
@@ -127,10 +153,16 @@ public class InternalStorageController {
     public static class DeleteObjectsTask extends AsyncTask<String, Void, Boolean> {
 
         private Context context;
+        private String prefix;
 
         public DeleteObjectsTask(Context context)
         {
             this.context = context;
+        }
+
+        public DeleteObjectsTask(Context context, String prefix) {
+            this.context = context;
+            this.prefix = prefix;
         }
 
         @Override
@@ -138,7 +170,15 @@ public class InternalStorageController {
         {
             for (String id: id_params)
             {
-                File save_file = new File(context.getFilesDir(), getModelSavePath(id));
+                String filePath;
+                if (prefix == null) {
+                    filePath = getModelSavePath(id);
+
+                } else {
+                    filePath = prefix + getModelSavePath(id);
+                }
+
+                File save_file = new File(context.getFilesDir(), filePath);
 
                 if (save_file.exists() )
                 {

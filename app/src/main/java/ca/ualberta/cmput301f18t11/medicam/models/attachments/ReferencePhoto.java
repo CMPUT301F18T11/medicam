@@ -19,7 +19,7 @@ public class ReferencePhoto extends PersistedModel {
      * and referencePhotoUUID fields.
      */
     public ReferencePhoto(){
-
+        super();
     }
 
     /**

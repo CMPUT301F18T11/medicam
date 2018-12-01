@@ -102,7 +102,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             return new LatLng(0,0);
         }
 
-        Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        Location location = mMap.getMyLocation();
         if (location == null) {
             return new LatLng(0,0);
         }

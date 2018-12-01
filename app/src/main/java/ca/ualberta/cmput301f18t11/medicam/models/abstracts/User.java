@@ -39,7 +39,7 @@ public abstract class User extends PersistedModel {
     }
 
     public User() {
-
+        super();
     }
 
     public User(String userID, String email, String phoneNumber) throws StringTooShortException, InvalidEmailException {

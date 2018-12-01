@@ -50,7 +50,7 @@ public abstract class PersistenceController<T extends PersistedModel> {
         Helper method for the save method.
         Handles saving to internal storage.
      */
-    private void saveToStorage(T item, Context context) {
+    protected void saveToStorage(T item, Context context) {
         InternalStorageController.SaveObjectsTask<T> task = new InternalStorageController.SaveObjectsTask(context);
         task.execute(item);
     }
