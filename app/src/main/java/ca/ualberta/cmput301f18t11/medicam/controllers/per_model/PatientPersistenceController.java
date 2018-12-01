@@ -20,6 +20,13 @@ import io.searchbox.client.JestResult;
  */
 public class PatientPersistenceController extends PersistenceController<Patient> {
 
+
+    @Override
+    protected void saveToStorage(Patient item, Context context) {
+        InternalStorageController.SaveObjectsTask<Patient> task = new InternalStorageController.SaveObjectsTask<>(context, getTypeURL());
+        task.execute(item);
+    }
+
     @Override
     public Patient loadFromREST(String id)
     {
@@ -41,7 +48,7 @@ public class PatientPersistenceController extends PersistenceController<Patient>
     @Override
     public Patient loadFromStorage(String id, Context context)
     {
-        InternalStorageController.GetObjectsTask task = new InternalStorageController.GetObjectsTask(context);
+        InternalStorageController.GetObjectsTask task = new InternalStorageController.GetObjectsTask(context, getTypeURL());
         try
         {
             ArrayList<FileReader> readers = task.execute(id).get();
@@ -55,6 +62,11 @@ public class PatientPersistenceController extends PersistenceController<Patient>
         return null;
     }
 
+    @Override
+    public void deleteFromStorage(Patient item, Context context) {
+        InternalStorageController.DeleteObjectsTask task = new InternalStorageController.DeleteObjectsTask(context, getTypeURL());
+        task.execute(item.getUuid());
+    }
 
     @Override
     public String getTypeURL() {
