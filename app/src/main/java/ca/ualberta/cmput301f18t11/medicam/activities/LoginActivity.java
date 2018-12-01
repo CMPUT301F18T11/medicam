@@ -40,7 +40,10 @@ public class LoginActivity extends AppCompatActivity {
             //This is the actual request.
             //Gimme that permission boy!
             Toast.makeText(LoginActivity.this, "Gimme that permission boy!", Toast.LENGTH_SHORT).show();
-            ActivityCompat.requestPermissions(LoginActivity.this, new String[]{Manifest.permission.CAMERA}, 1);
+            ActivityCompat.requestPermissions(LoginActivity.this, new String[]{
+                    Manifest.permission.CAMERA,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.LOCATION_HARDWARE}, 1);
         } else {
             //We already have permissions
             Toast.makeText(LoginActivity.this, "Camera permissions have already been granted btw", Toast.LENGTH_SHORT).show();
@@ -92,7 +95,7 @@ public class LoginActivity extends AppCompatActivity {
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED){
                     //Permission was granted
                     //do stuff
-                    Toast.makeText(LoginActivity.this, "Camera permissions granted, yay!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Everything permissions granted, yay!", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(LoginActivity.this, "Camera permissions denied", Toast.LENGTH_SHORT).show();
                 }
