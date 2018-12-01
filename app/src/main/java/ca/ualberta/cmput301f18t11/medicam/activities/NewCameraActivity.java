@@ -92,6 +92,13 @@ import ca.ualberta.cmput301f18t11.medicam.models.Patient;
 import ca.ualberta.cmput301f18t11.medicam.models.PatientRecord;
 import ca.ualberta.cmput301f18t11.medicam.utils.CustomTextureView;
 
+/**
+ * Asynchronously projects a image stream onto a textureview as a camera preview, then also asynchronously
+ * captures a photo using a capture request.
+ * Boiler plate and asynch code reused from Camera2 tutorial series:
+ *  Author: Nigel Henshaw,
+ *  Link: https://www.youtube.com/watch?v=N8G7TvOWZds&list=PL9jCwTXYWjDJUJATHM0Lrjk9N5n6QZqBg&index=11
+ */
 public class NewCameraActivity extends Activity {
 
     private static final String IMAGE_FILE_PATH = "image_file_path";
@@ -129,6 +136,8 @@ public class NewCameraActivity extends Activity {
     private static final int STATE_WAIT_NON_PRECAPTURE = 3;
     private static final int STATE_PICTURE_TAKEN = 4;
 
+    private Semaphore mAsyncCameraLock = new Semaphore(1);
+
     private ImageView cameraOverlay;
     private final TextureView.SurfaceTextureListener mSurfaceTextureListener = new
             TextureView.SurfaceTextureListener() {
@@ -160,18 +169,21 @@ public class NewCameraActivity extends Activity {
     private final CameraDevice.StateCallback mStateCallback = new CameraDevice.StateCallback() {
         @Override
         public void onOpened(CameraDevice camera) {
+            mAsyncCameraLock.release();
             mCameraDevice = camera;
             createCameraPreviewSession();
         }
 
         @Override
         public void onDisconnected(CameraDevice camera) {
+            mAsyncCameraLock.release();
             camera.close();
             mCameraDevice = null;
         }
 
         @Override
         public void onError(CameraDevice camera, int error) {
+            mAsyncCameraLock.release();
             camera.close();
             mCameraDevice = null;
             finish();
@@ -280,13 +292,6 @@ public class NewCameraActivity extends Activity {
         }
         cameraOverlay.setAlpha(0.30f);
 
-
-
-        try {
-            mOutputFile = createOutputFilePath();
-        } catch (IOException e){
-            e.printStackTrace();
-        }
     }
 
     @Override
@@ -318,24 +323,37 @@ public class NewCameraActivity extends Activity {
         configureTransform(width, height);
         CameraManager manager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
         try {
+            if(!mAsyncCameraLock.tryAcquire(2500, TimeUnit.MILLISECONDS)) {
+                throw new RuntimeException("Time out waiting for camera to open.");
+            }
             manager.openCamera(mCameraId, mStateCallback, mBackgroundHandler);
         } catch (CameraAccessException e){
             e.printStackTrace();
+        } catch (InterruptedException e){
+            throw new RuntimeException("Interrupted while trying operate camera lock semaphore for opening.",e);
         }
     }
 
-    private void closeCamera(){
-        if (null != mCaptureSession) {
-            mCaptureSession.close();
-            mCaptureSession = null;
-        }
-        if (null != mCameraDevice) {
-            mCameraDevice.close();
-            mCameraDevice = null;
-        }
-        if (null != mImageReader) {
-            mImageReader.close();
-            mImageReader = null;
+    private void closeCamera() {
+
+        try {
+            mAsyncCameraLock.acquire();
+            if (null != mCaptureSession) {
+                mCaptureSession.close();
+                mCaptureSession = null;
+            }
+            if (null != mCameraDevice) {
+                mCameraDevice.close();
+                mCameraDevice = null;
+            }
+            if (null != mImageReader) {
+                mImageReader.close();
+                mImageReader = null;
+            }
+        } catch (InterruptedException e) {
+            throw new RuntimeException("Interrupted while trying operate camera lock semaphore for close.", e);
+        } finally {
+            mAsyncCameraLock.release();
         }
     }
 
@@ -514,7 +532,7 @@ public class NewCameraActivity extends Activity {
 
                 int displayRotation = getWindowManager().getDefaultDisplay().getRotation();
 
-                mSensorOrientation = characteristics.get(CameraCharacteristics.SENSOR_ORIENTATION);
+                mSensorOrientation = characteristics.get(CameraCharacteristics.SENSOR_ORIENTATION); //may cause NPE
                 boolean swappedDimensions = false;
                 switch (displayRotation) {
                     case Surface.ROTATION_0:
@@ -666,6 +684,11 @@ public class NewCameraActivity extends Activity {
 
 
     private void initiatePhotoCapture() {
+        try {
+            mOutputFile = createOutputFilePath();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
         lockFocus();
     }
 
