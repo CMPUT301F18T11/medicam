@@ -92,6 +92,13 @@ import ca.ualberta.cmput301f18t11.medicam.models.Patient;
 import ca.ualberta.cmput301f18t11.medicam.models.PatientRecord;
 import ca.ualberta.cmput301f18t11.medicam.utils.CustomTextureView;
 
+/**
+ * Asynchronously projects a image stream onto a textureview as a camera preview, then also asynchronously
+ * captures a photo using a capture request.
+ * Boiler plate and asynch code reused from Camera2 tutorial series:
+ *  Author: Nigel Henshaw,
+ *  Link: https://www.youtube.com/watch?v=N8G7TvOWZds&list=PL9jCwTXYWjDJUJATHM0Lrjk9N5n6QZqBg&index=11
+ */
 public class NewCameraActivity extends Activity {
 
     private static final String IMAGE_FILE_PATH = "image_file_path";
@@ -525,7 +532,7 @@ public class NewCameraActivity extends Activity {
 
                 int displayRotation = getWindowManager().getDefaultDisplay().getRotation();
 
-                mSensorOrientation = characteristics.get(CameraCharacteristics.SENSOR_ORIENTATION);
+                mSensorOrientation = characteristics.get(CameraCharacteristics.SENSOR_ORIENTATION); //may cause NPE
                 boolean swappedDimensions = false;
                 switch (displayRotation) {
                     case Surface.ROTATION_0:
