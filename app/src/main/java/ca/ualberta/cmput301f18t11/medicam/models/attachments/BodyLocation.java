@@ -24,7 +24,7 @@ public class BodyLocation implements Serializable {
      * Null contructor for body location.
      */
     public BodyLocation() {
-
+        super();
     }
 
     public BodyLocation(Pair<Integer, Integer> imageCoordinates, String bodyLocationPhotoUUID) {

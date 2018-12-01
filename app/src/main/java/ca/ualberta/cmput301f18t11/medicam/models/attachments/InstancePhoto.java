@@ -16,7 +16,7 @@ public class InstancePhoto extends PersistedModel {
      * with empty <code>Uri</code> photo and <code>Bitmap</code> cameraPhoto fields.
      */
     public InstancePhoto() {
-
+        super();
     }
 
     public InstancePhoto(String uuid) {
