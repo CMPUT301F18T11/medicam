@@ -114,7 +114,6 @@
         android:layout_marginStart="28dp"
         android:layout_marginLeft="28dp"
         android:layout_marginTop="84dp"
-        android:onClick="goAddBodyLocation"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/record_view_comment_hint"
         app:srcCompat="@drawable/icon_body_location" />
@@ -209,5 +208,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/record_view_comment_hint" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="120dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginLeft="30dp"
+        android:onClick="photoSlideshow"
+        android:text="Slideshow"
+        app:layout_constraintBaseline_toBaselineOf="@+id/go_edit_button"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

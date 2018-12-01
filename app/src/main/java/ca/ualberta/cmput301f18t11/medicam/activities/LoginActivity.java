@@ -1,6 +1,8 @@
 package ca.ualberta.cmput301f18t11.medicam.activities;
 
 import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
@@ -32,12 +34,13 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ElasticSearchController.setIndex_url("cmput301f18t11test");
+
         //TODO: put this in the right spot so that the conditional execution actually does something
-        if (ContextCompat.checkSelfPermission(LoginActivity.this,Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
+        if (ContextCompat.checkSelfPermission(LoginActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             //This is the actual request.
             //Gimme that permission boy!
             Toast.makeText(LoginActivity.this, "Gimme that permission boy!", Toast.LENGTH_SHORT).show();
-            ActivityCompat.requestPermissions(LoginActivity.this,new String[]{Manifest.permission.CAMERA}, 1);
+            ActivityCompat.requestPermissions(LoginActivity.this, new String[]{Manifest.permission.CAMERA}, 1);
         } else {
             //We already have permissions
             Toast.makeText(LoginActivity.this, "Camera permissions have already been granted btw", Toast.LENGTH_SHORT).show();
@@ -78,4 +81,24 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case 1 : {
+
+                if(grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    //Permission was granted
+                    //do stuff
+                    Toast.makeText(LoginActivity.this, "Camera permissions granted, yay!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(LoginActivity.this, "Camera permissions denied", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    }
+
+
 }
