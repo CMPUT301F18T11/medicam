@@ -776,10 +776,13 @@ public class NewCameraActivity extends Activity {
 
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
 
+        String root = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath();
+
 
         File directory = new File(
-                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-                        + File.separator + "medicam");
+                root
+                        + File.separator
+                        + "medicam");
         File parentDir = directory.getParentFile();
 
         if(!directory.exists()) {
