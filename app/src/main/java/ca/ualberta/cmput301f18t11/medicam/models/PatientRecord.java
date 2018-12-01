@@ -70,6 +70,7 @@ public class PatientRecord extends Record {
     public Geolocation getLocation() { return location; }
     public String getPhotoFromList(int index) { return photoList.get(index); }
     public List<String> getPhotoList() { return photoList; }
+    public String getMostRecentPhoto() {return photoList.get(photoList.size() - 1);}
     //end getters
 
 
@@ -86,6 +87,7 @@ public class PatientRecord extends Record {
      *         in the format "Title: title String
      *                        Time: time string".
      */
+    @Override
     public String toString(){
         java.text.SimpleDateFormat timeformat = new java.text.SimpleDateFormat("dd-MM-yyyy         HH:mm");
         String timeStr = timeformat.format(getTimestamp());

@@ -19,5 +19,7 @@
     </string-array>
     <string name="title_activity_maps">Map</string>
     <string name="noLocation">No Location Provided</string>
+    <string name="capture_image">Capture</string>
+    <string name="toggle_onion_skin">Show Overlay</string>
     >
 </resources>
