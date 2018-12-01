@@ -31,7 +31,7 @@ public class AddDoctorNoteActivity extends AppCompatActivity {
 
         noteHeader = findViewById(R.id.noteHeaderEditText);
         noteComment  = findViewById(R.id.noteCommentEditText);
-
+/*
         purpose = getIntent().getStringExtra("purpose");
         if (purpose.equals("edit")){
             Intent intent = getIntent();
@@ -40,7 +40,7 @@ public class AddDoctorNoteActivity extends AppCompatActivity {
             noteHeader.setText(record.getTitle());
             noteComment.setText(record.getDescription());
         }
-
+*/
 
     }
 

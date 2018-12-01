@@ -138,7 +138,13 @@ public class CareGiverRecordActivity extends AppCompatActivity {
         intent.putExtra("problemUUID", problem.getUuid());
         startActivityForResult(intent,ADD_RECORD_REQUESTCODE);
     }
-
+    public void searchButtonForCareProvider(View view){
+        Intent intent  = new Intent(this,SearchActivity.class);
+        intent.putExtra("searchFor","records");
+        intent.putExtra("previousProblem",problem);
+        intent.putExtra("accessType","doctor");
+        startActivity(intent);
+    }
     private void sortDatArray (){  // simple method of sorting an Array List that contains objects.
         Collections.sort(displayList, new Comparator<Record>() {
             @Override

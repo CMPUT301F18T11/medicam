@@ -20,7 +20,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchButton" />
+        app:layout_constraintTop_toBottomOf="@+id/search_button_for_care_provider_in_record" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/floatingActionButton"
@@ -48,7 +48,7 @@
         app:srcCompat="@mipmap/ic_launcher" />
 
     <ImageButton
-        android:id="@+id/searchButton"
+        android:id="@+id/search_button_for_care_provider_in_record"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_marginStart="8dp"
