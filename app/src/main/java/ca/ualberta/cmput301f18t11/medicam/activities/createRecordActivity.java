@@ -185,6 +185,7 @@ public class createRecordActivity extends AppCompatActivity {
 
     public void goToCamera(View view){
         Intent intent = new Intent(this, NewCameraActivity.class);
+        intent.putExtra("RECORD",record);
         startActivityForResult(intent,OPEN_CAMERA_REQUEST_CODE);
     }
     public void goToGallery(View view){

@@ -11,6 +11,7 @@ import android.hardware.camera2.CaptureFailure;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureResult;
 import android.media.ImageReader;
+import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -87,6 +88,8 @@ import java.io.File;
 
 import ca.ualberta.cmput301f18t11.medicam.R;
 import ca.ualberta.cmput301f18t11.medicam.controllers.ImageStorageController;
+import ca.ualberta.cmput301f18t11.medicam.models.Patient;
+import ca.ualberta.cmput301f18t11.medicam.models.PatientRecord;
 import ca.ualberta.cmput301f18t11.medicam.utils.CustomTextureView;
 
 public class NewCameraActivity extends Activity {
@@ -256,21 +259,28 @@ public class NewCameraActivity extends Activity {
                     process(result);
                 }
             };
+    private PatientRecord mRecord;
 
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        mRecord = (PatientRecord) getIntent().getSerializableExtra("RECORD");
         setContentView(R.layout.activity_new_camera);
 
-        mTextureView = (CustomTextureView) findViewById(R.id.texture_view);
-
-        //TODO:Pull most recent photo for this record from gallery and display as overlay
         cameraOverlay = findViewById(R.id.new_camera_overlay);
-        cameraOverlay.setImageResource(R.drawable.ic_muscles_arm_svgrepo_com);
+        mTextureView = (CustomTextureView) findViewById(R.id.texture_view);
+        List<String> photoList = mRecord.getPhotoList();
+
+        if(photoList.isEmpty()){
+            cameraOverlay.setImageResource(R.drawable.ic_muscles_arm_svgrepo_com);
+        } else {
+            cameraOverlay.setImageURI(Uri.parse(photoList.get(photoList.size() - 1)));
+        }
         cameraOverlay.setAlpha(0.30f);
+
+
 
         try {
             mOutputFile = createOutputFilePath();
