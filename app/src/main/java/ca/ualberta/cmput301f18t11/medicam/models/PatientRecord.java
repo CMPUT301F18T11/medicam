@@ -63,6 +63,7 @@ public class PatientRecord extends Record {
     public String getMapLocation() { return mapLocation; }
     public String getPhotoFromList(int index) { return photoList.get(index); }
     public List<String> getPhotoList() { return photoList; }
+    public String getMostRecentPhoto() {return photoList.get(photoList.size() - 1);}
     /**
      * Place holder function that should be replaced with a better solution later
      */
@@ -113,7 +114,6 @@ public class PatientRecord extends Record {
 //        return attachments.contains(attachment_uuid);
 //    }
 
-    //setters
     /**
      * Gets the <code>Patient</code> object that is associate with this <code>PatientRecord</code>.
      *
@@ -141,6 +141,7 @@ public class PatientRecord extends Record {
      *         in the format "Title: title String
      *                        Time: time string".
      */
+    @Override
     public String toString(){
         java.text.SimpleDateFormat timeformat = new java.text.SimpleDateFormat("dd-MM-yyyy         HH:mm");
         String timeStr = timeformat.format(getTimestamp());

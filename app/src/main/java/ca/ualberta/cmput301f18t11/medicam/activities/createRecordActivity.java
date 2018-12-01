@@ -127,7 +127,7 @@ public class createRecordActivity extends AppCompatActivity {
         //ent of set TIME picker
 
     }
-//Fetch Image From USER and Store as Bitmap / Uri type.
+    //Fetch Image From USER and Store as Bitmap / Uri type.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         //TODO Geo Location  and Save photos + bodylocations

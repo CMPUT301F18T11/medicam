@@ -375,7 +375,7 @@ public class NewCameraActivity extends Activity {
 
                         @Override
                         public void onConfigureFailed(@NonNull CameraCaptureSession session) {
-                            Toast.makeText(getApplicationContext(),"FAILED TO OPEN CAMERA", Toast.LENGTH_SHORT).show();
+                            showToast("FAILED CAMERA ACTIVITY");
                         }
                     }, null);
 
@@ -434,7 +434,7 @@ public class NewCameraActivity extends Activity {
                         public void onCaptureCompleted(@NonNull CameraCaptureSession session,
                                                        @NonNull CaptureRequest request,
                                                        @NonNull TotalCaptureResult result) {
-                            Toast.makeText(getApplicationContext(),"Saved: " + mOutputFile,Toast.LENGTH_SHORT).show();
+                            showToast("Saved: " + mOutputFile);
                             Log.d("CAMERA_ACTIVITY", mOutputFile.toString());
                             unlockFocus();
                         }
@@ -703,6 +703,11 @@ public class NewCameraActivity extends Activity {
         Intent resultIntent = new Intent();
         resultIntent.putExtra(IMAGE_FILE_PATH, mOutputFile.toString());
         setResult(RESULT_OK,resultIntent);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         finish();
     }
 
@@ -774,5 +779,14 @@ public class NewCameraActivity extends Activity {
         }
 
         return File.createTempFile(String.format("IMG_%s", timeStamp), ".jpg", directory );
+    }
+
+    private void showToast(final String text) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
