@@ -152,12 +152,17 @@ public class PatientRecordActivity extends AppCompatActivity {
     }
 
     public void search(View view){
-        Toast.makeText(PatientRecordActivity.this, "Selected search button", Toast.LENGTH_SHORT).show();
+        Intent intent  = new Intent(this,SearchActivity.class);
+        intent.putExtra("searchFor","records");
+        intent.putExtra("previousProblem",previousProblem);
+        intent.putExtra("accessType","patient");
+        startActivity(intent);
     }
 
     public void createRecord(View view){
         Intent intent = new Intent(this,createRecordActivity.class);
         intent.putExtra("purpose","add");
+        intent.putExtra("problemUUID", previousProblem.getUuid());
         startActivityForResult(intent,ADD_RECORD_REQUEST_CODE);
     }
 

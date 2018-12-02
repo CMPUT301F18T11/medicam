@@ -15,7 +15,7 @@ public class ProblemTest {
 
     @Test
     public void testAddRecord(){
-        Problem test = new Problem("title", new Date(), "description");
+        Problem test = new Problem(UUID.randomUUID().toString(), "title", new Date(), "description", "245235");
         String record = UUID.randomUUID().toString();
         test.addPatientRecord(record);
         assertTrue(test.hasRecord(record));
@@ -23,7 +23,7 @@ public class ProblemTest {
 
     @Test
     public void testRemoveRecord(){
-        Problem test = new Problem("title", new Date(), "description");
+        Problem test = new Problem(UUID.randomUUID().toString(), "title", new Date(), "description", "56546");
         String record = UUID.randomUUID().toString();
         test.addPatientRecord(record);
         test.deletePatientRecord(record);
@@ -35,12 +35,16 @@ public class ProblemTest {
 
     @Test
     public void testTitleLimit() {
-        Problem test = new Problem("title", new Date(), "description");
-        String text = "AAA";
+        Problem test = new Problem(UUID.randomUUID().toString(), "title", new Date(), "description", "56546");
+        StringBuilder text = new StringBuilder();
+        String textA = "AAAAAAAAAAAA";
+        for (int x = 0; x <= 10; x++) {
+            text.append(textA);
+        }
         boolean thrown = false;
 
         try {
-            test.setTitle(text);
+            test.setTitle(text.toString());
         } catch (StringLengthTooLongException e) {
             thrown = true;
         }
@@ -48,12 +52,16 @@ public class ProblemTest {
     }
     @Test
     public void testDescriptionLimit() {
-        Problem test = new Problem("title", new Date(), "description");
-        String text = "AAA";
+        Problem test = new Problem(UUID.randomUUID().toString(), "title", new Date(), "description", "56546");
+        StringBuilder text = new StringBuilder();
+        String textA = "AAAAAAAAAAAA";
+        for (int x = 0; x <= 30; x++) {
+            text.append(textA);
+        }
         boolean thrown = false;
 
         try {
-            test.setDescription(text);
+            test.setDescription(text.toString());
         } catch (StringLengthTooLongException e) {
             thrown = true;
         }

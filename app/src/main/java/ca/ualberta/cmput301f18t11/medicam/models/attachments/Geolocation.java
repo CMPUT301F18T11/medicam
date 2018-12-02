@@ -1,7 +1,6 @@
 package ca.ualberta.cmput301f18t11.medicam.models.attachments;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -10,33 +9,33 @@ import java.io.Serializable;
 
 
 public class Geolocation implements Serializable {
-    private double latitude;
-    private double longitude;
+    private double lat;
+    private double lon;
 
     public Geolocation(double latitude, double longitude) {
-        this.latitude = latitude;
-        this.longitude = longitude;
+        this.lat = latitude;
+        this.lon = longitude;
     }
 
     protected Geolocation(Parcel in) {
-        latitude = in.readDouble();
-        longitude = in.readDouble();
+        lat = in.readDouble();
+        lon = in.readDouble();
     }
 
     public double getLatitude() {
-        return latitude;
+        return lat;
     }
 
     public void setLatitude(double latitude) {
-        this.latitude = latitude;
+        this.lat = latitude;
     }
 
     public double getLongitude() {
-        return longitude;
+        return lon;
     }
 
     public void setLongitude(double longitude) {
-        this.longitude = longitude;
+        this.lon = longitude;
     }
 
     private void readObject(

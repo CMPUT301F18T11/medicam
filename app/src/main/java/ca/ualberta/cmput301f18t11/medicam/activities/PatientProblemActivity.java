@@ -71,10 +71,7 @@ public class PatientProblemActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 Intent intent = new Intent(PatientProblemActivity.this,PatientRecordActivity.class);
-                //intent.putExtra("purpose","edit");
-                //indexOfClickedItem = position;
-                intent.putExtra("previousProblem",problemList.get(position));
-                //startActivityForResult(intent,EDIT_PROBLEM_REQUEST_CODE);;
+                intent.putExtra("previousProblem", problemList.get(position));
                 startActivity(intent);
             }
         });
@@ -103,6 +100,8 @@ public class PatientProblemActivity extends AppCompatActivity {
             Problem newProblem = (Problem) data.getExtras().getSerializable("newProblem");
             patient.addProblem(newProblem.getUuid());
             problemDisplayList.add(newProblem);
+            problemList.add(newProblem.getUuid());
+
             patientControler.save(patient,this);
         }
     }
@@ -115,7 +114,10 @@ public class PatientProblemActivity extends AppCompatActivity {
 
     //User clicks the search button
     public void searchButton(View view){
-        Toast.makeText(this, "Selected search button", Toast.LENGTH_SHORT).show();
+        Intent intent  = new Intent(this,SearchActivity.class);
+        intent.putExtra("searchFor","problems");
+        intent.putExtra("patientUUID", patient.getUuid());
+        startActivity(intent);
     }
 
     //User clicks Profile button
@@ -129,7 +131,8 @@ public class PatientProblemActivity extends AppCompatActivity {
 
     public void createProblem(View view){
         Toast.makeText(this, "Add a new problem", Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(this,createProblemActivity.class);
+        Intent intent = new Intent(this, createProblemActivity.class);
+        intent.putExtra("patientUUID", patient.getUuid());
         startActivityForResult(intent,ADD_PROBLEM_REQUESTCODE);
     }
 }

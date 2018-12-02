@@ -5,7 +5,6 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.net.Uri;
-import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,6 +20,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -28,6 +28,7 @@ import java.util.Date;
 import ca.ualberta.cmput301f18t11.medicam.R;
 import ca.ualberta.cmput301f18t11.medicam.controllers.ElasticSearchController;
 import ca.ualberta.cmput301f18t11.medicam.controllers.GeolocationController;
+import ca.ualberta.cmput301f18t11.medicam.controllers.ImageStorageController;
 import ca.ualberta.cmput301f18t11.medicam.controllers.abstracts.PersistenceController;
 import ca.ualberta.cmput301f18t11.medicam.controllers.per_model.PatientRecordPersistenceController;
 import ca.ualberta.cmput301f18t11.medicam.models.attachments.BodyLocation;
@@ -40,6 +41,8 @@ public class createRecordActivity extends AppCompatActivity {
     private static final int OPEN_GALLERY_REQUEST_CODE = 1; //Refactored from GALLAY -> GALLERY
     private static final int ADD_BODYLOCATION_REQUEST_CODE = 3;
     private static final int UPDATE_GEOLOCATION_REQUEST_CODE = 4;
+
+    private static final String IMAGE_FILE_PATH = "image_file_path";
 
     private BodyLocation bodyLocation = null;
     private ArrayList<InstancePhoto> photos = new ArrayList<>();
@@ -78,7 +81,7 @@ public class createRecordActivity extends AppCompatActivity {
         bodyLocationTextView = findViewById(R.id.bodyLocationTextView4View);
         recordTitle = findViewById(R.id.recordTitle4View);
         recordComment = findViewById(R.id.recordcomment4View);
-        mapButton = findViewById(R.id.mapButton);
+        mapButton = findViewById(R.id.viewRecordMapButton);
         geoLocationTextView = findViewById(R.id.addressTextView);
 
         displayDateAndTime();
@@ -159,21 +162,24 @@ public class createRecordActivity extends AppCompatActivity {
         });
 
     }
-//Fetch Image From USER and Store as Bitmap / Uri type.
+    //Fetch Image From USER and Store as Bitmap / Uri type.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         //TODO Geo Location  and Save photos + bodylocations
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == OPEN_CAMERA_REQUEST_CODE && resultCode == Activity.RESULT_OK){
             Log.d("SELECT PHOTO DIALOG","onActivityResult: done takeing new photo");
-            // TODO CHANGE FOR NEW ARRAYLIST HOLDER
+
+            String mImageFilePath = data.getExtras().getString(IMAGE_FILE_PATH);
+            File mImageFile = new File(mImageFilePath);
+            Uri imageUri = Uri.fromFile(mImageFile);
 //            Bitmap bitmap;
 //            bitmap = (Bitmap) data.getExtras().get("data");
 //            photo = new InstancePhoto();
-//            photo.setPhoto(bitmap);
-//            record.addPhotoToList(photo.getUuid());
-//            //recordController.save(record,this);
-//            photoImageView.setImageBitmap(photo.getPhoto());
+//            photo.setCameraPhoto(bitmap);
+            record.addPhotoToList(imageUri.toString());
+            //recordController.save(record,this);
+            photoImageView.setImageURI(imageUri);
         }
 
         else if(requestCode == OPEN_GALLERY_REQUEST_CODE && resultCode == Activity.RESULT_OK){
@@ -232,10 +238,11 @@ public class createRecordActivity extends AppCompatActivity {
     }
 
     public void goToCamera(View view){
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        Intent intent = new Intent(this, NewCameraActivity.class);
+        intent.putExtra("RECORD",record);
         startActivityForResult(intent,OPEN_CAMERA_REQUEST_CODE);
     }
-    
+
     public void goToGallery(View view){
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
@@ -258,7 +265,8 @@ public class createRecordActivity extends AppCompatActivity {
 
             record.setBodyLocation(bodyLocation);
 
-            record.setMapLocation(location);
+            record.setLocation(location);
+            record.setProblemUUID(getIntent().getStringExtra("problemUUID"));
             recordController.save(record,this);
             intent.putExtra("newRecord", record);
             setResult(RESULT_OK, intent);
@@ -282,7 +290,7 @@ public class createRecordActivity extends AppCompatActivity {
         String timeStr = timeFormat.format(datetime);
         displayTime.setText(timeStr);
 
-        location = record.getMapLocation();
+        location = record.getLocation();
         displayGeolocation();
 
         //TODO: fetch Also PHOTOS BODY LOCATIONS AND PHOTO LIST

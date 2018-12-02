@@ -86,6 +86,16 @@
     <View
         android:id="@+id/problem__view"
         android:layout_width="wrap_content"
+        android:layout_height="10dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/colorPrimary"
+        app:layout_constraintTop_toBottomOf="@+id/viewDesc"
+        tools:layout_editor_absoluteX="0dp" />
+
+
+    <ImageButton
+        android:id="@+id/search_button_for_care_provider_in_record"
+        android:layout_width="wrap_content"
         android:layout_height="12dp"
         android:layout_centerVertical="true"
         android:layout_marginTop="8dp"
@@ -97,15 +107,11 @@
 
     <ListView
         android:id="@+id/recordListView"
-        android:layout_width="342dp"
-        android:layout_height="0dp"
+        android:layout_width="0dp"
+        android:layout_height="197dp"
         android:layout_marginStart="30dp"
-        android:layout_marginLeft="30dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -116,10 +122,8 @@
         android:layout_width="0dp"
         android:layout_height="91dp"
         android:layout_marginStart="30dp"
-        android:layout_marginLeft="30dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="30dp"
-        android:layout_marginRight="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"

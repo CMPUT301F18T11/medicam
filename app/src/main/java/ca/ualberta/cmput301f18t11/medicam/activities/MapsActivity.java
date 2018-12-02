@@ -40,16 +40,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         Intent intent = getIntent();
         mode = intent.getStringExtra("mode");
-        if (mode.equals("selection")) {
-            location = new Geolocation(intent.getDoubleExtra("latitude", 0),
-                    intent.getDoubleExtra("longitude", 0));
 
-            if (location.getLatitude() == 0 && location.getLongitude() == 0) {
-                location = null;
-            }
-        } else if (mode.equals("viewing")) {
-            // TODO VIEWING LOGIC
+        location = new Geolocation(intent.getDoubleExtra("latitude", 0),
+                intent.getDoubleExtra("longitude", 0));
+
+        if (location.getLatitude() == 0 && location.getLongitude() == 0) {
+            location = null;
         }
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -87,8 +85,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
         currentMarker = mMap.addMarker(new MarkerOptions().position(startingMarker).title("Record Location"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(startingMarker));
-        mMap.setOnMapClickListener(this);
-        mMap.setOnMarkerClickListener(this);
+
+        if (mode.equals("selection")) {
+            mMap.setOnMapClickListener(this);
+            mMap.setOnMarkerClickListener(this);
+        }
     }
 
     private LatLng getCurrentLocation() {
@@ -101,7 +102,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             return new LatLng(0,0);
         }
 
-        Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        Location location = mMap.getMyLocation();
         if (location == null) {
             return new LatLng(0,0);
         }

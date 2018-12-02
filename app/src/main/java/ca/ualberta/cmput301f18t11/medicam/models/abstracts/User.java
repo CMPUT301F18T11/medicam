@@ -16,6 +16,9 @@ public abstract class User extends PersistedModel {
     }
 
     public void setUserID(String userID) throws StringTooShortException {
+        if (userID.length() < MIN_USERNAME_LENGTH) {
+            throw new StringTooShortException();
+        }
         this.uuid = userID;
     }
 
@@ -36,7 +39,7 @@ public abstract class User extends PersistedModel {
     }
 
     public User() {
-
+        super();
     }
 
     public User(String userID, String email, String phoneNumber) throws StringTooShortException, InvalidEmailException {

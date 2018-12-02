@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import java.util.Date;
+import java.util.UUID;
 
 import ca.ualberta.cmput301f18t11.medicam.R;
 import ca.ualberta.cmput301f18t11.medicam.controllers.ElasticSearchController;
@@ -19,7 +20,7 @@ public class createProblemActivity extends AppCompatActivity {
 
     private EditText problemTitle;
     private EditText problemDescription;
-    private PersistenceController<Problem> problemControler = new ProblemPersistenceController();
+    private PersistenceController<Problem> problemController = new ProblemPersistenceController();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +46,10 @@ public class createProblemActivity extends AppCompatActivity {
 
         } else {
             Intent intent = new Intent();
-            Problem newProblem = new Problem(problemTitle.getText().toString(), new Date(), problemDescription.getText().toString());
-            problemControler.save(newProblem,this);
+            Problem newProblem = new Problem(UUID.randomUUID().toString(),
+                    problemTitle.getText().toString(), new Date(),
+                    problemDescription.getText().toString(), getIntent().getStringExtra("patientUUID"));
+            problemController.save(newProblem,this);
             intent.putExtra("newProblem", newProblem);
             setResult(RESULT_OK, intent);
             finish();

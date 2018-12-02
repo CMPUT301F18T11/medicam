@@ -34,24 +34,6 @@ public class Problem extends PersistedModel {
     private ArrayList<String> careProviderRecords = new ArrayList<>();
 
     /**
-     * Constructor that sets the title(<code>String</code>), date_started(<code>Date</code>), and
-     * description(<code>String</code>) for this problem.
-     *
-     * @param title <code>String</code> that represents the title for this problem
-     * @param date <code>Date</code> that represents the date that the issue this <code>Problem</code>
-     *             tracks began. User defined, else it defaults to the date the <code>Problem</code>
-     *             object was created.
-     * @param desc <code>String</code> description of the issue that this <code>Problem</code> object
-     *             is meant to keep track of.
-     */
-    public Problem(String title, Date date, String desc){
-        super();
-        this.setTitle(title);
-        this.date_started = date;
-        this.setDescription(desc);
-    }
-
-    /**
      * Constructor that captures inputs for the uuid(<code>String</code>), title(<code>String</code>),
      * description(<code>String</code>), patientRecords(<code>ArrayList<String></code>), and
      * careProviderRecords(<code>ArrayList<String></code>) fields of this <code>Problem</code> object.
@@ -308,6 +290,14 @@ public class Problem extends PersistedModel {
         return careProviderRecords;
     }
 
+    public String getCreatorUUID() {
+        return creatorUUID;
+    }
+
+    public void setCreatorUUID(String creatorUUID) {
+        this.creatorUUID = creatorUUID;
+    }
+
     /**
      * Returns all of this <code>Problem</code> object's components as a <code>String</code>
      *
@@ -316,6 +306,9 @@ public class Problem extends PersistedModel {
      *                         Detail: description string".
      * @return
      */
+
+
+
     @Override
     public String toString(){
         return "Title: " + this.title +"\n"+"Detail: "+ description;

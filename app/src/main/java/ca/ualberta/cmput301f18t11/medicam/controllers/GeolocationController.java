@@ -24,4 +24,13 @@ public class GeolocationController {
         return intent;
     }
 
+
+    public static Intent viewLocation(Context context, Geolocation current) {
+        Intent intent = new Intent(context, MapsActivity.class);
+        intent.putExtra("mode", "viewing");
+        intent.putExtra("latitude", current.getLatitude());
+        intent.putExtra("longitude", current.getLongitude());
+
+        return intent;
+    }
 }

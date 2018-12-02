@@ -15,8 +15,12 @@ public class InstancePhoto extends PersistedModel {
      * Empty constructor for creating a blank <code>InstancePhoto</code> object
      * with empty <code>Uri</code> photo and <code>Bitmap</code> cameraPhoto fields.
      */
-    public InstancePhoto(){
+    public InstancePhoto() {
+        super();
+    }
 
+    public InstancePhoto(String uuid) {
+        super(uuid);
     }
 
     public InstancePhoto(String UUID, Bitmap image) {

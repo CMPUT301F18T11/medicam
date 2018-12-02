@@ -24,7 +24,7 @@ public class PatientRecord extends Record {
 
     //attachments
     private BodyLocation bodyLocation;
-    private Geolocation mapLocation;
+    private Geolocation location;
     private List<String> photoList = new ArrayList<>();
 
     //Constructors
@@ -49,33 +49,34 @@ public class PatientRecord extends Record {
     }
 
     public PatientRecord(String uuid, String title, String description, Date timestamp, String creatorUUID,
-                         BodyLocation bodyLocation, Geolocation mapLocation, List<String> photoList) {
+                         BodyLocation bodyLocation, Geolocation location, List<String> photoList) {
         super(uuid, title, description, timestamp, creatorUUID);
         this.bodyLocation = bodyLocation;
-        this.mapLocation = mapLocation;
+        this.location = location;
         this.photoList = photoList;
     }
 
     public PatientRecord(String uuid, String title, String description, Date timestamp,
-                         String creatorUUID, BodyLocation bodyLocation, Geolocation mapLocation) {
+                         String creatorUUID, BodyLocation bodyLocation, Geolocation location) {
         super(uuid, title, description, timestamp, creatorUUID);
         this.bodyLocation = bodyLocation;
-        this.mapLocation = mapLocation;
+        this.location = location;
     }
 
     //end constructors
 
     //getters
     public BodyLocation getBodyLocation() { return bodyLocation; }
-    public Geolocation getMapLocation() { return mapLocation; }
+    public Geolocation getLocation() { return location; }
     public String getPhotoFromList(int index) { return photoList.get(index); }
     public List<String> getPhotoList() { return photoList; }
+    public String getMostRecentPhoto() {return photoList.get(photoList.size() - 1);}
     //end getters
 
 
     //setters
     public void setBodyLocation(BodyLocation bodyLocation) { this.bodyLocation = bodyLocation; }
-    public void setMapLocation(Geolocation user_mapLocation) { this.mapLocation = user_mapLocation; }
+    public void setLocation(Geolocation user_mapLocation) { this.location = user_mapLocation; }
     public void addPhotoToList(String user_photo){ this.photoList.add(user_photo); }
     //end setters
 
@@ -86,6 +87,7 @@ public class PatientRecord extends Record {
      *         in the format "Title: title String
      *                        Time: time string".
      */
+    @Override
     public String toString(){
         java.text.SimpleDateFormat timeformat = new java.text.SimpleDateFormat("dd-MM-yyyy         HH:mm");
         String timeStr = timeformat.format(getTimestamp());

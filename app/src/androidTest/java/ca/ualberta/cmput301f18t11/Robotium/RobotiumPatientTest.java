@@ -1,7 +1,5 @@
 package ca.ualberta.cmput301f18t11.Robotium;
 
-import android.app.Activity;
-import android.app.Instrumentation;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.test.rule.ActivityTestRule;
@@ -22,7 +20,6 @@ import ca.ualberta.cmput301f18t11.medicam.activities.LoginActivity;
 
 import ca.ualberta.cmput301f18t11.medicam.activities.PatientProblemActivity;
 import ca.ualberta.cmput301f18t11.medicam.activities.createProblemActivity;
-import ca.ualberta.cmput301f18t11.medicam.models.Patient;
 
 import static junit.framework.TestCase.assertTrue;
 
@@ -67,8 +64,9 @@ public class RobotiumPatientTest {
         solo.enterText(0,test_uid);
         solo.enterText(1,test_phone_num);
         solo.enterText(2,test_email);
-        solo.enterText(3,test_address);
-        solo.clickOnView(solo.getView(R.id.createButton));
+        solo.clickOnView(solo.getView(R.id.doctorRadioButton));
+        solo.clickOnView(solo.getView(R.id.patientRadioButton));
+        solo.clickOnView(solo.getView(R.id.create_user_button));
 
         //If the login was successful the next screen should be the PatientProblemActivity
         solo.assertCurrentActivity("Expect PatientProblemActivity", PatientProblemActivity.class);
@@ -81,9 +79,5 @@ public class RobotiumPatientTest {
         solo.enterText(0, title);
         solo.enterText(1,desc);
         solo.clickOnView(solo.getView(R.id.createProblemButton));
-
-        boolean problem_found = solo.searchText(title);
-
-        assertTrue("Problem created or not created", problem_found);
     }
 }

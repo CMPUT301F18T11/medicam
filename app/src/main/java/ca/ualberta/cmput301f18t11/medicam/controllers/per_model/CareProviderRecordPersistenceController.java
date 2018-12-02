@@ -60,12 +60,26 @@ public class CareProviderRecordPersistenceController extends PersistenceControll
         return null;
     }
 
-    public List<CareProviderRecord> searchFromREST(String search_phrase)
+    public List<CareProviderRecord> searchFromREST(String search_phrase, String problem_uuid)
     {
         ElasticSearchController.SearchObjectsTask task = new ElasticSearchController.SearchObjectsTask(getTypeURL());
         try
         {
-            JestResult result = task.execute(search_phrase).get();
+            String search_query = "{ " +
+                    "  \"size\": 100," +
+                    "  \"query\": {" +
+                    "    \"bool\": {" +
+                    "      \"must\": " +
+                    "      [{\"multi_match\" : {\"query\":    \"%search_phrase%\", \"fields\": [ \"title\", \"description\" ]}}," +
+                    "       {\"match\": {\"problemUUID\": \"%search_problem_uuid%\"}}]" +
+                    "    }" +
+                    "  }" +
+                    "}";
+
+            search_query = search_query.replace("%search_phrase%", search_phrase);
+            search_query = search_query.replace("%search_problem_uuid%", problem_uuid);
+
+            JestResult result = task.execute(search_query).get();
             return result.getSourceAsObjectList(CareProviderRecord.class);
         }
 
