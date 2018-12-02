@@ -4,10 +4,18 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Environment;
+import android.os.StrictMode;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -20,7 +28,12 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Method;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -30,6 +43,8 @@ import ca.ualberta.cmput301f18t11.medicam.controllers.ElasticSearchController;
 import ca.ualberta.cmput301f18t11.medicam.controllers.GeolocationController;
 import ca.ualberta.cmput301f18t11.medicam.controllers.ImageStorageController;
 import ca.ualberta.cmput301f18t11.medicam.controllers.abstracts.PersistenceController;
+import ca.ualberta.cmput301f18t11.medicam.controllers.per_model.InstancePhotoPersistenceController;
+import ca.ualberta.cmput301f18t11.medicam.controllers.per_model.PatientPersistenceController;
 import ca.ualberta.cmput301f18t11.medicam.controllers.per_model.PatientRecordPersistenceController;
 import ca.ualberta.cmput301f18t11.medicam.models.attachments.BodyLocation;
 import ca.ualberta.cmput301f18t11.medicam.models.attachments.Geolocation;
@@ -43,6 +58,7 @@ public class createRecordActivity extends AppCompatActivity {
     private static final int UPDATE_GEOLOCATION_REQUEST_CODE = 4;
 
     private static final String IMAGE_FILE_PATH = "image_file_path";
+    private String latest_image = null;
 
     private BodyLocation bodyLocation = null;
     private ArrayList<InstancePhoto> photos = new ArrayList<>();
@@ -62,7 +78,10 @@ public class createRecordActivity extends AppCompatActivity {
     private TextView geoLocationTextView;
     private ImageButton mapButton;
     private Calendar calendar = Calendar.getInstance();
-    private PersistenceController<PatientRecord> recordController = new PatientRecordPersistenceController();
+    private PatientRecordPersistenceController recordController = new PatientRecordPersistenceController();
+    private InstancePhotoPersistenceController instancePhotoPersistenceController =
+            new InstancePhotoPersistenceController();
+    private Uri imageFileUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -163,23 +182,27 @@ public class createRecordActivity extends AppCompatActivity {
         });
 
     }
+
     //Fetch Image From USER and Store as Bitmap / Uri type.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         //TODO Geo Location  and Save photos + bodylocations
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == OPEN_CAMERA_REQUEST_CODE && resultCode == Activity.RESULT_OK){
-            Log.d("SELECT PHOTO DIALOG","onActivityResult: done takeing new photo");
+            Log.d("SELECT PHOTO DIALOG","onActivityResult: done taking new photo");
 
-            String mImageFilePath = data.getExtras().getString(IMAGE_FILE_PATH);
-            File mImageFile = new File(mImageFilePath);
+//            String mImageFilePath = data.getExtras().getString(IMAGE_FILE_PATH);
+            File mImageFile = new File(latest_image);
+            Bitmap bMap = BitmapFactory.decodeFile(latest_image);
+            bMap = Bitmap.createScaledBitmap(bMap,90,90,true);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bMap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            byte[] b = baos.toByteArray();
+            InstancePhoto photoToStore = new InstancePhoto(Base64.encodeToString(b, Base64.DEFAULT));
+
+            instancePhotoPersistenceController.save(photoToStore, this);
             Uri imageUri = Uri.fromFile(mImageFile);
-//            Bitmap bitmap;
-//            bitmap = (Bitmap) data.getExtras().get("data");
-//            photo = new InstancePhoto();
-//            photo.setCameraPhoto(bitmap);
-            record.addPhotoToList(imageUri.toString());
-            //recordController.save(record,this);
+            record.addPhotoToList(photoToStore);
             photoImageView.setImageURI(imageUri);
         }
 
@@ -239,9 +262,26 @@ public class createRecordActivity extends AppCompatActivity {
     }
 
     public void goToCamera(View view){
-        Intent intent = new Intent(this, NewCameraActivity.class);
-        intent.putExtra("RECORD",record);
-        startActivityForResult(intent,OPEN_CAMERA_REQUEST_CODE);
+//        Intent intent = new Intent(this, NewCameraActivity.class);
+//        intent.putExtra("RECORD",record);
+//        startActivityForResult(intent,OPEN_CAMERA_REQUEST_CODE);
+
+        File image = null;
+        try {
+            image = createImageFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            if (image != null) {
+                Uri photoURI = FileProvider.getUriForFile(this,
+                        "ca.ualberta.cmput301f18t11.medicam",image);
+                latest_image = image.getAbsolutePath();
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(takePictureIntent, OPEN_CAMERA_REQUEST_CODE);
+            }
+        }
     }
 
     public void goToGallery(View view){
@@ -257,7 +297,7 @@ public class createRecordActivity extends AppCompatActivity {
 
     public void saveRecord(View view){
         if (recordTitle.getText().toString().equals("")){Toast.makeText(createRecordActivity.this,"Please Enter a title",Toast.LENGTH_SHORT).show();
-        }else {
+        } else {
             Intent intent = new Intent();
             record.setTitle(recordTitle.getText().toString());
             record.setDescription(recordComment.getText().toString());
@@ -273,6 +313,14 @@ public class createRecordActivity extends AppCompatActivity {
             setResult(RESULT_OK, intent);
             finish();
         }
+    }
+
+    private File createImageFile() throws IOException {
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        String timesStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        File image = File.createTempFile("medicam_" + timesStamp,".jpg", storageDir);
+
+        return image;
     }
 
     public void fetchPrevious(){
@@ -293,6 +341,13 @@ public class createRecordActivity extends AppCompatActivity {
 
         location = record.getLocation();
         displayGeolocation();
+
+        InstancePhoto instancePhoto = instancePhotoPersistenceController.load(record.getMostRecentPhoto(),
+                this);
+        if (instancePhoto != null) {
+            byte[] decodedString = Base64.decode(instancePhoto.getPhoto(), Base64.DEFAULT);
+            photoImageView.setImageBitmap(BitmapFactory.decodeByteArray(decodedString,0, decodedString.length));
+        }
 
         //TODO: fetch Also PHOTOS BODY LOCATIONS AND PHOTO LIST
     }

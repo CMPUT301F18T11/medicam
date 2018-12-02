@@ -7,6 +7,7 @@ import java.util.List;
 import ca.ualberta.cmput301f18t11.medicam.models.abstracts.Record;
 import ca.ualberta.cmput301f18t11.medicam.models.attachments.BodyLocation;
 import ca.ualberta.cmput301f18t11.medicam.models.attachments.Geolocation;
+import ca.ualberta.cmput301f18t11.medicam.models.attachments.InstancePhoto;
 
 
 /**
@@ -70,14 +71,19 @@ public class PatientRecord extends Record {
     public Geolocation getLocation() { return location; }
     public String getPhotoFromList(int index) { return photoList.get(index); }
     public List<String> getPhotoList() { return photoList; }
-    public String getMostRecentPhoto() {return photoList.get(photoList.size() - 1);}
+    public String getMostRecentPhoto() {
+        if (photoList.isEmpty()) {
+            return null;
+        }
+        return photoList.get(photoList.size() - 1);
+    }
     //end getters
 
 
     //setters
     public void setBodyLocation(BodyLocation bodyLocation) { this.bodyLocation = bodyLocation; }
     public void setLocation(Geolocation user_mapLocation) { this.location = user_mapLocation; }
-    public void addPhotoToList(String user_photo){ this.photoList.add(user_photo); }
+    public void addPhotoToList(InstancePhoto user_photo){ this.photoList.add(user_photo.getUuid()); }
     //end setters
 
     /**

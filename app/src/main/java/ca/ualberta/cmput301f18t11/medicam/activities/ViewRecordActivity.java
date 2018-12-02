@@ -125,7 +125,12 @@ public class ViewRecordActivity extends AppCompatActivity {
         Intent intent = new Intent(ViewRecordActivity.this,createRecordActivity.class);
         intent.putExtra("purpose","edit");
         intent.putExtra("previous", patientRecord.getUuid());
+        intent.putExtra("problemUUID", problemUUID);
         startActivityForResult(intent, EDIT_RECORD_REQUEST_CODE);
+    }
+
+    public void goViewBodyLocation(View view) {
+        //TODO
     }
 
     public void photoSlideshow(View view){

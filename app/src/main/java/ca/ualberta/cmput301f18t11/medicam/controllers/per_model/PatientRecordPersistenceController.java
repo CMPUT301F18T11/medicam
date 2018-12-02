@@ -90,7 +90,7 @@ public class PatientRecordPersistenceController extends PersistenceController<Pa
         return null;
     }
 
-    public List<PatientRecord> searchGeoLocationFromREST(int lat, int lon, int distance, String problem_uuid)
+    public List<PatientRecord> searchGeoLocationFromREST(double lat, double lon, int distance, String problem_uuid)
     {
         ElasticSearchController.SearchObjectsTask task = new ElasticSearchController.SearchObjectsTask(getTypeURL());
         try
@@ -114,8 +114,8 @@ public class PatientRecordPersistenceController extends PersistenceController<Pa
                     "  }" +
                     "}";
 
-            search_query = search_query.replace("%search_lat%", Integer.toString(lat));
-            search_query = search_query.replace("%search_lon%", Integer.toString(lon));
+            search_query = search_query.replace("%search_lat%", Double.toString(lat));
+            search_query = search_query.replace("%search_lon%", Double.toString(lon));
             search_query = search_query.replace("%kms_away%", Integer.toString(distance));
             search_query = search_query.replace("%record_problem_uuid%", problem_uuid);
 

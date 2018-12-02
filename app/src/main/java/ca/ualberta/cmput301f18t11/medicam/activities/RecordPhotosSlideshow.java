@@ -22,8 +22,6 @@ public class RecordPhotosSlideshow extends AppCompatActivity {
         ViewPager viewpage = findViewById(R.id.viewPager);
         ImageAdapter adapter = new ImageAdapter(this, bitmaps);
         viewpage.setAdapter(adapter);
-
-
     }
 
 
