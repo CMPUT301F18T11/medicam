@@ -9,23 +9,19 @@ import ca.ualberta.cmput301f18t11.medicam.models.abstracts.PersistedModel;
  * <code>Record</code> object.
  */
 public class InstancePhoto extends PersistedModel {
-    private Bitmap image;
+    private String base64EncodedImage;
 
     /**
      * Empty constructor for creating a blank <code>InstancePhoto</code> object
      * with empty <code>Uri</code> photo and <code>Bitmap</code> cameraPhoto fields.
      */
     public InstancePhoto() {
-
+        super();
     }
 
-    public InstancePhoto(String uuid) {
-        super(uuid);
-    }
-
-    public InstancePhoto(String UUID, Bitmap image) {
-        super(UUID);
-        this.image = image;
+    public InstancePhoto( String base64EncodedImage) {
+        super();
+        this.base64EncodedImage = base64EncodedImage;
     }
 
     /**
@@ -33,8 +29,8 @@ public class InstancePhoto extends PersistedModel {
      *
      * @param photo <code>Uri</code> for the photo this object is meant to hold.
      */
-    public void setPhoto(Bitmap photo) {
-        this.image = photo;
+    public void setPhoto(String photo) {
+        this.base64EncodedImage = photo;
     }
 
     /**
@@ -42,8 +38,8 @@ public class InstancePhoto extends PersistedModel {
      *
      * @return <code>Uri</code> type object for the photo held by this attachment.
      */
-    public Bitmap getPhoto(){
-        return image;
+    public String getPhoto(){
+        return base64EncodedImage;
     }
 
 }

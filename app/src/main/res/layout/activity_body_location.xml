@@ -6,32 +6,110 @@
     android:layout_height="match_parent"
     tools:context="activities.BodyLocationActivity">
 
+    <!--Import of the toolbar: Blank Version -->
+    <include
+        android:id="@+id/bodyLocation_toolbar"
+        layout="@layout/toolbar"></include>
+
+    <!-- Page elements below -->
     <TextView
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginLeft="30dp"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="150dp"
         android:text="Choose a body part:"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/bodyLocation_toolbar" />
 
     <Spinner
         android:id="@+id/bodyLocationSpinner"
         android:layout_width="0dp"
-        android:layout_height="24dp"
+        android:layout_height="45dp"
         android:layout_marginStart="30dp"
         android:layout_marginLeft="30dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="30dp"
         android:layout_marginRight="30dp"
+        android:background="@drawable/toggle_choice_background_boarder"
+        android:paddingLeft="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.794"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+    <RadioGroup
+        android:id="@+id/bodyLocation_radioGroup"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginRight="30dp"
+        android:background="@drawable/toggle_choice_background_boarder"
+        android:checkedButton="@+id/patientRadioButton"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bodyLocationSpinner">
+
+        <RadioButton
+            android:id="@+id/bodyLocation_RadioButton_01"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="2dp"
+            android:layout_weight="1"
+            android:background="@drawable/toggle_choice_background_selector_middle"
+            android:button="@null"
+            android:checked="false"
+            android:gravity="center"
+            android:onClick="checkButton"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:text="Left"
+            android:textAllCaps="true"
+            android:textColor="@drawable/toggle_color" />
+
+        <RadioButton
+            android:id="@+id/bodyLocation_RadioButton_02"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="2dp"
+            android:layout_weight="1"
+            android:background="@drawable/toggle_choice_background_selector_middle"
+            android:button="@null"
+            android:checked="false"
+            android:gravity="center"
+            android:onClick="checkButton"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:text="Right"
+            android:textAllCaps="true"
+            android:textColor="@drawable/toggle_color" />
+
+        <RadioButton
+            android:id="@+id/bodyLocation_RadioButton_03"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="2dp"
+            android:layout_weight="1"
+            android:background="@drawable/toggle_choice_background_selector_middle"
+            android:button="@null"
+            android:checked="true"
+            android:gravity="center"
+            android:onClick="checkButton"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:text="N/A"
+            android:textAllCaps="true"
+            android:textColor="@drawable/toggle_color"/>
+    </RadioGroup>
+
 
     <Button
         android:id="@+id/saveButton"
@@ -47,5 +125,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bodyLocationSpinner" />
+        app:layout_constraintTop_toBottomOf="@+id/bodyLocation_radioGroup" />
 </android.support.constraint.ConstraintLayout>

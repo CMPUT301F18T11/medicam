@@ -30,7 +30,7 @@ public class CareGiverProblemActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_care_giver_problem);
+        setContentView(R.layout.activity_caregiver_problem);
         ElasticSearchController.setIndex_url("cmput301f18t11test");
 
         Intent intent = getIntent();

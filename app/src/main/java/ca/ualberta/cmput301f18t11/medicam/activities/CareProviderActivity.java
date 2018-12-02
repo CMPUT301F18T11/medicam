@@ -1,31 +1,22 @@
 package ca.ualberta.cmput301f18t11.medicam.activities;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.security.PrivateKey;
 import java.util.ArrayList;
 import java.util.List;
 
 import ca.ualberta.cmput301f18t11.medicam.R;
-import ca.ualberta.cmput301f18t11.medicam.activities.AddPatientActivity;
 import ca.ualberta.cmput301f18t11.medicam.controllers.ElasticSearchController;
 import ca.ualberta.cmput301f18t11.medicam.controllers.abstracts.PersistenceController;
 import ca.ualberta.cmput301f18t11.medicam.controllers.per_model.CareProviderPersistenceController;
-import ca.ualberta.cmput301f18t11.medicam.controllers.per_model.PatientPersistenceController;
 import ca.ualberta.cmput301f18t11.medicam.models.CareProvider;
-import ca.ualberta.cmput301f18t11.medicam.models.Patient;
-
-import static java.sql.DriverManager.println;
 
 public class CareProviderActivity extends AppCompatActivity {
     private ListView patientListView;
@@ -38,7 +29,7 @@ public class CareProviderActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         ElasticSearchController.setIndex_url("cmput301f18t11test");
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_care_provider);
+        setContentView(R.layout.activity_caregiver_mainpage);
         Intent intent = getIntent();
         String uuid = intent.getStringExtra("userid");
 

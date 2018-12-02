@@ -28,6 +28,7 @@ public class Patient extends User {
      * to super().
      */
     public Patient() {
+        super();
     }
 
     /**

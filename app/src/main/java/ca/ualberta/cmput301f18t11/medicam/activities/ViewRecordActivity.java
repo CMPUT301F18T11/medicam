@@ -47,11 +47,16 @@ public class ViewRecordActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view_record);
         ElasticSearchController.setIndex_url("cmput301f18t11test");
 
-        recordTitle=findViewById(R.id.record_view_title_textView);
+        //Toolbar Setup
+        android.support.v7.widget.Toolbar toolbar = findViewById(R.id.viewRecord_toolbar);
+        setSupportActionBar(toolbar);
+        setTitle("Record"); // Sets the title to be shown in the toolbar
+
+        recordTitle=findViewById(R.id.viewRecord_RecordTitle);
         recordComment=findViewById(R.id.record_view_comment_textView);
         recordPhoto=findViewById(R.id.record_view_photo_imageView);
-        recordTime=findViewById(R.id.record_view_time_view);
-        recordDate=findViewById(R.id.record_view_date_view);
+        recordTime=findViewById(R.id.viewRecord_TimeStamp);
+        recordDate=findViewById(R.id.viewRecord_Date);
 
         geoLocationTextView = findViewById(R.id.viewRecordGeolocationTextView);
         mapButton = findViewById(R.id.viewRecordMapButton);
@@ -59,7 +64,7 @@ public class ViewRecordActivity extends AppCompatActivity {
         Intent intent =  getIntent();
         editable = intent.getStringExtra("editable");
         if (editable.equals("NO")){
-            Button button = findViewById(R.id.go_edit_button);
+            ImageButton button = findViewById(R.id.go_edit_button);
             button.setVisibility(View.GONE);
         }
         String recordUUID = intent.getStringExtra("previous");
@@ -119,7 +124,12 @@ public class ViewRecordActivity extends AppCompatActivity {
         Intent intent = new Intent(ViewRecordActivity.this,createRecordActivity.class);
         intent.putExtra("purpose","edit");
         intent.putExtra("previous", patientRecord.getUuid());
+        intent.putExtra("problemUUID", problemUUID);
         startActivityForResult(intent, EDIT_RECORD_REQUEST_CODE);
+    }
+
+    public void goViewBodyLocation(View view) {
+        //TODO
     }
 
     public void photoSlideshow(View view){

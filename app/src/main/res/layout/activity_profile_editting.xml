@@ -6,6 +6,12 @@
     android:layout_height="match_parent"
     tools:context=".activities.ProfileEditting">
 
+    <!--Import of the toolbar: Blank Version -->
+    <include
+        android:id="@+id/profileEditing_toolbar"
+        layout="@layout/toolbar"></include>
+
+    <!-- Page elements below -->
     <TextView
         android:id="@+id/userIDTextView"
         android:layout_width="wrap_content"
@@ -17,12 +23,12 @@
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/profileEditing_toolbar" />
 
     <View
         android:id="@+id/profilePage_view"
         android:layout_width="wrap_content"
-        android:layout_height="16dp"
+        android:layout_height="12dp"
         android:layout_centerVertical="true"
         android:layout_marginTop="8dp"
         android:background="@color/colorPrimary"
@@ -37,7 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginLeft="30dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:text="Phone Number:"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profilePage_view" />

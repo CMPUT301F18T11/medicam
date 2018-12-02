@@ -50,7 +50,7 @@ public abstract class PersistenceController<T extends PersistedModel> {
         Helper method for the save method.
         Handles saving to internal storage.
      */
-    private void saveToStorage(T item, Context context) {
+    protected void saveToStorage(T item, Context context) {
         InternalStorageController.SaveObjectsTask<T> task = new InternalStorageController.SaveObjectsTask(context);
         task.execute(item);
     }
@@ -69,6 +69,9 @@ public abstract class PersistenceController<T extends PersistedModel> {
         if (cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnectedOrConnecting())
         {
             T result = loadFromREST(id);
+            if (result == null) {
+                return loadFromStorage(id, context);
+            }
             return result;
         }
 

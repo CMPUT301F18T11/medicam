@@ -1,13 +1,9 @@
 package ca.ualberta.cmput301f18t11.medicam.models.attachments;
 
 
-import android.graphics.Bitmap;
 import android.util.Pair;
 
 import java.io.Serializable;
-import java.util.UUID;
-
-import ca.ualberta.cmput301f18t11.medicam.models.abstracts.Attachment;
 
 /**
  * Model for holding information related to a body-location selected
@@ -24,7 +20,7 @@ public class BodyLocation implements Serializable {
      * Null contructor for body location.
      */
     public BodyLocation() {
-
+        super();
     }
 
     public BodyLocation(Pair<Integer, Integer> imageCoordinates, String bodyLocationPhotoUUID) {

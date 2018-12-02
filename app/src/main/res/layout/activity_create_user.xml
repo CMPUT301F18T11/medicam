@@ -15,6 +15,13 @@ Availability: https://stackoverflow.com/a/48640424
     android:layout_height="match_parent"
     tools:context="activities.CreateUserActivity">
 
+    <!--Import of the toolbar: Blank Version -->
+    <include
+        android:id="@+id/createUser_toolbar"
+        layout="@layout/toolbar"></include>
+
+    <!-- Page elements below -->
+
     <TextView
         android:id="@+id/profileCreate_Subheader01"
         android:layout_width="wrap_content"
@@ -24,7 +31,7 @@ Availability: https://stackoverflow.com/a/48640424
         android:layout_marginTop="20dp"
         android:text="Username:"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/createUser_toolbar" />
 
     <EditText
         android:id="@+id/userIDTextView"
@@ -39,7 +46,9 @@ Availability: https://stackoverflow.com/a/48640424
         android:background="@drawable/toggle_choice_background_boarder"
         android:color="#000000"
         android:ems="15"
+        android:hint="Username"
         android:inputType="textPersonName"
+        android:maxLength="8"
         android:paddingLeft="12dp"
         android:radius="10dp"
         android:textSize="14sp"
@@ -122,7 +131,7 @@ Availability: https://stackoverflow.com/a/48640424
         android:layout_height="15dp"
         android:layout_marginStart="30dp"
         android:layout_marginLeft="30dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="16dp"
         android:text="I am a:"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editingEmailText" />
@@ -143,6 +152,7 @@ Availability: https://stackoverflow.com/a/48640424
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profileCreate_Subheader05">
+
         <RadioButton
             android:id="@+id/patientRadioButton"
             android:layout_width="wrap_content"
@@ -152,11 +162,12 @@ Availability: https://stackoverflow.com/a/48640424
             android:background="@drawable/toggle_choice_background_selector_middle"
             android:button="@null"
             android:gravity="center"
+            android:onClick="checkButton"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
-            android:onClick="checkButton"
             android:text="Patient"
-            android:textAllCaps="true" />
+            android:textAllCaps="true"
+            android:textColor="@drawable/toggle_color" />
 
         <RadioButton
             android:id="@+id/doctorRadioButton"
@@ -166,12 +177,14 @@ Availability: https://stackoverflow.com/a/48640424
             android:layout_weight="1"
             android:background="@drawable/toggle_choice_background_selector_middle"
             android:button="@null"
+            android:checked="false"
             android:gravity="center"
+            android:onClick="checkButton"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
-            android:onClick="checkButton"
             android:text="Caretaker"
-            android:textAllCaps="true" />
+            android:textAllCaps="true"
+            android:textColor="@drawable/toggle_color" />
     </RadioGroup>
 
     <Button
