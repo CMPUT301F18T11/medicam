@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.Serializable;
@@ -38,6 +39,12 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
         keyword = findViewById(R.id.keyword);
+
+        //Toolbar Setup
+        android.support.v7.widget.Toolbar toolbar = findViewById(R.id.searchPage_toolbar);
+        setSupportActionBar(toolbar);
+        TextView toolbarTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
+        toolbarTitle.setText("Search");// Sets the title to be shown in the toolbar
 
         Intent intent = getIntent();
         searchtype = intent.getStringExtra("searchFor");
