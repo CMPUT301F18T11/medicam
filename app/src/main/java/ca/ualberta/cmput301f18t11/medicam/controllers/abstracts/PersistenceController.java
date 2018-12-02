@@ -69,6 +69,9 @@ public abstract class PersistenceController<T extends PersistedModel> {
         if (cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnectedOrConnecting())
         {
             T result = loadFromREST(id);
+            if (result == null) {
+                return loadFromStorage(id, context);
+            }
             return result;
         }
 

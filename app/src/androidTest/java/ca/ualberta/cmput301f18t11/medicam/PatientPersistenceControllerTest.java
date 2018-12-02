@@ -54,7 +54,7 @@ public class PatientPersistenceControllerTest {
         problems.add(UUID.randomUUID().toString());
         problems.add(UUID.randomUUID().toString());
 
-        Patient testPatient = new Patient(userid, email, phoneNumber, problems, frontPhoto, backPhoto);
+        Patient testPatient = new Patient(userid, email, phoneNumber, problems);
 
         PersistenceController<Patient> testController = new PatientPersistenceController();
 
@@ -62,24 +62,18 @@ public class PatientPersistenceControllerTest {
         // test load
         Patient result = testController.load(testPatient.getUuid(), appContext);
         assertEquals(result.getUserID(), testPatient.getUserID());
-        assertEquals(result.getBackPhoto(), testPatient.getBackPhoto());
-        assertEquals(result.getFrontPhoto(), testPatient.getFrontPhoto());
         assertEquals(result.getProblems(), testPatient.getProblems());
         assertEquals(result.getEmail(), testPatient.getEmail());
         assertEquals(result.getPhoneNumber(), testPatient.getPhoneNumber());
         // test loadFromRest
         result =  testController.loadFromREST(testPatient.getUuid());
         assertEquals(result.getUserID(), testPatient.getUserID());
-        assertEquals(result.getBackPhoto(), testPatient.getBackPhoto());
-        assertEquals(result.getFrontPhoto(), testPatient.getFrontPhoto());
         assertEquals(result.getProblems(), testPatient.getProblems());
         assertEquals(result.getEmail(), testPatient.getEmail());
         assertEquals(result.getPhoneNumber(), testPatient.getPhoneNumber());
         // test loadFromStorage
         result = testController.loadFromStorage(testPatient.getUuid(), appContext);
         assertEquals(result.getUserID(), testPatient.getUserID());
-        assertEquals(result.getBackPhoto(), testPatient.getBackPhoto());
-        assertEquals(result.getFrontPhoto(), testPatient.getFrontPhoto());
         assertEquals(result.getProblems(), testPatient.getProblems());
         assertEquals(result.getEmail(), testPatient.getEmail());
         assertEquals(result.getPhoneNumber(), testPatient.getPhoneNumber());
@@ -88,6 +82,39 @@ public class PatientPersistenceControllerTest {
         testController.delete(testPatient,appContext);
         assertNull(testController.load(testPatient.getUuid(), appContext));
         assertNull(testController.loadFromREST(testPatient.getUuid()));
+        assertNull(testController.loadFromStorage(testPatient.getUuid(), appContext));
+    }
+
+    @Test
+    public void testFromStorage() {
+        Context appContext = InstrumentationRegistry.getTargetContext();
+        // use our test index
+        ElasticSearchController.setIndex_url("cmput301f18t11test");
+        String backPhoto = UUID.randomUUID().toString();
+        String frontPhoto = UUID.randomUUID().toString();
+        String email = "testemail";
+        String userid = UUID.randomUUID().toString();
+        String phoneNumber = "testphonenumber";
+
+        ArrayList<String> problems = new ArrayList<>();
+        problems.add(UUID.randomUUID().toString());
+        problems.add(UUID.randomUUID().toString());
+        problems.add(UUID.randomUUID().toString());
+
+        Patient testPatient = new Patient(userid, email, phoneNumber, problems);
+
+        PersistenceController<Patient> testController = new PatientPersistenceController();
+
+        testController.save(testPatient, appContext);
+        // test loadFromStorage
+        Patient result = testController.loadFromStorage(testPatient.getUuid(), appContext);
+        assertEquals(result.getUserID(), testPatient.getUserID());
+        assertEquals(result.getProblems(), testPatient.getProblems());
+        assertEquals(result.getEmail(), testPatient.getEmail());
+        assertEquals(result.getPhoneNumber(), testPatient.getPhoneNumber());
+
+        // delete
+        testController.delete(testPatient,appContext);
         assertNull(testController.loadFromStorage(testPatient.getUuid(), appContext));
     }
 }
