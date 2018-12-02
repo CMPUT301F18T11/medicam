@@ -49,6 +49,7 @@
         android:background="@drawable/toggle_choice_background_boarder"
         android:ems="15"
         android:inputType="textPersonName"
+        android:maxLength="8"
         android:paddingLeft="12dp"
         android:radius="10dp"
         android:textSize="14sp"

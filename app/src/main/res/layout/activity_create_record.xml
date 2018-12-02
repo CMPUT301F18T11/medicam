@@ -43,6 +43,7 @@
         android:hint="Record Title"
         android:inputType="textPersonName"
         android:paddingLeft="12dp"
+        android:paddingRight="12dp"
         android:radius="10dp"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -102,10 +103,11 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginLeft="30dp"
+        android:layout_marginTop="16dp"
         android:text="Set the date"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="319dp" />
+        app:layout_constraintTop_toBottomOf="@+id/recorePhotoImageView4View" />
 
     <TextView
         android:id="@+id/timeView4View"
@@ -146,8 +148,14 @@
         android:background="@drawable/toggle_choice_background_boarder"
         android:color="#000000"
         android:ems="15"
-        android:inputType="textPersonName"
+        android:gravity="top"
+        android:inputType="textMultiLine"
+        android:maxLength="300"
+        android:minLines="3"
         android:paddingLeft="12dp"
+        android:paddingTop="12dp"
+        android:paddingRight="12dp"
+        android:paddingBottom="12dp"
         android:radius="10dp"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"

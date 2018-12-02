@@ -48,6 +48,7 @@ Availability: https://stackoverflow.com/a/48640424
         android:ems="15"
         android:hint="Username"
         android:inputType="textPersonName"
+        android:maxLength="8"
         android:paddingLeft="12dp"
         android:radius="10dp"
         android:textSize="14sp"

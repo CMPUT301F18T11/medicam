@@ -7,6 +7,7 @@
     <!--tools:context=".problemActivity"> What is this? Its been red for a while and isn't connected to anything-->
 
     <RelativeLayout
+        android:id="@+id/relativeLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -57,6 +58,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginLeft="30dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="30dp"
         android:layout_marginRight="30dp"
         android:text="ProblemTitle"
@@ -64,7 +66,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="66dp" />
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout" />
 
     <TextView
         android:id="@+id/viewDesc"

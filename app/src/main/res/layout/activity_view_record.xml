@@ -6,117 +6,127 @@
     android:layout_height="match_parent"
     tools:context=".activities.ViewRecordActivity">
 
-    <ImageButton
-        android:id="@+id/record_view_back_button"
-        android:layout_width="39dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/ic_menu_revert" />
-
-
-    <TextView
-        android:id="@+id/record_title_text_view"
-        android:layout_width="0dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginBottom="8dp"
-        android:textColor="@android:color/black"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/record_view_back_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/record_view_back_button"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <TextView
-        android:id="@+id/title_hint"
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/record_view_back_button"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:background="@android:color/transparent"
+            android:elevation="6dp"
+            app:srcCompat="?attr/homeAsUpIndicator"
+            tools:layout_editor_absoluteX="104dp"
+            tools:layout_editor_absoluteY="92dp" />
+
+        <ImageButton
+            android:id="@+id/go_edit_button"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="20dp"
+            android:background="@android:color/transparent"
+            android:elevation="6dp"
+            android:onClick="goEditRecord"
+            android:text="Edit Record"
+            tools:layout_editor_absoluteX="181dp"
+            tools:layout_editor_absoluteY="493dp"
+            tools:src="@android:drawable/ic_menu_edit" />
+
+        <!--Import of the toolbar-->
+        <include
+            android:id="@+id/viewRecord_toolbar"
+            layout="@layout/toolbar"></include>
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout2"
+        android:layout_width="0dp"
+        android:layout_height="51dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/colorPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewRecord_Date">
+
+        <TextView
+            android:id="@+id/viewRecord_RecordTitle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:elevation="6dp"
+            android:gravity="center"
+            android:text="Example Title"
+            android:textAlignment="viewStart"
+            android:textColor="@color/common_google_signin_btn_text_dark_default"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/record_view_photo_imageView"
+            tools:layout_editor_absoluteX="30dp" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/viewRecord_Date"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginStart="30dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="8dp"
-        android:text="Title:"
+        android:layout_marginTop="16dp"
+        android:text="Date"
+        android:textAlignment="viewStart"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/record_title_text_view" />
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout" />
 
     <ImageView
         android:id="@+id/record_view_photo_imageView"
         android:layout_width="324dp"
         android:layout_height="142dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginLeft="28dp"
-        android:layout_marginTop="52dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title_hint"
+        app:layout_constraintTop_toBottomOf="@+id/record_view_comment_textView"
         app:srcCompat="@android:drawable/star_big_on" />
 
     <TextView
-        android:id="@+id/record_view_date_view"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginRight="30dp"
-        android:text="Set the date"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/record_view_photo_imageView" />
-
-    <TextView
-        android:id="@+id/record_view_time_view"
-        android:layout_width="0dp"
-        android:layout_height="24dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginRight="30dp"
-        android:text="Set the time"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/record_view_date_view" />
-
-    <TextView
-        android:id="@+id/record_view_comment_hint"
+        android:id="@+id/viewRecord_TimeStamp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="16dp"
-        android:text="Comment"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/record_view_time_view" />
+        android:layout_marginEnd="30dp"
+        android:text="Timestamp"
+        android:textAlignment="viewEnd"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/viewRecord_Date"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <ImageButton
         android:id="@+id/bodyLocationButton4View"
         android:layout_width="35dp"
         android:layout_height="35dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginLeft="28dp"
-        android:layout_marginTop="84dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="16dp"
         android:onClick="goAddBodyLocation"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/record_view_comment_hint"
+        app:layout_constraintTop_toBottomOf="@+id/record_view_photo_imageView"
         app:srcCompat="@drawable/icon_body_location" />
 
     <ImageButton
@@ -124,30 +134,10 @@
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_marginStart="30dp"
-        android:layout_marginLeft="30dp"
         android:layout_marginTop="5dp"
-        android:layout_marginBottom="32dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bodyLocationButton4View"
-        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/icon_map_location" />
-
-    <Button
-        android:id="@+id/go_edit_button"
-        android:layout_width="120dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginRight="30dp"
-        android:onClick="goEditRecord"
-        android:text="Edit Record"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mapButton" />
 
     <TextView
         android:id="@+id/bodyLocationTextView4View"
@@ -178,36 +168,15 @@
         app:layout_constraintStart_toEndOf="@+id/mapButton" />
 
     <TextView
-        android:id="@+id/record_view_title_textView"
-        android:layout_width="0dp"
-        android:layout_height="39dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/toggle_choice_background_boarder"
-        app:layout_constraintBottom_toTopOf="@+id/record_view_photo_imageView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title_hint"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
         android:id="@+id/record_view_comment_textView"
-        android:layout_width="358dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/toggle_choice_background_boarder"
-        app:layout_constraintBottom_toTopOf="@+id/bodyLocationTextView4View"
+        android:layout_width="0dp"
+        android:layout_height="49dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="30dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/record_view_comment_hint" />
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout2" />
 
 </android.support.constraint.ConstraintLayout>
