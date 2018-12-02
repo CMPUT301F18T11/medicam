@@ -50,7 +50,8 @@ public class ViewRecordActivity extends AppCompatActivity {
         //Toolbar Setup
         android.support.v7.widget.Toolbar toolbar = findViewById(R.id.viewRecord_toolbar);
         setSupportActionBar(toolbar);
-        setTitle("Record"); // Sets the title to be shown in the toolbar
+        TextView toolbarTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
+        toolbarTitle.setText("Record");// Sets the title to be shown in the toolbar
 
         recordTitle=findViewById(R.id.viewRecord_RecordTitle);
         recordComment=findViewById(R.id.record_view_comment_textView);

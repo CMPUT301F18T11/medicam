@@ -10,5 +10,15 @@
     android:visibility="visible"
     app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
+    <TextView
+        android:id="@+id/toolbar_title"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginRight="16dp"
+        android:gravity="center"
+        android:textColor="@color/ic_launcher_background"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
 
 </android.support.v7.widget.Toolbar>

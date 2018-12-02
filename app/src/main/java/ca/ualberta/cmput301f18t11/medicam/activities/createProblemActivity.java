@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Date;
@@ -34,7 +35,8 @@ public class createProblemActivity extends AppCompatActivity {
         //Toolbar Setup
         android.support.v7.widget.Toolbar toolbar = findViewById(R.id.createProblem_toolbar);
         setSupportActionBar(toolbar);
-        setTitle("Create a New Problem"); // Sets the title to be shown in the toolbar
+        TextView toolbarTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
+        toolbarTitle.setText("Create a New Problem");// Sets the title to be shown in the toolbar
     }
 
     //Creates a new problem object with the filled in user-data
