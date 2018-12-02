@@ -37,13 +37,13 @@ public class CareGiverRecordActivity extends AppCompatActivity {
     private PersistenceController<PatientRecord> patientRecordController = new PatientRecordPersistenceController();
     private PersistenceController<CareProviderRecord> doctorRecordController = new CareProviderRecordPersistenceController();
     private Problem problem;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_caregiver_record);
         ElasticSearchController.setIndex_url("cmput301f18t11test");
         patientRecordsView = findViewById(R.id.careGiverRecordListView);
-
 
         Intent intent = getIntent();
         String problemUUID = intent.getStringExtra("problemUUID");

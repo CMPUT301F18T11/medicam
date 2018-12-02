@@ -33,7 +33,8 @@ public class ProfileEditting extends AppCompatActivity {
         //Toolbar Setup
         android.support.v7.widget.Toolbar toolbar = findViewById(R.id.profileEditing_toolbar);
         setSupportActionBar(toolbar);
-        setTitle("Edit Profile"); // Sets the title to be shown in the toolbar
+        TextView toolbarTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
+        toolbarTitle.setText("Edit Profile");// Sets the title to be shown in the toolbar
 
         userId = findViewById(R.id.userIDTextView);
         enteredPhoneNumber = findViewById(R.id.editingPhoneNumberText);

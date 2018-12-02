@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
@@ -41,7 +42,8 @@ public class CreateUserActivity extends AppCompatActivity {
         //Toolbar Setup
         android.support.v7.widget.Toolbar toolbar = findViewById(R.id.createUser_toolbar);
         setSupportActionBar(toolbar);
-        setTitle("Create an Account"); // Sets the title to be shown in the toolbar
+        TextView toolbarTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
+        toolbarTitle.setText("Create Account");// Sets the title to be shown in the toolbar
 
 
     }

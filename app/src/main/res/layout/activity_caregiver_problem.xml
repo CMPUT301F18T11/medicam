@@ -8,7 +8,7 @@
 
     <!--Import of the toolbar: Blank Version -->
     <RelativeLayout
-        android:id="@+id/relativeLayout4"
+        android:id="@+id/caregiverProblem_relativeLayout_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -34,6 +34,31 @@
 
     <!-- Page elements below -->
 
+    <TextView
+        android:id="@+id/caregiverProblem_Header01"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="30dp"
+        android:text="UserID + Problems"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/caregiverProblem_relativeLayout_toolbar" />
+
+    <View
+        android:id="@+id/caregiverProblem_view"
+        android:layout_width="0dp"
+        android:layout_height="10dp"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="8dp"
+        android:background="@color/colorPrimary"
+        app:layout_constraintTop_toBottomOf="@+id/caregiverProblem_Header01"
+        tools:layout_editor_absoluteX="0dp" />
+
     <ListView
         android:id="@+id/problems_list_view"
         android:layout_width="0dp"
@@ -42,8 +67,9 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="30dp"
         android:layout_marginBottom="30dp"
+        android:dividerHeight="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/relativeLayout4" />
+        app:layout_constraintTop_toBottomOf="@+id/caregiverProblem_view" />
 </android.support.constraint.ConstraintLayout>
