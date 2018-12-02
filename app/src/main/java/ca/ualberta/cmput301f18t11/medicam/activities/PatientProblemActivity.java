@@ -13,7 +13,6 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import ca.ualberta.cmput301f18t11.medicam.R;
@@ -22,9 +21,7 @@ import ca.ualberta.cmput301f18t11.medicam.controllers.abstracts.PersistenceContr
 import ca.ualberta.cmput301f18t11.medicam.controllers.per_model.PatientPersistenceController;
 import ca.ualberta.cmput301f18t11.medicam.controllers.per_model.ProblemPersistenceController;
 import ca.ualberta.cmput301f18t11.medicam.models.Patient;
-import ca.ualberta.cmput301f18t11.medicam.models.PatientRecord;
 import ca.ualberta.cmput301f18t11.medicam.models.Problem;
-import ca.ualberta.cmput301f18t11.medicam.utils.ProblemListAdapter;
 
 public class PatientProblemActivity extends AppCompatActivity {
     private static final int ADD_PROBLEM_REQUESTCODE = 0;
@@ -39,7 +36,7 @@ public class PatientProblemActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_patient_profile);
+        setContentView(R.layout.activity_patient_mainpage);
         ElasticSearchController.setIndex_url("cmput301f18t11test");
 
         //Problem problemo = new Problem("title", new Date(), "description");

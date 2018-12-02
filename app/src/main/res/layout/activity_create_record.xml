@@ -6,50 +6,26 @@
     android:layout_height="match_parent"
     tools:context="activities.createRecordActivity">
 
-    <ImageButton
-        android:id="@+id/backbutton"
-        android:layout_width="39dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/ic_menu_revert" />
+    <!--Import of the toolbar: Blank Version -->
+    <include
+        android:id="@+id/createRecord_toolbar"
+        layout="@layout/toolbar"></include>
 
-
+    <!-- Page elements below -->
     <TextView
         android:id="@+id/recordCreate_Header01"
         android:layout_width="0dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginBottom="8dp"
-        android:text="Create New Record:"
-        android:textColor="@android:color/black"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/backbutton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/backbutton"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <TextView
-        android:id="@+id/textView4View"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginLeft="30dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginRight="30dp"
         android:text="Title:"
-        android:textSize="12sp"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recordCreate_Header01" />
+        app:layout_constraintTop_toBottomOf="@+id/createRecord_toolbar" />
 
     <EditText
         android:id="@+id/recordTitle4View"
@@ -64,13 +40,15 @@
         android:background="@drawable/toggle_choice_background_boarder"
         android:color="#000000"
         android:ems="15"
+        android:hint="Record Title"
         android:inputType="textPersonName"
         android:paddingLeft="12dp"
+        android:paddingRight="12dp"
         android:radius="10dp"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4View" />
+        app:layout_constraintTop_toBottomOf="@+id/recordCreate_Header01" />
 
     <ImageView
         android:id="@+id/recorePhotoImageView4View"
@@ -81,7 +59,7 @@
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/recordTitle4View"
-        app:srcCompat="@android:drawable/star_big_on" />
+        app:srcCompat="@android:drawable/ic_menu_report_image" />
 
     <ImageButton
         android:id="@+id/addPhotoButton4View"
@@ -126,29 +104,25 @@
         android:layout_marginStart="30dp"
         android:layout_marginLeft="30dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginRight="30dp"
         android:text="Set the date"
         android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/recorePhotoImageView4View" />
 
     <TextView
         android:id="@+id/timeView4View"
         android:layout_width="0dp"
-        android:layout_height="24dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="8dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginEnd="30dp"
         android:layout_marginRight="30dp"
         android:text="Set the time"
         android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/dateView4View"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dateView4View" />
+        app:layout_constraintStart_toEndOf="@+id/dateView4View" />
 
     <TextView
         android:id="@+id/textView7"
@@ -157,9 +131,9 @@
         android:layout_marginStart="30dp"
         android:layout_marginLeft="30dp"
         android:layout_marginTop="16dp"
-        android:text="Comment"
+        android:text="Comment:"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/timeView4View" />
+        app:layout_constraintTop_toBottomOf="@+id/dateView4View" />
 
     <EditText
         android:id="@+id/recordcomment4View"
@@ -174,8 +148,14 @@
         android:background="@drawable/toggle_choice_background_boarder"
         android:color="#000000"
         android:ems="15"
-        android:inputType="textPersonName"
+        android:gravity="top"
+        android:inputType="textMultiLine"
+        android:maxLength="300"
+        android:minLines="3"
         android:paddingLeft="12dp"
+        android:paddingTop="12dp"
+        android:paddingRight="12dp"
+        android:paddingBottom="12dp"
         android:radius="10dp"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"

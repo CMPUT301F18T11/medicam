@@ -89,6 +89,11 @@ public class createRecordActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_record);
         ElasticSearchController.setIndex_url("cmput301f18t11test");
 
+        //Toolbar Setup
+        android.support.v7.widget.Toolbar toolbar = findViewById(R.id.createRecord_toolbar);
+        setSupportActionBar(toolbar);
+        setTitle("Create a New Record"); // Sets the title to be shown in the toolbar
+
         photoImageView = findViewById(R.id.recorePhotoImageView4View);
         displayDate = (TextView) findViewById(R.id.dateView4View);
         displayTime = (TextView) findViewById(R.id.timeView4View);
@@ -188,6 +193,7 @@ public class createRecordActivity extends AppCompatActivity {
 //            String mImageFilePath = data.getExtras().getString(IMAGE_FILE_PATH);
             File mImageFile = new File(latest_image);
             Bitmap bMap = BitmapFactory.decodeFile(latest_image);
+            bMap = Bitmap.createScaledBitmap(bMap,90,90,true);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             bMap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
             byte[] b = baos.toByteArray();
