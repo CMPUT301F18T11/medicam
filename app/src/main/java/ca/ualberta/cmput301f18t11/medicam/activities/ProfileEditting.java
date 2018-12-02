@@ -12,7 +12,9 @@ import android.widget.TextView;
 import ca.ualberta.cmput301f18t11.medicam.R;
 import ca.ualberta.cmput301f18t11.medicam.controllers.abstracts.PersistenceController;
 import ca.ualberta.cmput301f18t11.medicam.controllers.per_model.PatientPersistenceController;
+import ca.ualberta.cmput301f18t11.medicam.controllers.per_model.ShortIDPersistenceController;
 import ca.ualberta.cmput301f18t11.medicam.models.Patient;
+import ca.ualberta.cmput301f18t11.medicam.models.ShortID;
 
 public class ProfileEditting extends AppCompatActivity {
     private TextView userId;
@@ -20,7 +22,7 @@ public class ProfileEditting extends AppCompatActivity {
     private EditText enteredEmail;
     private Patient patient;
     private PersistenceController<Patient> patientController = new PatientPersistenceController();
-
+    private ShortIDPersistenceController shortIDController = new ShortIDPersistenceController();
 
 
     @Override
@@ -47,5 +49,13 @@ public class ProfileEditting extends AppCompatActivity {
         patient.setEmail(enteredEmail.getText().toString());
         patientController.save(patient,this);
         finish();
+    }
+
+    public void generateShortID (View view){
+        ShortID shortID = new ShortID(patient.getUuid());
+        TextView shortIDView = findViewById(R.id.short_id_textView);
+        shortIDView.setText(shortID.getUuid());
+        shortIDController.save(shortID,this);
+
     }
 }

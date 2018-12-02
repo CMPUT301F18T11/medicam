@@ -47,7 +47,6 @@ public class CareProviderActivity extends AppCompatActivity {
 
        // Set adapter and show the listView
         patientArrayList = careProvider.getPatients();
-        Toast.makeText(this,careProvider.getPatients().toString(),Toast.LENGTH_SHORT).show();
         patientListView = findViewById(R.id.patientListView);
         patientArrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,patientArrayList);
         patientListView.setAdapter(patientArrayAdapter);

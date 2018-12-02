@@ -1,8 +1,6 @@
 package ca.ualberta.cmput301f18t11.medicam.activities;
 
 import android.Manifest;
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
@@ -13,22 +11,21 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.util.List;
-
 import ca.ualberta.cmput301f18t11.medicam.R;
 import ca.ualberta.cmput301f18t11.medicam.controllers.ElasticSearchController;
 import ca.ualberta.cmput301f18t11.medicam.controllers.abstracts.PersistenceController;
 import ca.ualberta.cmput301f18t11.medicam.controllers.per_model.CareProviderPersistenceController;
 import ca.ualberta.cmput301f18t11.medicam.controllers.per_model.PatientPersistenceController;
-import ca.ualberta.cmput301f18t11.medicam.controllers.per_model.ProblemPersistenceController;
+import ca.ualberta.cmput301f18t11.medicam.controllers.per_model.ShortIDPersistenceController;
 import ca.ualberta.cmput301f18t11.medicam.models.CareProvider;
 import ca.ualberta.cmput301f18t11.medicam.models.Patient;
-import ca.ualberta.cmput301f18t11.medicam.models.Problem;
+import ca.ualberta.cmput301f18t11.medicam.models.ShortID;
 
 public class LoginActivity extends AppCompatActivity {
-    private EditText bodyText;
+    private EditText userIdOrShortID;
     private PersistenceController<CareProvider> doctorController = new CareProviderPersistenceController();
     private PersistenceController<Patient> patientController = new PatientPersistenceController();
+    private ShortIDPersistenceController shortIDController = new ShortIDPersistenceController();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +46,7 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(LoginActivity.this, "Camera permissions have already been granted btw", Toast.LENGTH_SHORT).show();
         }
         //Assign buttons and text
-        bodyText = (EditText) findViewById(R.id.editText); //can we make this id more specific?
+        userIdOrShortID = (EditText) findViewById(R.id.user_id_or_short_id_edit_text); //can we make this id more specific?
 
     }
 
@@ -61,26 +58,32 @@ public class LoginActivity extends AppCompatActivity {
 
     //Launches into the main activity (Patient problem list/ Caregiver patient list)
     public void signIn(View view){
-        if (bodyText.getText().toString().equals("")){
+        if (userIdOrShortID.getText().toString().equals("")){
             Toast.makeText(this,"Please enter a user id to sign in",Toast.LENGTH_SHORT).show();
         }else {
             /**
              * try to fetch the user from the server and go to the coresponding activities
              */
-            if(doctorController.load(bodyText.getText().toString(),this) !=null){
+            if(doctorController.load(userIdOrShortID.getText().toString(),this) !=null){
                 Intent intent = new Intent(this, CareProviderActivity.class);
-                intent.putExtra("userid",bodyText.getText().toString());
+                intent.putExtra("userid", userIdOrShortID.getText().toString());
                 startActivity(intent);
-            }else if(patientController.load(bodyText.getText().toString(),this) !=null){
+            }else if(patientController.load(userIdOrShortID.getText().toString(),this) !=null){
                 Intent intent = new Intent(this, PatientProblemActivity.class);
-                intent.putExtra("userid",bodyText.getText().toString());
+                intent.putExtra("userid", userIdOrShortID.getText().toString());
+                startActivity(intent);
+            }else if(shortIDController.load(userIdOrShortID.getText().toString(),this)!=null){
+                Intent intent = new Intent(this,PatientProblemActivity.class);
+                ShortID shortID = shortIDController.load(userIdOrShortID.getText().toString(),this);
+                String userUUID = shortID.getReference_uuid();
+                intent.putExtra("userid",userUUID);
                 startActivity(intent);
             }
             /**
              * Toast message to promt user to try again if fail to login with entered userid
              */
             else {
-                Toast.makeText(this,"Invalid user id try again",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,"Invalid user id (or short id) try again",Toast.LENGTH_SHORT).show();
             }
         }
     }
