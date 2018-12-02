@@ -40,7 +40,7 @@ public class CareGiverRecordActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_care_giver_record);
+        setContentView(R.layout.activity_caregiver_record);
         ElasticSearchController.setIndex_url("cmput301f18t11test");
         patientRecordsView = findViewById(R.id.careGiverRecordListView);
 
