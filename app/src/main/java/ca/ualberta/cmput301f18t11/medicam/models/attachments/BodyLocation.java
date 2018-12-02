@@ -1,13 +1,9 @@
 package ca.ualberta.cmput301f18t11.medicam.models.attachments;
 
 
-import android.graphics.Bitmap;
 import android.util.Pair;
 
 import java.io.Serializable;
-import java.util.UUID;
-
-import ca.ualberta.cmput301f18t11.medicam.models.abstracts.Attachment;
 
 /**
  * Model for holding information related to a body-location selected
