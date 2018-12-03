@@ -9,6 +9,7 @@ import java.util.UUID;
 
 import ca.ualberta.cmput301f18t11.medicam.models.Patient;
 import ca.ualberta.cmput301f18t11.medicam.models.Problem;
+import ca.ualberta.cmput301f18t11.medicam.models.attachments.ReferencePhoto;
 
 import static org.junit.Assert.*;
 
@@ -54,10 +55,15 @@ public class PatientUnitTest {
     @Test
     public void testGetAndSetAPhoto() {
         Patient testPatient = new Patient();
-        String testUUID = UUID.randomUUID().toString();
-        testPatient.addReferencePhoto(testUUID);
+        String uuid = "3452345435";
+        String label = "label";
+        String bodyPart = "part";
+        ReferencePhoto photo = new ReferencePhoto(uuid, bodyPart, label);
+        testPatient.addBodyLocation(photo);
 
-        assertEquals(testPatient.getReferencePhotos().get(0), testUUID);
+        assertEquals(testPatient.getBodyLocations().get(0).getPhotoUUID(), uuid);
+        assertEquals(testPatient.getBodyLocations().get(0).getBodyPart(), bodyPart);
+        assertEquals(testPatient.getBodyLocations().get(0).getLabel(), label);
     }
 
 }

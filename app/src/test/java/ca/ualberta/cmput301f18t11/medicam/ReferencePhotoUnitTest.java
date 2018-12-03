@@ -17,10 +17,11 @@ public class ReferencePhotoUnitTest {
     public void testGetReferencePhotoUUID() {
         String uuid = "3452345435";
         String label = "label";
+        String bodyPart = "part";
 
-        ReferencePhoto testRefe = new ReferencePhoto(uuid, null, label);
-        assertEquals(testRefe.getUuid(), uuid);
-        assertNull(testRefe.getPhoto());
+        ReferencePhoto testRefe = new ReferencePhoto(uuid, bodyPart, label);
+        assertEquals(testRefe.getPhotoUUID(), uuid);
+        assertEquals(testRefe.getBodyPart(), bodyPart);
         assertEquals(testRefe.getLabel(), label);
     }
 
