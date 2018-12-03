@@ -311,7 +311,9 @@ public class Problem extends PersistedModel {
 
     @Override
     public String toString(){
-        return "Title: " + this.title +"\n"+"Detail: "+ description;
+        return "Title: " + this.title +"\n"+"Detail: "+ description +
+                "\n" + date_started.toString() +
+                "\nRecord Count: " + (patientRecords.size() + careProviderRecords.size());
     }
 
 }
