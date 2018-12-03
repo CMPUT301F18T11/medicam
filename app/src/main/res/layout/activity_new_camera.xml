@@ -1,57 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools">
-    
-    <ca.ualberta.cmput301f18t11.medicam.utils.CustomTextureView
-        android:id="@+id/texture_view"
-        android:layout_width="wrap_content"
+    tools:context=".activities.NewCameraActivity">
+
+    <com.camerakit.CameraKitView
+        android:id="@+id/camera_view"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true" />
+        android:adjustViewBounds="true"
+        app:camera_facing="back"/>
 
     <ImageView
-        android:id="@+id/new_camera_overlay"
+        android:id="@+id/camera_overlay"
         android:visibility="invisible"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginBottom="100dp"
         />
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginBottom="0dp"
-        android:background="@color/colorAccent">
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/button_capture_photo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/colorAccent"
+        android:onClick="capturePhoto"
+        android:text="@string/capture_image"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
-        <Button
-            android:id="@+id/new_capture_photo_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:onClick="capturePhotoButtonPressed"
-            android:text="@string/capture_image" />
+    <ToggleButton
+        android:id="@+id/toggle_camera_overlay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
+        android:gravity="center"
+        android:onClick="toggleCameraOverlay"
+        android:text="@string/toggle_onion_skin"
+        android:textOff="Overlay Off"
+        android:textOn="Overlay On"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/button_capture_photo"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="UnknownId" />
 
-        <!--TODO:function to (not)display overlay-->
-        <ToggleButton
-            android:id="@+id/new_toggle_camera_overlay"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="15dp"
-            android:layout_toStartOf="@+id/new_capture_photo_button"
-            android:onClick="new_toggleCameraOverlay"
-            android:text="@string/toggle_onion_skin"
-            android:textOff="Overlay Off"
-            android:textOn="Overlay On"
-            tools:ignore="UnknownId" />
-
-    </FrameLayout>
-
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>

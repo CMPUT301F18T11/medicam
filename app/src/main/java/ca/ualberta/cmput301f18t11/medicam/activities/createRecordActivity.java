@@ -181,15 +181,24 @@ public class createRecordActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == OPEN_CAMERA_REQUEST_CODE && resultCode == Activity.RESULT_OK){
 
-//            String mImageFilePath = data.getExtras().getString(IMAGE_FILE_PATH);
-            File mImageFile = new File(latest_image);
-            Bitmap bMap = BitmapFactory.decodeFile(latest_image);
+            String mImageFilePath = data.getExtras().getString(IMAGE_FILE_PATH);
+            File mImageFile = new File(mImageFilePath);
+            Bitmap bMap = BitmapFactory.decodeFile(mImageFile.toString());
             InstancePhoto photoToStore = new InstancePhoto(bMap);
 
             instancePhotoPersistenceController.save(photoToStore, this);
             Uri imageUri = Uri.fromFile(mImageFile);
             record.addPhotoToList(photoToStore);
             photoImageView.setImageURI(imageUri);
+
+//            File mImageFile = new File(latest_image);
+//            Bitmap bMap = BitmapFactory.decodeFile(latest_image);
+//            InstancePhoto photoToStore = new InstancePhoto(bMap);
+//
+//            instancePhotoPersistenceController.save(photoToStore, this);
+//            Uri imageUri = Uri.fromFile(mImageFile);
+//            record.addPhotoToList(photoToStore);
+//            photoImageView.setImageURI(imageUri);
         }
 
         else if(requestCode == OPEN_GALLERY_REQUEST_CODE && resultCode == Activity.RESULT_OK){
@@ -252,26 +261,27 @@ public class createRecordActivity extends AppCompatActivity {
     }
 
     public void goToCamera(View view){
-//        Intent intent = new Intent(this, NewCameraActivity.class);
-//        intent.putExtra("RECORD",record);
-//        startActivityForResult(intent,OPEN_CAMERA_REQUEST_CODE);
+        Intent intent = new Intent(this, NewCameraActivity.class);
+        intent.putExtra("RECORD",record);
+        startActivityForResult(intent,OPEN_CAMERA_REQUEST_CODE);
 
-        File image = null;
-        try {
-            image = createImageFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            if (image != null) {
-                Uri photoURI = FileProvider.getUriForFile(this,
-                        "ca.ualberta.cmput301f18t11.medicam",image);
-                latest_image = image.getAbsolutePath();
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                startActivityForResult(takePictureIntent, OPEN_CAMERA_REQUEST_CODE);
-            }
-        }
+
+//        File image = null;
+//        try {
+//            image = createImageFile();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+//            if (image != null) {
+//                Uri photoURI = FileProvider.getUriForFile(this,
+//                        "ca.ualberta.cmput301f18t11.medicam",image);
+//                latest_image = image.getAbsolutePath();
+//                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+//                startActivityForResult(takePictureIntent, OPEN_CAMERA_REQUEST_CODE);
+//            }
+//        }
     }
 
     public void goToGallery(View view){
