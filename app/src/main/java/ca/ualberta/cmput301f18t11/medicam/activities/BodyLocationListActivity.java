@@ -49,7 +49,7 @@ public class BodyLocationListActivity extends AppCompatActivity {
         bodyLocationList.addAll(patient.getBodyLocations());
 
         mode = intent.getStringExtra("mode");
-        if (mode.equals("select") || mode.equals("view")) {
+        if (mode.equals("select") || mode.equals("view") || mode.equals("selectImage")) {
             addBodyLocationButton.setVisibility(View.GONE);
         }
         /**
@@ -86,6 +86,11 @@ public class BodyLocationListActivity extends AppCompatActivity {
                     intent.putExtra("photo", bodyLocationList.get(position));
                     intent.putExtra("mode", "view");
                     startActivity(intent);
+                } else if (mode.equals("selectImage")) {
+                    Intent intent = new Intent();
+                    intent.putExtra("result", bodyLocationList.get(position).getPhotoUUID());
+                    setResult(RESULT_OK, intent);
+                    finish();
                 }
             }
         });

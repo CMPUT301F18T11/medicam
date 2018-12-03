@@ -16,7 +16,6 @@ import java.util.Comparator;
 import java.util.List;
 
 import ca.ualberta.cmput301f18t11.medicam.R;
-import ca.ualberta.cmput301f18t11.medicam.controllers.ElasticSearchController;
 import ca.ualberta.cmput301f18t11.medicam.controllers.abstracts.PersistenceController;
 import ca.ualberta.cmput301f18t11.medicam.controllers.per_model.CareProviderRecordPersistenceController;
 import ca.ualberta.cmput301f18t11.medicam.controllers.per_model.PatientRecordPersistenceController;
@@ -44,7 +43,6 @@ public class CareGiverRecordActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_caregiver_record);
-        ElasticSearchController.setIndex_url("cmput301f18t11test");
         patientRecordsView = findViewById(R.id.careGiverRecordListView);
 
         Intent intent = getIntent();

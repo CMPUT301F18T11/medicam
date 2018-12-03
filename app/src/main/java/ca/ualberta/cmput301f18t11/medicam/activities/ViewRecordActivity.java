@@ -15,7 +15,6 @@ import java.util.Collection;
 import java.util.Date;
 
 import ca.ualberta.cmput301f18t11.medicam.R;
-import ca.ualberta.cmput301f18t11.medicam.controllers.ElasticSearchController;
 import ca.ualberta.cmput301f18t11.medicam.controllers.GeolocationController;
 import ca.ualberta.cmput301f18t11.medicam.controllers.abstracts.PersistenceController;
 import ca.ualberta.cmput301f18t11.medicam.controllers.per_model.InstancePhotoPersistenceController;
@@ -56,7 +55,6 @@ public class ViewRecordActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_record);
-        ElasticSearchController.setIndex_url("cmput301f18t11test");
 
         //Toolbar Setup
         android.support.v7.widget.Toolbar toolbar = findViewById(R.id.viewRecord_toolbar);

@@ -28,7 +28,7 @@ public class ElasticSearchController {
 
     // Project Constant URLs
     private static String server_url = "http://cmput301.softwareprocess.es:8080";
-    private static String index_url  = "cmput301f18t11test";
+    private static String index_url  = "cmput301f18t11";
 
     // Jest Client Singleton
     private static JestDroidClient client;

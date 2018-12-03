@@ -33,7 +33,6 @@ public class CareGiverProblemActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_caregiver_problem);
-        ElasticSearchController.setIndex_url("cmput301f18t11test");
 
         Intent intent = getIntent();
         final String patientUUID = intent.getStringExtra("patientUUID");

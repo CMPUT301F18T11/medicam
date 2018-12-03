@@ -27,7 +27,6 @@ public class CareProviderActivity extends AppCompatActivity {
     private PersistenceController<CareProvider> persistenceController = new CareProviderPersistenceController();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ElasticSearchController.setIndex_url("cmput301f18t11test");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_caregiver_mainpage);
         Intent intent = getIntent();
