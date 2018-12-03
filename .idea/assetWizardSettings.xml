@@ -15,9 +15,9 @@
                           <map>
                             <entry key="assetSourceType" value="FILE" />
                             <entry key="height" value="35" />
-                            <entry key="outputName" value="ic_backarrow" />
+                            <entry key="outputName" value="ic_editicon" />
                             <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="C:\Users\Ames\Documents\UNIVERSITY\Fall Semester 2018\CMPUT 301\Project\Non-App Files\Created Assets\BackArrow.svg" />
+                            <entry key="sourceFile" value="C:\Users\Ames\Documents\UNIVERSITY\Fall Semester 2018\CMPUT 301\Project\Non-App Files\Created Assets\editIcon.svg" />
                             <entry key="width" value="35" />
                           </map>
                         </option>

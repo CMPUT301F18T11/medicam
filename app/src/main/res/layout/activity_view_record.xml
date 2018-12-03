@@ -23,13 +23,13 @@
             android:layout_centerVertical="true"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="20dp"
-            android:background="@android:drawable/ic_menu_edit"
+            android:background="@android:color/transparent"
             android:elevation="6dp"
             android:onClick="goEditRecord"
+            android:src="@drawable/ic_editicon"
             android:visibility="visible"
             tools:layout_editor_absoluteX="181dp"
-            tools:layout_editor_absoluteY="493dp"
-            tools:src="@android:drawable/ic_menu_edit" />
+            tools:layout_editor_absoluteY="493dp" />
 
         <ImageButton
             android:id="@+id/record_view_back_button"

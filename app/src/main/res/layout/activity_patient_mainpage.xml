@@ -31,17 +31,18 @@
 
         <ImageButton
             android:id="@+id/editProfileButton"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:layout_alignEnd="@+id/patientProfile_toolbar"
             android:layout_alignRight="@+id/patientProfile_toolbar"
-            android:layout_marginTop="5dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="20dp"
             android:layout_marginRight="20dp"
             android:background="@android:color/transparent"
             android:elevation="6dp"
             android:onClick="viewProfile"
-            app:srcCompat="@drawable/icon_body_location"
+            app:srcCompat="@drawable/ic_profileicon"
             tools:layout_editor_absoluteX="306dp"
             tools:layout_editor_absoluteY="64dp" />
 
