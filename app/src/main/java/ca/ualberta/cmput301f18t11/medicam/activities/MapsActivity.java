@@ -80,6 +80,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
             mMap.setMyLocationEnabled(true);
             startingMarker = getCurrentLocation();
+            location = new Geolocation(startingMarker.latitude, startingMarker.longitude);
         } else {
             startingMarker = new LatLng(location.getLatitude(), location.getLongitude());
 

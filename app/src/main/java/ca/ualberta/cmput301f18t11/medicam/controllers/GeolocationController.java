@@ -6,6 +6,10 @@ import android.content.Intent;
 import ca.ualberta.cmput301f18t11.medicam.activities.MapsActivity;
 import ca.ualberta.cmput301f18t11.medicam.models.attachments.Geolocation;
 
+
+/** GeolocationController
+ *  Proxy Object for calling google maps API for certain intent actions.
+ */
 public class GeolocationController {
 
     public static Intent selectLocation(Context context) {

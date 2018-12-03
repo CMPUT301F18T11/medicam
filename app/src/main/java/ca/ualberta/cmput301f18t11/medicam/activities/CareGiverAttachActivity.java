@@ -18,7 +18,6 @@ public class CareGiverAttachActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_caregiver_attach);
-        ElasticSearchController.setIndex_url("cmput301f18t11test");
 
         titleView = findViewById(R.id.attachTitleTextView);
 

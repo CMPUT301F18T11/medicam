@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ import ca.ualberta.cmput301f18t11.medicam.models.attachments.Geolocation;
 
 public class SearchActivity extends AppCompatActivity {
     private static final int UPDATE_GEOLOCATION_REQUEST_CODE = 1;
+    private static final int GET_PHOTO_UUID_REQUEST_CODE = 2;
     private String searchtype;
     private String patientUUID;
     private EditText keyword;
@@ -124,7 +126,13 @@ public class SearchActivity extends AppCompatActivity {
     public void goToResultActivityGeolocation(View view) {
         startActivityForResult(GeolocationController.selectLocation(this),
                 UPDATE_GEOLOCATION_REQUEST_CODE);
+    }
 
+    public void goToResultActivityBodyLocation(View view) {
+        Intent intent = new Intent(this, BodyLocationListActivity.class);
+        intent.putExtra("mode", "selectImage");
+        intent.putExtra("patient", patientUUID);
+        startActivityForResult(intent, GET_PHOTO_UUID_REQUEST_CODE);
     }
 
     @Override
@@ -132,6 +140,9 @@ public class SearchActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == UPDATE_GEOLOCATION_REQUEST_CODE) {
             Geolocation location = MapsActivity.location;
+            if (location == null) {
+                return;
+            }
 
             if (searchtype.equals("problems")) {
                 List<Problem> resultList = searchForProblems(location);
@@ -152,5 +163,54 @@ public class SearchActivity extends AppCompatActivity {
             }
         }
 
+        else if (requestCode == GET_PHOTO_UUID_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                String photoUUID = data.getStringExtra("result");
+                if (searchtype.equals("problems")) {
+                    List<Problem> resultList = searchForProblemsBodyLocation(photoUUID);
+                    Intent intent = new Intent(SearchActivity.this,ShowSearchResultActivity.class);
+                    intent.putExtra("problemResultList", (Serializable) resultList);
+                    intent.putExtra("resultType","problems");
+                    intent.putExtra("patientUUID",patientUUID);
+                    startActivity(intent);
+                }
+                else if (searchtype.equals("records")) {
+                    List<Record> resultList = searchForRecordsBodyLocation(photoUUID);
+                    Intent intent = new Intent(SearchActivity.this,ShowSearchResultActivity.class);
+                    intent.putExtra("recordResultList", (Serializable) resultList);
+                    intent.putExtra("resultType","records");
+                    intent.putExtra("problem",problem);
+                    intent.putExtra("accessType",accessType);
+                    startActivity(intent);
+                }
+            }
+        }
+
+    }
+
+    private List<Problem> searchForProblemsBodyLocation(String photoUUID) {
+        List<Problem> resultList = new ArrayList<>();
+        Patient patient = new PatientPersistenceController().load(patientUUID, this);
+
+        for (String problemUUID : patient.getProblems()) {
+            List<PatientRecord> patientResultList = patientRecordController
+                    .searchBodyLocationFromREST(photoUUID, problemUUID);
+
+            if (patientResultList != null) {
+                if (!patientResultList.isEmpty()) {
+                    resultList.add(problemController.load(problemUUID, this));
+                }
+            }
+        }
+
+        return resultList;
+    }
+
+    public List<Record> searchForRecordsBodyLocation(String photoUUID) {
+        List<Record> resultList= new ArrayList<>();
+        List<PatientRecord> patientResultList = patientRecordController
+                .searchBodyLocationFromREST(photoUUID, problem.getUuid());
+        resultList.addAll(patientResultList);
+        return resultList;
     }
 }

@@ -11,6 +11,12 @@ import ca.ualberta.cmput301f18t11.medicam.controllers.abstracts.PersistenceContr
 import ca.ualberta.cmput301f18t11.medicam.models.attachments.InstancePhoto;
 import io.searchbox.client.JestResult;
 
+
+/**
+ Persistence controller for Instance Photo objects
+ See PersistenceController for documentation
+ */
+
 public class InstancePhotoPersistenceController extends PersistenceController<InstancePhoto> {
 
     @Override
