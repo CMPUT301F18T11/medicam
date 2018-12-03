@@ -6,16 +6,13 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Environment;
-import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -28,11 +25,8 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -41,10 +35,7 @@ import java.util.Date;
 import ca.ualberta.cmput301f18t11.medicam.R;
 import ca.ualberta.cmput301f18t11.medicam.controllers.ElasticSearchController;
 import ca.ualberta.cmput301f18t11.medicam.controllers.GeolocationController;
-import ca.ualberta.cmput301f18t11.medicam.controllers.ImageStorageController;
-import ca.ualberta.cmput301f18t11.medicam.controllers.abstracts.PersistenceController;
 import ca.ualberta.cmput301f18t11.medicam.controllers.per_model.InstancePhotoPersistenceController;
-import ca.ualberta.cmput301f18t11.medicam.controllers.per_model.PatientPersistenceController;
 import ca.ualberta.cmput301f18t11.medicam.controllers.per_model.PatientRecordPersistenceController;
 import ca.ualberta.cmput301f18t11.medicam.models.attachments.BodyLocation;
 import ca.ualberta.cmput301f18t11.medicam.models.attachments.Geolocation;
@@ -189,16 +180,11 @@ public class createRecordActivity extends AppCompatActivity {
         //TODO Geo Location  and Save photos + bodylocations
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == OPEN_CAMERA_REQUEST_CODE && resultCode == Activity.RESULT_OK){
-            Log.d("SELECT PHOTO DIALOG","onActivityResult: done taking new photo");
 
 //            String mImageFilePath = data.getExtras().getString(IMAGE_FILE_PATH);
             File mImageFile = new File(latest_image);
             Bitmap bMap = BitmapFactory.decodeFile(latest_image);
-            bMap = Bitmap.createScaledBitmap(bMap,90,90,true);
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            bMap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-            byte[] b = baos.toByteArray();
-            InstancePhoto photoToStore = new InstancePhoto(Base64.encodeToString(b, Base64.DEFAULT));
+            InstancePhoto photoToStore = new InstancePhoto(bMap);
 
             instancePhotoPersistenceController.save(photoToStore, this);
             Uri imageUri = Uri.fromFile(mImageFile);
@@ -207,14 +193,18 @@ public class createRecordActivity extends AppCompatActivity {
         }
 
         else if(requestCode == OPEN_GALLERY_REQUEST_CODE && resultCode == Activity.RESULT_OK){
-            Log.d("SELECT PHOTO DIALOG","onActivityResult: done SELECTING new photo");
-            Uri selectedImageUri = data.getData();
-//            photo = new InstancePhoto();
-            //TODO FIX THIS FOR ARRAY OF INSTANCEPHOTO
-//            photo.setPhoto(selectedImageUri);
-//            record.addPhotoToList(photo.getUuid());
-            //recordController.save(record,this);
-//            photoImageView.setImageURI(Uri.parse(photo.getPhoto()));
+            //doesnt work
+//            Uri selectedImageUri = data.getData();
+//            if (selectedImageUri != null) {
+//                if (selectedImageUri.getPath() != null) {
+//                    Bitmap bMap = BitmapFactory.decodeFile(selectedImageUri.getPath());
+//                    InstancePhoto photoToStore = new InstancePhoto(bMap);
+//                    instancePhotoPersistenceController.save(photoToStore, this);
+//                    record.addPhotoToList(photoToStore);
+//                    photoImageView.setImageURI(selectedImageUri);
+//                }
+//            }
+
         }
 
         else if(requestCode == ADD_BODYLOCATION_REQUEST_CODE&& resultCode == Activity.RESULT_OK){
@@ -291,7 +281,7 @@ public class createRecordActivity extends AppCompatActivity {
     }
 
     public void goAddBodyLocation(View view){
-        Intent intent = new Intent(this,BodyLocationActivity.class);
+        Intent intent = new Intent(this,CreateBodyLocationActivity.class);
         startActivityForResult(intent,ADD_BODYLOCATION_REQUEST_CODE);
     }
 
@@ -345,8 +335,7 @@ public class createRecordActivity extends AppCompatActivity {
         InstancePhoto instancePhoto = instancePhotoPersistenceController.load(record.getMostRecentPhoto(),
                 this);
         if (instancePhoto != null) {
-            byte[] decodedString = Base64.decode(instancePhoto.getPhoto(), Base64.DEFAULT);
-            photoImageView.setImageBitmap(BitmapFactory.decodeByteArray(decodedString,0, decodedString.length));
+            photoImageView.setImageBitmap(instancePhoto.getPhoto());
         }
 
         //TODO: fetch Also PHOTOS BODY LOCATIONS AND PHOTO LIST

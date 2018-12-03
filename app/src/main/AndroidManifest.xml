@@ -55,7 +55,9 @@
         <activity android:name=".activities.PatientRecordActivity" />
         <activity android:name=".activities.createProblemActivity" />
         <activity android:name=".activities.createRecordActivity" />
-        <activity android:name=".activities.BodyLocationActivity" />
+        <activity android:name=".activities.CreateBodyLocationActivity" />
+        <activity android:name=".activities.BodyLocationListActivity"/>
+        <activity android:name=".activities.BodyLocationActivity"/>
         <activity
             android:name=".activities.NewCameraActivity"
             android:screenOrientation="portrait" />

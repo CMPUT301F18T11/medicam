@@ -45,7 +45,7 @@ public class PatientRecordTest {
         assertEquals(patientRecord.getTimestamp(), time);
         assertEquals(patientRecord.getProblemUUID(), creatoruuid);
         assertEquals(patientRecord.getBodyLocation().getImageCoordinates(), bodylocation.getImageCoordinates());
-        assertEquals(patientRecord.getBodyLocation().getBodyLocationPhotoUUID(), bodylocation.getBodyLocationPhotoUUID());
+        assertEquals(patientRecord.getBodyLocation().getReferencePhoto(), bodylocation.getReferencePhoto());
 
 
         assertTrue(patientRecord.getLocation().getLatitude() > 0.09);

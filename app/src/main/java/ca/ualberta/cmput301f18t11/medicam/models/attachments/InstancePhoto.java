@@ -1,6 +1,10 @@
 package ca.ualberta.cmput301f18t11.medicam.models.attachments;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
+
+import java.io.ByteArrayOutputStream;
 
 import ca.ualberta.cmput301f18t11.medicam.models.abstracts.PersistedModel;
 
@@ -19,9 +23,9 @@ public class InstancePhoto extends PersistedModel {
         super();
     }
 
-    public InstancePhoto( String base64EncodedImage) {
+    public InstancePhoto( Bitmap photo) {
         super();
-        this.base64EncodedImage = base64EncodedImage;
+        setPhoto(photo);
     }
 
     /**
@@ -29,17 +33,26 @@ public class InstancePhoto extends PersistedModel {
      *
      * @param photo <code>Uri</code> for the photo this object is meant to hold.
      */
-    public void setPhoto(String photo) {
-        this.base64EncodedImage = photo;
+    public void setPhoto(Bitmap photo) {
+
+        photo = Bitmap.createScaledBitmap(photo,70,125,true);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        photo.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] b = baos.toByteArray();
+        this.base64EncodedImage = Base64.encodeToString(b, Base64.DEFAULT);
     }
 
+
     /**
-     * Gets the Uri that represents the photo held by this attachment.
+     * Gets the Bitmap that represents the photo held by this attachment by decoding
+     * the base64 encoded string
      *
-     * @return <code>Uri</code> type object for the photo held by this attachment.
+     * @return <code>Bitmap</code> type object for the photo held by this attachment.
      */
-    public String getPhoto(){
-        return base64EncodedImage;
+    public Bitmap getPhoto(){
+        byte[] decodedString = Base64.decode(base64EncodedImage, Base64.DEFAULT);
+        Bitmap bMap = BitmapFactory.decodeByteArray(decodedString,0, decodedString.length);
+        return bMap;
     }
 
 }

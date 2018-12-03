@@ -43,5 +43,7 @@
     <string name="noLocation">No Location Provided</string>
     <string name="capture_image">Capture</string>
     <string name="toggle_onion_skin">Show Overlay</string>
+    <string name="BodyLocation">bodylocation</string>
+    <string name="confirm">CONFIRM</string>
     >
 </resources>

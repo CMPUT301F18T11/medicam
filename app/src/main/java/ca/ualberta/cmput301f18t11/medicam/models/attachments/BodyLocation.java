@@ -14,7 +14,7 @@ import java.io.Serializable;
  */
 public class BodyLocation implements Serializable {
     private Pair<Integer, Integer> imageCoordinates;
-    private String bodyLocationPhotoUUID;
+    private ReferencePhoto referencePhoto;
 
     /**
      * Null contructor for body location.
@@ -23,9 +23,14 @@ public class BodyLocation implements Serializable {
         super();
     }
 
-    public BodyLocation(Pair<Integer, Integer> imageCoordinates, String bodyLocationPhotoUUID) {
+    public BodyLocation(Pair<Integer, Integer> imageCoordinates, ReferencePhoto referencePhoto) {
         this.imageCoordinates = imageCoordinates;
-        this.bodyLocationPhotoUUID = bodyLocationPhotoUUID;
+        this.referencePhoto = referencePhoto;
+    }
+
+    public BodyLocation(Pair<Integer, Integer> imageCoordinates, String photoUUID, String label, String bodyPart) {
+        this.imageCoordinates = imageCoordinates;
+        this.referencePhoto = new ReferencePhoto(photoUUID, bodyPart, label);
     }
 
     public Pair<Integer, Integer> getImageCoordinates() {
@@ -36,11 +41,28 @@ public class BodyLocation implements Serializable {
         this.imageCoordinates = imageCoordinates;
     }
 
-    public String getBodyLocationPhotoUUID() {
-        return bodyLocationPhotoUUID;
+    public ReferencePhoto getReferencePhoto() {
+        return referencePhoto;
     }
 
-    public void setBodyLocationPhotoUUID(String bodyLocationPhotoUUID) {
-        this.bodyLocationPhotoUUID = bodyLocationPhotoUUID;
+    public void setReferencePhoto(ReferencePhoto referencePhoto) {
+        this.referencePhoto = referencePhoto;
+    }
+
+    public String getBodyPart() {
+        return referencePhoto.getBodyPart();
+    }
+
+
+    public String getLabel() {
+        return referencePhoto.getLabel();
+    }
+
+    @Override
+    public String toString() {
+        if (getLabel() == null) {
+            return getBodyPart();
+        }
+        return getBodyPart() + ": " + getLabel();
     }
 }
