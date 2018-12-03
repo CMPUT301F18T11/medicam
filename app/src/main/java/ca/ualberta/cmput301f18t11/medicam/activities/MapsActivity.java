@@ -25,7 +25,8 @@ import ca.ualberta.cmput301f18t11.medicam.models.attachments.Geolocation;
 /**
  * Functionality used from https://developers.google.come/maps/documentation/android-sdk/
  */
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener, GoogleMap.OnMarkerClickListener {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
+        GoogleMap.OnMapClickListener, GoogleMap.OnMarkerClickListener, GoogleMap.OnMyLocationButtonClickListener {
     private static final int MY_LOCATION_REQUEST_CODE = 1;
 
     private GoogleMap mMap;
@@ -89,6 +90,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (mode.equals("selection")) {
             mMap.setOnMapClickListener(this);
             mMap.setOnMarkerClickListener(this);
+            mMap.setOnMyLocationButtonClickListener(this);
         }
     }
 
@@ -102,14 +104,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             return new LatLng(0,0);
         }
 
-        Location location = mMap.getMyLocation();
-        if (location == null) {
+        Location myLocation = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        if (myLocation == null) {
             return new LatLng(0,0);
         }
-        double longitude = location.getLongitude();
-        double latitude = location.getLatitude();
+        double longitude = myLocation.getLongitude();
+        double latitude = myLocation.getLatitude();
         return new LatLng(latitude, longitude);
     }
+
+
 
 
     @SuppressLint("MissingPermission")
@@ -139,6 +143,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public boolean onMarkerClick(Marker marker) {
         marker.remove();
         location = null;
+        return false;
+    }
+
+    @Override
+    public boolean onMyLocationButtonClick() {
+        LatLng currentLocation = getCurrentLocation();
+        location = new Geolocation(currentLocation.latitude, currentLocation.longitude);
+        currentMarker.remove();
+        currentMarker = mMap.addMarker(new MarkerOptions().position(currentLocation).title("Record Location"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocation));
         return false;
     }
 }
