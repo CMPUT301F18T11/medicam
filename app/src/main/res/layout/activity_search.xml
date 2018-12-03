@@ -38,7 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
         android:onClick="searchByKeyword"
-        android:text="Button"
+        android:text="Search"
         app:layout_constraintBottom_toBottomOf="@+id/keyword"
         app:layout_constraintEnd_toEndOf="parent" />
 
