@@ -131,6 +131,36 @@ public class PatientRecordPersistenceController extends PersistenceController<Pa
         return null;
     }
 
+    public List<PatientRecord> searchBodyLocationFromREST(String bodylocation_uid, String problem_uuid)
+    {
+        ElasticSearchController.SearchObjectsTask task = new ElasticSearchController.SearchObjectsTask(getTypeURL());
+        try
+        {
+            String search_query = "{ " +
+                    "  \"size\": 100," +
+                    "  \"query\": {" +
+                    "    \"bool\": {" +
+                    "      \"must\": " +
+                    "      [{\"multi_match\" : {\"query\":    \"%search_bodylocation_uuid%\", \"fields\": [ \"photoUUID\", \"bodyLocation.referencePhoto.photoUUID\" ]}}," +
+                    "       {\"match\": {\"problemUUID\": \"%search_problem_uuid%\"}}]" +
+                    "    }" +
+                    "  }" +
+                    "}";
+
+            search_query = search_query.replace("%search_bodylocation_uuid%", bodylocation_uid);
+            search_query = search_query.replace("%search_problem_uuid%", problem_uuid);
+
+            JestResult result = task.execute(search_query).get();
+            return result.getSourceAsObjectList(PatientRecord.class);
+        }
+
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 
 
     @Override
