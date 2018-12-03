@@ -135,6 +135,7 @@ public class ViewRecordActivity extends AppCompatActivity {
 
     public void photoSlideshow(View view){
         Intent intent = new Intent(ViewRecordActivity.this, RecordPhotosSlideshow.class);
+        intent.putExtra("previous", patientRecord.getUuid());
         startActivity(intent);
     }
 }

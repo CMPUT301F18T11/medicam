@@ -4,12 +4,58 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="activities.BodyLocationActivity">
+    tools:context=".activities.CreateBodyLocationActivity">
 
     <!--Import of the toolbar: Blank Version -->
+
+    <ImageView
+        android:id="@+id/createBodyLocationImageView"
+        android:layout_width="200dp"
+        android:layout_height="142dp"
+        android:layout_marginStart="7dp"
+        android:layout_marginLeft="7dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginRight="2dp"
+        android:layout_marginBottom="18dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView6"
+        app:layout_constraintEnd_toStartOf="@+id/addPhotoFromGalleryBodyLocation"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bodyLocation_toolbar"
+        app:srcCompat="@android:drawable/ic_menu_report_image" />
+
+    <ImageButton
+        android:id="@+id/takePhotoBodyLocationButton"
+        android:layout_width="59dp"
+        android:layout_height="58dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bodyLocation_toolbar"
+        app:srcCompat="@drawable/camera_icon" />
+
+    <ImageButton
+        android:id="@+id/addPhotoFromGalleryBodyLocation"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:adjustViewBounds="false"
+        android:scaleType="fitCenter"
+        app:layout_constraintEnd_toStartOf="@+id/takePhotoBodyLocationButton"
+        app:layout_constraintStart_toEndOf="@+id/createBodyLocationImageView"
+        app:layout_constraintTop_toBottomOf="@+id/bodyLocation_toolbar"
+        app:srcCompat="@drawable/add_photo_icon" />
+
     <include
         android:id="@+id/bodyLocation_toolbar"
-        layout="@layout/toolbar"></include>
+        layout="@layout/toolbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"></include>
 
     <!-- Page elements below -->
     <TextView
@@ -18,7 +64,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginLeft="30dp"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="200dp"
         android:text="Choose a body part:"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -51,7 +97,7 @@
         android:layout_marginEnd="30dp"
         android:layout_marginRight="30dp"
         android:background="@drawable/toggle_choice_background_boarder"
-        android:checkedButton="@+id/patientRadioButton"
+        android:checkedButton="@+id/bodyLocation_RadioButton_03"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -107,7 +153,7 @@
             android:paddingRight="16dp"
             android:text="N/A"
             android:textAllCaps="true"
-            android:textColor="@drawable/toggle_color"/>
+            android:textColor="@drawable/toggle_color" />
     </RadioGroup>
 
 
@@ -117,13 +163,42 @@
         android:layout_height="40dp"
         android:layout_marginStart="30dp"
         android:layout_marginLeft="30dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="30dp"
         android:layout_marginRight="30dp"
         android:onClick="finishSetingBodyLocation"
         android:text="Save"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.99"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bodyLocationDescriptionTextView" />
+
+    <EditText
+        android:id="@+id/bodyLocationDescriptionTextView"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:width="4dp"
+        android:background="@drawable/toggle_choice_background_boarder"
+        android:color="#000000"
+        android:ems="15"
+        android:gravity="top"
+        android:hint="Description"
+        android:inputType="textMultiLine"
+        android:maxLength="300"
+        android:minLines="3"
+        android:paddingLeft="12dp"
+        android:paddingTop="12dp"
+        android:paddingRight="12dp"
+        android:paddingBottom="12dp"
+        android:radius="10dp"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bodyLocation_radioGroup" />
 </android.support.constraint.ConstraintLayout>

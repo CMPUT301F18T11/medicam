@@ -1,9 +1,11 @@
 package ca.ualberta.cmput301f18t11.medicam.activities;
 
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -17,6 +19,8 @@ import ca.ualberta.cmput301f18t11.medicam.models.Patient;
 import ca.ualberta.cmput301f18t11.medicam.models.ShortID;
 
 public class ProfileEditting extends AppCompatActivity {
+    private static final int ADD_BODYLOCATION_REQUEST_CODE = 1;
+
     private TextView userId;
     private EditText enteredPhoneNumber;
     private EditText enteredEmail;
@@ -24,6 +28,7 @@ public class ProfileEditting extends AppCompatActivity {
     private PersistenceController<Patient> patientController = new PatientPersistenceController();
     private ShortIDPersistenceController shortIDController = new ShortIDPersistenceController();
 
+    private Button bodyLocationButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +44,7 @@ public class ProfileEditting extends AppCompatActivity {
         userId = findViewById(R.id.userIDTextView);
         enteredPhoneNumber = findViewById(R.id.editingPhoneNumberText);
         enteredEmail = findViewById(R.id.editingEmailText);
+        bodyLocationButton = findViewById(R.id.profileEdittingBodyLocation);
 
         Intent intent = getIntent();
         String userUUID = intent.getStringExtra("USERUUID");
@@ -47,8 +53,18 @@ public class ProfileEditting extends AppCompatActivity {
         userId.setText(patient.getUserID());
         enteredPhoneNumber.setText(patient.getPhoneNumber());
         enteredEmail.setText(patient.getEmail());
-    }
 
+        bodyLocationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProfileEditting.this,
+                        BodyLocationListActivity.class);
+                intent.putExtra("patient", patient.getUuid());
+                intent.putExtra("mode", "edit");
+                startActivity(intent);
+            }
+        });
+    }
 
     public void finishEditing(View view){
         patient.setPhoneNumber(enteredPhoneNumber.getText().toString());

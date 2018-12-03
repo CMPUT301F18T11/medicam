@@ -8,6 +8,8 @@ import java.util.List;
 import ca.ualberta.cmput301f18t11.medicam.models.abstracts.User;
 import ca.ualberta.cmput301f18t11.medicam.exceptions.InvalidEmailException;
 import ca.ualberta.cmput301f18t11.medicam.exceptions.StringTooShortException;
+import ca.ualberta.cmput301f18t11.medicam.models.attachments.BodyLocation;
+import ca.ualberta.cmput301f18t11.medicam.models.attachments.ReferencePhoto;
 
 /**
  * Represents a patient that uses this app to record their various medical problems.
@@ -21,7 +23,7 @@ import ca.ualberta.cmput301f18t11.medicam.exceptions.StringTooShortException;
 public class Patient extends User {
 
     private List<String> problems = new ArrayList<>();
-    private List<String> referencePhotos = new ArrayList<>();
+    private List<ReferencePhoto> bodyLocations = new ArrayList<>();
 
     /**
      * Empty constructor for initializing a blank <code>Patient</code> object, with an implicit call
@@ -85,10 +87,10 @@ public class Patient extends User {
      * @see User
      */
     public Patient(String userID, String email, String phoneNumber, List<String> problems,
-                   List<String> referencePhotos) throws StringTooShortException, InvalidEmailException {
+                   List<ReferencePhoto> referencePhotos) throws StringTooShortException, InvalidEmailException {
         super(userID, email, phoneNumber);
         this.problems = problems;
-        this.referencePhotos = referencePhotos;
+        this.bodyLocations = referencePhotos;
     }
 
     /**
@@ -145,20 +147,24 @@ public class Patient extends User {
      * Get and set for the list itself
      * Add a photoUUID, remove a photoUUID
      */
-    public List<String> getReferencePhotos() {
-        return referencePhotos;
+    public List<ReferencePhoto> getBodyLocations() {
+        return bodyLocations;
     }
 
-    public void setReferencePhotos(List<String> referencePhotos) {
-        this.referencePhotos = referencePhotos;
+    public void setBodyLocations(List<ReferencePhoto> referencePhotos) {
+        this.bodyLocations = referencePhotos;
     }
 
-    public void addReferencePhoto(String referencePhotoUUID) {
-        referencePhotos.add(referencePhotoUUID);
+    public void addBodyLocation(ReferencePhoto referencePhotoUUID) {
+        bodyLocations.add(referencePhotoUUID);
     }
 
-    public void removeReferencePhoto(String referencePhotoUUID) {
-        referencePhotos.remove(referencePhotoUUID);
+    public void removeBodyLocation(ReferencePhoto referencePhotoUUID) {
+        bodyLocations.remove(referencePhotoUUID);
+    }
+
+    public void removeBodyLocation(int index) {
+        bodyLocations.remove(index);
     }
 
 
