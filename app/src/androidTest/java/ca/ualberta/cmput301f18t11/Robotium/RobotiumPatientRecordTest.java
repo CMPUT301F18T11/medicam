@@ -12,24 +12,32 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 
 import ca.ualberta.cmput301f18t11.medicam.R;
+import ca.ualberta.cmput301f18t11.medicam.activities.BodyLocationActivity;
+import ca.ualberta.cmput301f18t11.medicam.activities.BodyLocationListActivity;
 import ca.ualberta.cmput301f18t11.medicam.activities.CustomCameraActivity;
 
+import ca.ualberta.cmput301f18t11.medicam.activities.LoginActivity;
+import ca.ualberta.cmput301f18t11.medicam.activities.PatientProblemActivity;
+import ca.ualberta.cmput301f18t11.medicam.activities.PatientRecordActivity;
 import ca.ualberta.cmput301f18t11.medicam.activities.createRecordActivity;
+import ca.ualberta.cmput301f18t11.medicam.models.PatientRecord;
 
 import static junit.framework.TestCase.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
 public class RobotiumPatientRecordTest {
     private String test_uid;
-    private String test_phone_num;
-    private String test_email;
-    private String test_address;
+    private String randomTestIndex = String.valueOf(ThreadLocalRandom.current().nextInt(0,101));
+    private String test_record_title;
+    private String test_record_comment;
+    private String test_body_part;
 
     @Rule
-    public ActivityTestRule<createRecordActivity> createRecordActivityTestRule =
-            new ActivityTestRule<>(createRecordActivity.class);
+    public ActivityTestRule<LoginActivity> createRecordActivityTestRule =
+            new ActivityTestRule<>(LoginActivity.class);
     private Solo solo;
 
     @Before
@@ -44,42 +52,37 @@ public class RobotiumPatientRecordTest {
     }
 
     @Test
-    public void testOpenCamera() throws Exception {
-        solo.unlockScreen();
+    public void testCreateRecord() throws Exception {
+        test_uid = "testing_patient_user";
+        test_record_title = "test title" + randomTestIndex;
+        test_record_comment = "test comment" + randomTestIndex;
 
-        login();
+        //sign in a new user
+        solo.enterText(0, test_uid);
+        solo.clickOnView(solo.getView(R.id.sign_in_button));
+        //If the login was successful the next screen should be the PatientProblemActivity
+        solo.assertCurrentActivity("Expect PatientProblemActivity", PatientProblemActivity.class);
 
-        solo.clickOnView(solo.getView(R.id.cameraButton));
-        solo.assertCurrentActivity("Expected CustomCameraActivity", CustomCameraActivity.class);
-    }
+        //Enter first problem in list
+        solo.clickInList(1);
+        solo.assertCurrentActivity("Expect PatientRecordActivity", PatientRecordActivity.class);
 
-    private void login(){
-        test_uid = UUID.randomUUID().toString();
-        test_phone_num = "123-456-7890";
-        test_email = "test@tester.ca";
-        test_address = "42 Wallaby Way, Sidney";
-        String title = "Can't feel foot";
-        String desc = "Since my amputation I can't feel my foot.";
+        //Create a record
+        solo.clickOnView(solo.getView(R.id.fab)); //
+        solo.assertCurrentActivity("Expect createRecordActivity", createRecordActivity.class);
 
+        //Add bodylocation
+        solo.clickOnView(solo.getView(R.id.bodyLocationButton4View));
+        solo.assertCurrentActivity("Expect BodyLocationListActivity", BodyLocationListActivity.class);
+        solo.clickInList(1);
+        solo.assertCurrentActivity("Expect BodyLocationActivity", BodyLocationActivity.class);
+        solo.clickOnView(solo.getView(R.id.displayReferencePhotoImageView));
+        solo.clickOnView(solo.getView(R.id.displayReferencePhotoConfirmButton));
 
-        solo.unlockScreen();
-
-        //create a new user
-        solo.clickOnView(solo.getView(R.id.sign_up_button));
-        solo.enterText(0,test_uid);
-        solo.enterText(1,test_phone_num);
-        solo.enterText(2,test_email);
-        solo.enterText(3,test_address);
-        solo.clickOnView(solo.getView(R.id.create_user_button));
-
-        //Create a problem
-        solo.clickOnView(solo.getView(R.id.floatingActionButton));
-        solo.enterText(0, title);
-        solo.enterText(1,desc);
-        solo.clickOnView(solo.getView(R.id.createProblemButton));
-
-        boolean problem_found = solo.searchText(title);
-
-        assertTrue("Problem created or not created", problem_found);
+        //Add title and everything else
+        boolean foundBodyPart = solo.searchText("my hand");
+        solo.enterText(0, test_record_title);
+        solo.enterText(1, test_record_comment);
+        assertTrue("body location succesfully chose", foundBodyPart);
     }
 }
