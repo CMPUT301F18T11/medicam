@@ -31,6 +31,8 @@ public class PatientProblemActivity extends AppCompatActivity {
     private PersistenceController<Patient> patientControler = new PatientPersistenceController();
     private Patient patient;
     private String patientid;
+    private ArrayAdapter<Problem> itemsAdapter;
+    private int onCkickItemIndex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +55,7 @@ public class PatientProblemActivity extends AppCompatActivity {
          * Setup the ArrayAdapter to show the list of problems
          *
          */
-        final ArrayAdapter<Problem> itemsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, problemDisplayList);
+        itemsAdapter = new ArrayAdapter<Problem>(this, android.R.layout.simple_list_item_1, problemDisplayList);
         listView = findViewById(R.id.problemListView);
         listView.setAdapter(itemsAdapter);
         /**
@@ -73,12 +75,14 @@ public class PatientProblemActivity extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 String problemID = problemList.get(position);
-                patient.getProblems().remove(problemID);
-                patientControler.save(patient, PatientProblemActivity.this);
-                problemControler.delete(problemDisplayList.get(position), PatientProblemActivity.this);
-                problemDisplayList.remove(position);
-                itemsAdapter.notifyDataSetChanged();
-                return false;
+                onCkickItemIndex = position;
+                Intent intent = new Intent(PatientProblemActivity.this, createProblemActivity.class);
+                intent.putExtra("patientUUID", patient.getUuid());
+                intent.putExtra("problemUUID",problemID);
+                intent.putExtra("purpose","edit");
+                startActivityForResult(intent,EDIT_PROBLEM_REQUEST_CODE);
+                return true;
+
             }
         });
 
@@ -109,12 +113,30 @@ public class PatientProblemActivity extends AppCompatActivity {
             problemList.add(newProblem.getUuid());
 
             patientControler.save(patient,this);
+        }else if(requestCode == EDIT_PROBLEM_REQUEST_CODE && resultCode == RESULT_OK){
+            String deleteUUID = data.getStringExtra("deleteUUID");
+            patient.getProblems().remove(deleteUUID);
+            patientControler.save(patient, PatientProblemActivity.this);
+            problemControler.delete(problemDisplayList.get(onCkickItemIndex), PatientProblemActivity.this);
+            problemDisplayList.remove(onCkickItemIndex);
+            ArrayAdapter<Problem> newAdapter = new ArrayAdapter<Problem>(PatientProblemActivity.this, android.R.layout.simple_list_item_1, problemDisplayList);
+            listView.setAdapter(newAdapter);
+            //itemsAdapter.notifyDataSetChanged();
         }
     }
 
     @Override
     protected void onResume(){
         super.onResume();
+        problemList.clear();
+        problemDisplayList.clear();
+        problemList.addAll(patient.getProblems());
+        for (int i = 0; i < problemList.size(); i++){
+            Problem problem = problemControler.load(problemList.get(i), PatientProblemActivity.this);
+            problemDisplayList.add(problem);
+        }
+        ArrayAdapter<Problem> newAdapter = new ArrayAdapter<Problem>(PatientProblemActivity.this, android.R.layout.simple_list_item_1, problemDisplayList);
+        listView.setAdapter(newAdapter);
         //TODO: REFRESH THE LISTVIEW
     }
 
@@ -137,6 +159,7 @@ public class PatientProblemActivity extends AppCompatActivity {
     public void createProblem(View view){
         Intent intent = new Intent(this, createProblemActivity.class);
         intent.putExtra("patientUUID", patient.getUuid());
+        intent.putExtra("purpose","add");
         startActivityForResult(intent,ADD_PROBLEM_REQUESTCODE);
     }
 }
