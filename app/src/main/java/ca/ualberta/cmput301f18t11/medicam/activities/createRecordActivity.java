@@ -57,6 +57,7 @@ public class createRecordActivity extends AppCompatActivity {
     private Date datetime = new Date();
     private String purpose; // this will give us the info of whether the user want to Edit the record Or add a Record
     private Geolocation location;
+    private String patient;
     //Resource used for date picker: https://www.youtube.com/watch?v=hwe1abDO2Ag
     //Resource used for time picker: https://www.youtube.com/watch?v=QMwaNN_aM3U
 
@@ -97,6 +98,7 @@ public class createRecordActivity extends AppCompatActivity {
 
         displayDateAndTime();
         purpose = getIntent().getStringExtra("purpose");
+        patient = getIntent().getStringExtra("patient");
         if(purpose.equals("edit")){
             TextView textView = findViewById(R.id.recordCreate_Header01);
             textView.setText("Editing Record");
@@ -217,10 +219,8 @@ public class createRecordActivity extends AppCompatActivity {
         }
 
         else if(requestCode == ADD_BODYLOCATION_REQUEST_CODE&& resultCode == Activity.RESULT_OK){
-            Log.d("SET BODY LOCATION","onActivityResult: done setting BodyLocation");
-            String bodylocationString = data.getStringExtra("BodyLocation");
-            Toast.makeText(this,"BodyLocation set to be: "+bodylocationString,Toast.LENGTH_SHORT).show();
-            bodyLocation = new BodyLocation();
+            bodyLocation = (BodyLocation) data.getExtras().getSerializable("new");
+            displayBodyLocation();
             // TODO NEW BODY LOCATION LOGIC
             // Not BodyLocation is Stored as a Object contain a name of the body location
             //record.addAttachment(bodyLocation.getAttachment_uuid());
@@ -231,6 +231,14 @@ public class createRecordActivity extends AppCompatActivity {
         else if (requestCode == UPDATE_GEOLOCATION_REQUEST_CODE) {
             location = MapsActivity.location;
             displayGeolocation();
+        }
+    }
+
+    private void displayBodyLocation() {
+        if (bodyLocation == null) {
+            bodyLocationTextView.setText(R.string.noBodyLocation);
+        } else {
+            bodyLocationTextView.setText(bodyLocation.toString());
         }
     }
 
@@ -290,10 +298,14 @@ public class createRecordActivity extends AppCompatActivity {
         startActivityForResult(intent, OPEN_GALLERY_REQUEST_CODE);
     }
 
-    public void goAddBodyLocation(View view){
-        Intent intent = new Intent(this,CreateBodyLocationActivity.class);
-        startActivityForResult(intent,ADD_BODYLOCATION_REQUEST_CODE);
+
+    public void goAddBodyLocation(View view) {
+        Intent intent = new Intent(this, BodyLocationListActivity.class);
+        intent.putExtra("mode", "select");
+        intent.putExtra("patient", patient);
+        startActivityForResult(intent, ADD_BODYLOCATION_REQUEST_CODE);
     }
+
 
     public void saveRecord(View view){
         if (recordTitle.getText().toString().equals("")){Toast.makeText(createRecordActivity.this,"Please Enter a title",Toast.LENGTH_SHORT).show();
@@ -341,6 +353,9 @@ public class createRecordActivity extends AppCompatActivity {
 
         location = record.getLocation();
         displayGeolocation();
+
+        bodyLocation = record.getBodyLocation();
+        displayBodyLocation();
 
         InstancePhoto instancePhoto = instancePhotoPersistenceController.load(record.getMostRecentPhoto(),
                 this);
