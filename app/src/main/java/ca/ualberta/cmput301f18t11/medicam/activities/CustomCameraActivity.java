@@ -6,11 +6,13 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
+import android.support.v7.widget.AppCompatImageButton;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.camerakit.CameraKit;
 import com.camerakit.CameraKitView;
 
 import java.io.File;
@@ -33,6 +35,7 @@ public class CustomCameraActivity extends AppCompatActivity {
     private AppCompatButton mCaptureButton;
     private ImageView mCameraOverlay;
     private ToggleButton mOverlayToggle;
+    private AppCompatImageButton mFacingToggle;
 
     private File mOutputFile;
     private PatientRecord mRecord;
@@ -49,7 +52,7 @@ public class CustomCameraActivity extends AppCompatActivity {
         setContentView(R.layout.activity_custom_camera);
 
         try {
-            mOutputFile = createOutputFilePath();
+            mOutputFile = createImageFile();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -57,6 +60,8 @@ public class CustomCameraActivity extends AppCompatActivity {
         mCaptureButton = findViewById(R.id.button_capture_photo);
         mOverlayToggle = findViewById(R.id.toggle_camera_overlay);
         mCameraOverlay = findViewById(R.id.camera_overlay);
+        mFacingToggle = findViewById(R.id.switch_facing);
+        mFacingToggle.setImageResource(R.drawable.ic_camera_front_black_24dp);
 
 
         InstancePhoto instancePhoto = mInstancePhotoPersistenceController.load(mRecord.getMostRecentPhoto(),
@@ -120,6 +125,17 @@ public class CustomCameraActivity extends AppCompatActivity {
         });
     }
 
+    public void switchFacing (View view) {
+        if(mCameraKitView.getFacing() == CameraKit.FACING_BACK){
+            mCameraKitView.toggleFacing();
+            mFacingToggle.setImageResource(R.drawable.ic_camera_rear_black_24dp);
+        } else {
+            mCameraKitView.toggleFacing();
+            mFacingToggle.setImageResource(R.drawable.ic_camera_front_black_24dp);
+        }
+
+    }
+
     public void toggleCameraOverlay(View view){
         boolean isChecked = ((ToggleButton) view).isChecked();
 
@@ -151,6 +167,14 @@ public class CustomCameraActivity extends AppCompatActivity {
         }
 
         return File.createTempFile(String.format("IMG_%s", timeStamp), ".jpg", directory );
+    }
+
+    private File createImageFile() throws IOException {
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        String timesStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        File image = File.createTempFile("medicam_" + timesStamp,".jpg", storageDir);
+
+        return image;
     }
 
     private void showToast(final String text) {
