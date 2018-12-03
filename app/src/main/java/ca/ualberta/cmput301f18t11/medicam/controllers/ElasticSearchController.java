@@ -151,9 +151,14 @@ public class ElasticSearchController {
 
     }
 
+    /** SearchObjectsTask
+     *  Task used to enact Elastic Search Query.
+     *  Constructed with type identifier
+     *  Should pass list of search queries.
+     *
+     *  ALL TASKS SHOULD ONLY BE USED ONCE AND THEN DISCARDED
+     */
     public static class SearchObjectsTask extends AsyncTask<String, Void, JestResult> {
-
-
         private String type_url;
 
         public SearchObjectsTask(String type_url) {

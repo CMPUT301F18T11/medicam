@@ -19,7 +19,7 @@ import ca.ualberta.cmput301f18t11.medicam.models.abstracts.Record;
 import io.searchbox.client.JestResult;
 
 /**
-    Persistence controller for Record objects
+    Persistence controller for Care Provider Record objects
     See PersistenceController for documentation
  */
 public class CareProviderRecordPersistenceController extends PersistenceController<CareProviderRecord> {
@@ -60,6 +60,13 @@ public class CareProviderRecordPersistenceController extends PersistenceControll
         return null;
     }
 
+    /** Searches records on Elastic Search REST API by search phrase in the title and description.
+     *  Only searches records related to the problem defined by problem_uuid.
+     *
+     * @param search_phrase Phrase to search by
+     * @param problem_uuid Problem UUId returned records should relate to.
+     * @return List of relevant care provider records as defined by Elastic Search
+     */
     public List<CareProviderRecord> searchFromREST(String search_phrase, String problem_uuid)
     {
         ElasticSearchController.SearchObjectsTask task = new ElasticSearchController.SearchObjectsTask(getTypeURL());
