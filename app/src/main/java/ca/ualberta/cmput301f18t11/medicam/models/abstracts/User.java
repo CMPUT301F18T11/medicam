@@ -5,6 +5,11 @@ import java.util.UUID;
 import ca.ualberta.cmput301f18t11.medicam.exceptions.InvalidEmailException;
 import ca.ualberta.cmput301f18t11.medicam.exceptions.StringTooShortException;
 
+
+/** Abstract class for manging user accounts and user objects. Supports base profile fields.
+ *  User objects should delegate user id functions to the persisted model uuid field.
+ *
+ */
 public abstract class User extends PersistedModel {
     private final static int MIN_USERNAME_LENGTH = 8;
 
@@ -15,6 +20,11 @@ public abstract class User extends PersistedModel {
         return uuid;
     }
 
+    /** User IDs must be at least 8 characters long.
+     *
+     * @param userID
+     * @throws StringTooShortException
+     */
     public void setUserID(String userID) throws StringTooShortException {
         if (userID.length() < MIN_USERNAME_LENGTH) {
             throw new StringTooShortException();
