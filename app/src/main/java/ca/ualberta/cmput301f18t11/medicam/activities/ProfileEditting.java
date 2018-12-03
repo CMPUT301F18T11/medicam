@@ -60,6 +60,7 @@ public class ProfileEditting extends AppCompatActivity {
                 Intent intent = new Intent(ProfileEditting.this,
                         BodyLocationListActivity.class);
                 intent.putExtra("patient", patient.getUuid());
+                intent.putExtra("mode", "edit");
                 startActivity(intent);
             }
         });

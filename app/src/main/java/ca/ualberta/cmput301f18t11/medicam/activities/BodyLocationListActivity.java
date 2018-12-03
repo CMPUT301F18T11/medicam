@@ -71,7 +71,7 @@ public class BodyLocationListActivity extends AppCompatActivity {
                     intent.putExtra("bodyLocation", bodyLocationList.get(position));
                     editedPhoto = position;
                     startActivityForResult(intent, EDIT_REFERENCE_PHOTO);
-                    
+
                 } else if (mode.equals("select")) {
                     Intent intent = new Intent(BodyLocationListActivity.this,
                             BodyLocationActivity.class);
