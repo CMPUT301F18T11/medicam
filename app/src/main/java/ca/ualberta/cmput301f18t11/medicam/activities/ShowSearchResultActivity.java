@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,12 @@ public class ShowSearchResultActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_search_result);
         listView=findViewById(R.id.search_result_list_view);
+
+        //Toolbar Setup
+        android.support.v7.widget.Toolbar toolbar = findViewById(R.id.showSearchResults_toolbar);
+        setSupportActionBar(toolbar);
+        TextView toolbarTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
+        toolbarTitle.setText("Search Results");// Sets the title to be shown in the toolbar
 
         Intent intent = getIntent();
         resultType = intent.getStringExtra("resultType");
