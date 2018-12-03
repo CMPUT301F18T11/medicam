@@ -13,6 +13,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 
 import ca.ualberta.cmput301f18t11.medicam.R;
@@ -70,6 +71,11 @@ public class BodyLocationActivity extends AppCompatActivity {
             confirmButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if (imageCoordinates == null) {
+                        Toast.makeText(BodyLocationActivity.this,
+                                "Please tap the screen to select a location", 5).show();
+                        return;
+                    }
                     BodyLocation result = new BodyLocation(imageCoordinates, photo);
                     Intent intent = new Intent();
                     intent.putExtra("new", result);

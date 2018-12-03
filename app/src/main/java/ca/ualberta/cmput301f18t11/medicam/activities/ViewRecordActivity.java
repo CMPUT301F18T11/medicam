@@ -159,6 +159,15 @@ public class ViewRecordActivity extends AppCompatActivity {
     }
 
     public void goViewBodyLocation(View view) {
+        if (bodyLocation == null) {
+            return;
+        }
+        if (bodyLocation.getReferencePhoto() == null) {
+            return;
+        }
+        if (bodyLocation.getReferencePhoto().getPhotoUUID() == null) {
+            return;
+        }
         Intent intent = new Intent(this, BodyLocationActivity.class);
         intent.putExtra("mode", "view");
         intent.putExtra("photo", patientRecord.getBodyLocation());
