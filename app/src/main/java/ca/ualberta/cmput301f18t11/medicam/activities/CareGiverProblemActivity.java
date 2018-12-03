@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,7 @@ import ca.ualberta.cmput301f18t11.medicam.models.Problem;
 
 public class CareGiverProblemActivity extends AppCompatActivity {
     private ListView problemListView;
+    private TextView title;
     private ArrayAdapter<Problem> adapter;
     private List<String> problemList = new ArrayList<>();
     private ArrayList<Problem> problemDisplayList = new ArrayList<>();
@@ -45,6 +47,8 @@ public class CareGiverProblemActivity extends AppCompatActivity {
 
         adapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,problemDisplayList);
         problemListView =  findViewById(R.id.problems_list_view);
+        title = findViewById(R.id.caregiverProblem_Header01);
+        title.setText(patientUUID);
         problemListView.setAdapter(adapter);
 
         problemListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -57,6 +61,13 @@ public class CareGiverProblemActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        adapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,problemDisplayList);
+        problemListView.setAdapter(adapter);
     }
 
     public void searchButtonForCareProvider(View view){

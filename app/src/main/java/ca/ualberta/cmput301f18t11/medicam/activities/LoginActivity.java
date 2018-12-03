@@ -36,14 +36,12 @@ public class LoginActivity extends AppCompatActivity {
         if (ContextCompat.checkSelfPermission(LoginActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             //This is the actual request.
             //Gimme that permission boy!
-            Toast.makeText(LoginActivity.this, "Gimme that permission boy!", Toast.LENGTH_SHORT).show();
             ActivityCompat.requestPermissions(LoginActivity.this, new String[]{
                     Manifest.permission.CAMERA,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE,
                     Manifest.permission.LOCATION_HARDWARE}, 1);
         } else {
             //We already have permissions
-            Toast.makeText(LoginActivity.this, "Camera permissions have already been granted btw", Toast.LENGTH_SHORT).show();
         }
         //Assign buttons and text
         userIdOrShortID = (EditText) findViewById(R.id.user_id_or_short_id_edit_text); //can we make this id more specific?

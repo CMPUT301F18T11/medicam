@@ -57,7 +57,6 @@ public class CareProviderActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         careProvider = persistenceController.load(careProvider.getUuid(),CareProviderActivity.this);
-        Toast.makeText(this,careProvider.getPatients().toString(),Toast.LENGTH_SHORT).show();
         patientArrayList = careProvider.getPatients();
         patientArrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,patientArrayList);
         patientListView.setAdapter(patientArrayAdapter);

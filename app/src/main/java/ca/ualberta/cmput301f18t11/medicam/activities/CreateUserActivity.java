@@ -51,7 +51,6 @@ public class CreateUserActivity extends AppCompatActivity {
     public void checkButton(View view){
         int radio = radioGroup.getCheckedRadioButtonId();
         accountTypeButton = findViewById(radio);
-        Toast.makeText(this,accountTypeButton.getText().toString(),Toast.LENGTH_SHORT).show();
     }
 
     public void createUserAndSignIn (View view){

@@ -10,13 +10,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import ca.ualberta.cmput301f18t11.medicam.R;
-import ca.ualberta.cmput301f18t11.medicam.controllers.ElasticSearchController;
 import ca.ualberta.cmput301f18t11.medicam.controllers.abstracts.PersistenceController;
 import ca.ualberta.cmput301f18t11.medicam.controllers.per_model.PatientPersistenceController;
 import ca.ualberta.cmput301f18t11.medicam.controllers.per_model.ProblemPersistenceController;
@@ -55,7 +53,7 @@ public class PatientProblemActivity extends AppCompatActivity {
          * Setup the ArrayAdapter to show the list of problems
          *
          */
-        ArrayAdapter<Problem> itemsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, problemDisplayList);
+        final ArrayAdapter<Problem> itemsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, problemDisplayList);
         listView = findViewById(R.id.problemListView);
         listView.setAdapter(itemsAdapter);
         /**
@@ -68,6 +66,19 @@ public class PatientProblemActivity extends AppCompatActivity {
                 intent.putExtra("previousProblem", problemList.get(position));
                 intent.putExtra("patient", patientid);
                 startActivity(intent);
+            }
+        });
+
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                String problemID = problemList.get(position);
+                patient.getProblems().remove(problemID);
+                patientControler.save(patient, PatientProblemActivity.this);
+                problemControler.delete(problemDisplayList.get(position), PatientProblemActivity.this);
+                problemDisplayList.remove(position);
+                itemsAdapter.notifyDataSetChanged();
+                return false;
             }
         });
 
@@ -117,7 +128,6 @@ public class PatientProblemActivity extends AppCompatActivity {
 
     //User clicks Profile button
     public void viewProfile(View view){
-        Toast.makeText(this, "Selected user profile button", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, ProfileEditting.class);
         intent.putExtra("USERUUID", patient.getUuid());
         startActivity(intent);
@@ -125,7 +135,6 @@ public class PatientProblemActivity extends AppCompatActivity {
     }
 
     public void createProblem(View view){
-        Toast.makeText(this, "Add a new problem", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, createProblemActivity.class);
         intent.putExtra("patientUUID", patient.getUuid());
         startActivityForResult(intent,ADD_PROBLEM_REQUESTCODE);
