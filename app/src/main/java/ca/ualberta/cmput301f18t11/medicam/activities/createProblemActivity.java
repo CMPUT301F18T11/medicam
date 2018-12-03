@@ -27,7 +27,6 @@ public class createProblemActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_problem);
-        ElasticSearchController.setIndex_url("cmput301f18t11test");
 
         problemTitle = (EditText) findViewById(R.id.editText2);
         problemDescription = (EditText) findViewById(R.id.probDescription);

@@ -24,7 +24,6 @@ public class AddDoctorNoteActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_doctor_note);
-        ElasticSearchController.setIndex_url("cmput301f18t11test");
 
         noteHeader = findViewById(R.id.noteHeaderEditText);
         noteComment  = findViewById(R.id.noteCommentEditText);

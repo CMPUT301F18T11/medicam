@@ -17,6 +17,7 @@ import io.searchbox.client.JestResult;
     Persistence controller for CareProvider objects
     See PersistenceController for documentation
  */
+
 public class CareProviderPersistenceController extends PersistenceController<CareProvider> {
 
     @Override

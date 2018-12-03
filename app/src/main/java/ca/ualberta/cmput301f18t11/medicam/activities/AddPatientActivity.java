@@ -27,7 +27,6 @@ public class AddPatientActivity extends AppCompatActivity {
     private ShortIDPersistenceController shortIDChontroller = new ShortIDPersistenceController();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ElasticSearchController.setIndex_url("cmput301f18t11test");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_patient);
         enteredUserid = findViewById(R.id.patientUseridEditText);

@@ -12,6 +12,8 @@ import android.widget.ImageView;
 import java.io.File;
 import java.util.ArrayList;
 
+/** ImageAdapter used to display bitmap images used by photos slide show functions.
+ */
 public class ImageAdapter extends PagerAdapter {
 
     private Context mContext;

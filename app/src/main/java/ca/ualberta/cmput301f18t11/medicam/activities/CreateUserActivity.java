@@ -13,7 +13,6 @@ import android.widget.Toast;
 import android.widget.Toolbar;
 
 import ca.ualberta.cmput301f18t11.medicam.R;
-import ca.ualberta.cmput301f18t11.medicam.controllers.ElasticSearchController;
 import ca.ualberta.cmput301f18t11.medicam.controllers.abstracts.PersistenceController;
 import ca.ualberta.cmput301f18t11.medicam.controllers.per_model.CareProviderPersistenceController;
 import ca.ualberta.cmput301f18t11.medicam.controllers.per_model.PatientPersistenceController;
@@ -33,7 +32,6 @@ public class CreateUserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_user);
 
-        ElasticSearchController.setIndex_url("cmput301f18t11test");
         enteredUserId = findViewById(R.id.userIDTextView);
         enteredPhoneNumber = findViewById(R.id.editingPhoneNumberText);
         enteredEmail = findViewById(R.id.editingEmailText);
