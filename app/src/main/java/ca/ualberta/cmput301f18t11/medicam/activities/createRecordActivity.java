@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.renderscript.ScriptGroup;
 import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
@@ -26,7 +27,9 @@ import android.widget.Toast;
 
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -193,18 +196,20 @@ public class createRecordActivity extends AppCompatActivity {
         }
 
         else if(requestCode == OPEN_GALLERY_REQUEST_CODE && resultCode == Activity.RESULT_OK){
-            //doesnt work
-//            Uri selectedImageUri = data.getData();
-//            if (selectedImageUri != null) {
-//                if (selectedImageUri.getPath() != null) {
-//                    Bitmap bMap = BitmapFactory.decodeFile(selectedImageUri.getPath());
-//                    InstancePhoto photoToStore = new InstancePhoto(bMap);
-//                    instancePhotoPersistenceController.save(photoToStore, this);
-//                    record.addPhotoToList(photoToStore);
-//                    photoImageView.setImageURI(selectedImageUri);
-//                }
-//            }
-
+            Uri selectedImageUri = data.getData();
+            InputStream inputStream;
+            if (selectedImageUri != null) {
+                    try {
+                        inputStream = getContentResolver().openInputStream(selectedImageUri);
+                        Bitmap bMap = BitmapFactory.decodeStream(inputStream);
+                        InstancePhoto photoToStore = new InstancePhoto(bMap);
+                        instancePhotoPersistenceController.save(photoToStore, this);
+                        record.addPhotoToList(photoToStore);
+                        photoImageView.setImageURI(selectedImageUri);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+            }
         }
 
         else if(requestCode == ADD_BODYLOCATION_REQUEST_CODE&& resultCode == Activity.RESULT_OK){
@@ -268,8 +273,7 @@ public class createRecordActivity extends AppCompatActivity {
 
     public void goToGallery(View view){
         if (record.getPhotoList().size() < 10) {
-            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-            intent.setType("image/*");
+            Intent intent = new Intent(Intent.ACTION_PICK,MediaStore.Images.Media.INTERNAL_CONTENT_URI);
             startActivityForResult(intent, OPEN_GALLERY_REQUEST_CODE);
         } else {
             Toast.makeText(this,

@@ -22,7 +22,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -130,8 +132,7 @@ public class CreateBodyLocationActivity extends AppCompatActivity {
     }
 
     public void goToGallery(View view){
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("image/*");
+        Intent intent = new Intent(Intent.ACTION_PICK,MediaStore.Images.Media.INTERNAL_CONTENT_URI);
         startActivityForResult(intent, OPEN_GALLERY_REQUEST_CODE);
     }
 
@@ -170,16 +171,19 @@ public class CreateBodyLocationActivity extends AppCompatActivity {
         }
 
         else if(requestCode == OPEN_GALLERY_REQUEST_CODE && resultCode == Activity.RESULT_OK){
-            // doesnt work
-//            Uri selectedImageUri = data.getData();
-//            if (selectedImageUri != null) {
-//                if (selectedImageUri.getPath() != null) {
-//                    Bitmap bMap = BitmapFactory.decodeFile(selectedImageUri.getPath());
-//
-//                    currentPhoto = new InstancePhoto(bMap);
-//                    bodyLocationImageView.setImageURI(selectedImageUri);
-//                }
-//            }
+            Uri selectedImageUri = data.getData();
+            InputStream inputStream;
+            if (selectedImageUri != null) {
+                try {
+                    inputStream = getContentResolver().openInputStream(selectedImageUri);
+                    Bitmap bMap = BitmapFactory.decodeStream(inputStream);
+                    currentPhoto = new InstancePhoto(bMap);
+                    bodyLocationImageView.setImageURI(selectedImageUri);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+
+            }
         }
     }
 
