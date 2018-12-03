@@ -7,11 +7,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import ca.ualberta.cmput301f18t11.medicam.R;
+import ca.ualberta.cmput301f18t11.medicam.controllers.GeolocationController;
 import ca.ualberta.cmput301f18t11.medicam.controllers.abstracts.PersistenceController;
 import ca.ualberta.cmput301f18t11.medicam.controllers.per_model.PatientPersistenceController;
 import ca.ualberta.cmput301f18t11.medicam.controllers.per_model.ShortIDPersistenceController;
@@ -29,6 +31,7 @@ public class ProfileEditting extends AppCompatActivity {
     private ShortIDPersistenceController shortIDController = new ShortIDPersistenceController();
 
     private Button bodyLocationButton;
+    private ImageButton displayLocationsButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +48,7 @@ public class ProfileEditting extends AppCompatActivity {
         enteredPhoneNumber = findViewById(R.id.editingPhoneNumberText);
         enteredEmail = findViewById(R.id.editingEmailText);
         bodyLocationButton = findViewById(R.id.profileEdittingBodyLocation);
+        displayLocationsButton = findViewById(R.id.displayAllRecordLocationsButton);
 
         Intent intent = getIntent();
         String userUUID = intent.getStringExtra("USERUUID");
@@ -61,6 +65,14 @@ public class ProfileEditting extends AppCompatActivity {
                         BodyLocationListActivity.class);
                 intent.putExtra("patient", patient.getUuid());
                 intent.putExtra("mode", "edit");
+                startActivity(intent);
+            }
+        });
+
+        displayLocationsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = GeolocationController.viewLocations(ProfileEditting.this, patient);
                 startActivity(intent);
             }
         });

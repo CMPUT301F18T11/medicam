@@ -19,7 +19,16 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import ca.ualberta.cmput301f18t11.medicam.R;
+import ca.ualberta.cmput301f18t11.medicam.controllers.per_model.PatientPersistenceController;
+import ca.ualberta.cmput301f18t11.medicam.controllers.per_model.PatientRecordPersistenceController;
+import ca.ualberta.cmput301f18t11.medicam.controllers.per_model.ProblemPersistenceController;
+import ca.ualberta.cmput301f18t11.medicam.models.Patient;
+import ca.ualberta.cmput301f18t11.medicam.models.PatientRecord;
+import ca.ualberta.cmput301f18t11.medicam.models.Problem;
 import ca.ualberta.cmput301f18t11.medicam.models.attachments.Geolocation;
 
 /**
@@ -34,6 +43,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private String mode;
     private Marker currentMarker;
 
+    private List<Geolocation> mapList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,12 +51,36 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         Intent intent = getIntent();
         mode = intent.getStringExtra("mode");
+        if (mode.equals("viewmultiple")) {
+            String patientUUID = intent.getStringExtra("patient");
+            mapList = new ArrayList<>();
+            Patient patient = new PatientPersistenceController().load(patientUUID, this);
+            if (patient == null) {
+                finish();
+            }
+            ProblemPersistenceController problemPersistenceController =
+                    new ProblemPersistenceController();
+            PatientRecordPersistenceController recordPersistenceController =
+                    new PatientRecordPersistenceController();
 
-        location = new Geolocation(intent.getDoubleExtra("latitude", 0),
-                intent.getDoubleExtra("longitude", 0));
+            for (String problemUUID: patient.getProblems()) {
+                Problem problem = problemPersistenceController.load(problemUUID,
+                        this);
+                for (String recordUUID: problem.getPatientRecords()) {
+                    PatientRecord record = recordPersistenceController.load(recordUUID,
+                            this);
+                    mapList.add(record.getLocation());
+                }
+            }
 
-        if (location.getLatitude() == 0 && location.getLongitude() == 0) {
-            location = null;
+
+        } else {
+            location = new Geolocation(intent.getDoubleExtra("latitude", 0),
+                    intent.getDoubleExtra("longitude", 0));
+
+            if (location.getLatitude() == 0 && location.getLongitude() == 0) {
+                location = null;
+            }
         }
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -65,33 +99,39 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
-        LatLng startingMarker;
-        if (location == null) {
-
-            if (ActivityCompat.checkSelfPermission(this,
-                    Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                    && ActivityCompat.checkSelfPermission(this,
-                    Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                String[] permissions = new String[1];
-                permissions[0] = Manifest.permission.ACCESS_FINE_LOCATION;
-                ActivityCompat.requestPermissions(this, permissions, MY_LOCATION_REQUEST_CODE);
-                return;
+        if (mode.equals("viewmultiple")) {
+            for (Geolocation geolocation: mapList) {
+                mMap.addMarker(new MarkerOptions().position(new LatLng(geolocation.getLatitude(),
+                        geolocation.getLongitude())));
             }
-            mMap.setMyLocationEnabled(true);
-            startingMarker = getCurrentLocation();
-            location = new Geolocation(startingMarker.latitude, startingMarker.longitude);
         } else {
-            startingMarker = new LatLng(location.getLatitude(), location.getLongitude());
+            LatLng startingMarker;
+            if (location == null) {
 
-        }
-        currentMarker = mMap.addMarker(new MarkerOptions().position(startingMarker).title("Record Location"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(startingMarker));
+                if (ActivityCompat.checkSelfPermission(this,
+                        Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                        && ActivityCompat.checkSelfPermission(this,
+                        Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    String[] permissions = new String[1];
+                    permissions[0] = Manifest.permission.ACCESS_FINE_LOCATION;
+                    ActivityCompat.requestPermissions(this, permissions, MY_LOCATION_REQUEST_CODE);
+                    return;
+                }
+                mMap.setMyLocationEnabled(true);
+                startingMarker = getCurrentLocation();
+                location = new Geolocation(startingMarker.latitude, startingMarker.longitude);
+            } else {
+                startingMarker = new LatLng(location.getLatitude(), location.getLongitude());
 
-        if (mode.equals("selection")) {
-            mMap.setOnMapClickListener(this);
-            mMap.setOnMarkerClickListener(this);
-            mMap.setOnMyLocationButtonClickListener(this);
+            }
+            currentMarker = mMap.addMarker(new MarkerOptions().position(startingMarker).title("Record Location"));
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(startingMarker));
+
+            if (mode.equals("selection")) {
+                mMap.setOnMapClickListener(this);
+                mMap.setOnMarkerClickListener(this);
+                mMap.setOnMyLocationButtonClickListener(this);
+            }
         }
     }
 
