@@ -17,7 +17,7 @@
     <EditText
         android:id="@+id/keyword"
         android:layout_width="223dp"
-        android:layout_height="41dp"
+        android:layout_height="40"
         android:layout_marginStart="30dp"
         android:layout_marginTop="30dp"
         android:background="@drawable/toggle_choice_background_boarder"
@@ -36,18 +36,21 @@
         android:id="@+id/key_word_searching_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:layout_marginEnd="32dp"
         android:onClick="searchByKeyword"
-        android:text="Button"
+        android:text="Search"
         app:layout_constraintBottom_toBottomOf="@+id/keyword"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/keyword" />
 
     <Button
         android:id="@+id/geo_searching_button"
         android:layout_width="0dp"
         android:layout_height="53dp"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="30dp"
         android:onClick="goToResultActivityGeolocation"
         android:text="Search By Geo Location"
@@ -61,7 +64,7 @@
         android:layout_width="0dp"
         android:layout_height="49dp"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="30dp"
         android:text="Search By Body Location"
         app:layout_constraintEnd_toEndOf="parent"

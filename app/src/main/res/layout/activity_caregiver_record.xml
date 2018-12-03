@@ -8,6 +8,21 @@
 
     <!--Import of the toolbar: Blank Version -->
 
+    <TextView
+        android:id="@+id/caregiverRecord_Header02"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="30dp"
+        android:text="Caregiver Notes"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/caregiverRecord_view3" />
+
     <RelativeLayout
         android:id="@+id/relativeLayout3"
         android:layout_width="match_parent"
@@ -19,7 +34,7 @@
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:background="@android:color/transparent"
             android:elevation="6dp"
             android:onClick="searchButtonForCareProvider"
@@ -61,41 +76,42 @@
     <ListView
         android:id="@+id/careGiverRecordListView"
         android:layout_width="0dp"
-        android:layout_height="190dp"
+        android:layout_height="0dp"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="30dp"
+        android:divider="@android:color/transparent"
         android:dividerHeight="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/caregiverRecord_view3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/caregiverRecord_view01" />
 
     <View
-        android:id="@+id/caregiverRecord_view"
+        android:id="@+id/caregiverRecord_view3"
         android:layout_width="0dp"
         android:layout_height="10dp"
         android:layout_centerVertical="true"
-        android:layout_marginTop="8dp"
         android:background="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/careGiverRecordListView" />
+        tools:layout_editor_absoluteY="335dp" />
 
     <ListView
         android:id="@+id/doctorRecordView"
         android:layout_width="0dp"
-        android:layout_height="194dp"
+        android:layout_height="0dp"
         android:layout_marginStart="30dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="30dp"
-        android:layout_marginBottom="8dp"
+        android:divider="@android:color/transparent"
         android:dividerHeight="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/caregiverRecord_view" />
+        app:layout_constraintTop_toBottomOf="@+id/caregiverRecord_Header02" />
 
     <Button
         android:id="@+id/addCareGiverRecordButton"

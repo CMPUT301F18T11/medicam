@@ -6,6 +6,31 @@
     android:layout_height="match_parent">
     <!--tools:context=".problemActivity"> What is this? Its been red for a while and isn't connected to anything-->
 
+    <TextView
+        android:id="@+id/caregiverRecord_Header3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="30dp"
+        android:text="Caregiver Notes"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/caregiverRecord_view2" />
+
+    <View
+        android:id="@+id/caregiverRecord_view2"
+        android:layout_width="0dp"
+        android:layout_height="10dp"
+        android:layout_centerVertical="true"
+        android:background="@color/colorPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recordListView" />
+
     <RelativeLayout
         android:id="@+id/relativeLayout"
         android:layout_width="wrap_content"
@@ -110,8 +135,8 @@
         android:layout_width="0dp"
         android:layout_height="197dp"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="30dp"
+        android:divider="@android:color/transparent"
         android:dividerHeight="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -121,23 +146,24 @@
     <ListView
         android:id="@+id/doctorNoteView"
         android:layout_width="0dp"
-        android:layout_height="91dp"
+        android:layout_height="0dp"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="30dp"
+        android:divider="@android:color/transparent"
         android:dividerHeight="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recordListView" />
+        app:layout_constraintTop_toBottomOf="@+id/caregiverRecord_Header3" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         android:clickable="true"
         android:src="@android:drawable/ic_input_add"
         app:layout_constraintBottom_toBottomOf="parent"
