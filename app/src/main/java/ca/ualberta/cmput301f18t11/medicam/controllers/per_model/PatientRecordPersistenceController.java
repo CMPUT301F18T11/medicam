@@ -59,6 +59,13 @@ public class PatientRecordPersistenceController extends PersistenceController<Pa
         return null;
     }
 
+    /** Searches records on Elastic Search REST API by search phrase in the title and description.
+     *  Only searches records related to the problem defined by problem_uuid.
+     *
+     * @param search_phrase Phrase to search by
+     * @param problem_uuid Problem UUId returned records should relate to.
+     * @return List of relevant patient records as defined by Elastic Search
+     */
     public List<PatientRecord> searchFromREST(String search_phrase, String problem_uuid)
     {
         ElasticSearchController.SearchObjectsTask task = new ElasticSearchController.SearchObjectsTask(getTypeURL());
