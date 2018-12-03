@@ -49,8 +49,8 @@ public class RecordPhotosSlideshow extends AppCompatActivity {
         for (int i = 0; i < this.photoList.size(); i++){
             InstancePhoto instancePhoto = instancePhotoPersistenceController.load(photoList.get(i),
                     this);
-            byte[] decodedString = Base64.decode(instancePhoto.getPhoto(), Base64.DEFAULT);
-            Bitmap bitmap = BitmapFactory.decodeByteArray(decodedString,0, decodedString.length);
+
+            Bitmap bitmap = instancePhoto.getPhoto();
             bitmaps.add(bitmap);
         }
     }
