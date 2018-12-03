@@ -165,10 +165,52 @@ public class SearchActivity extends AppCompatActivity {
 
         else if (requestCode == GET_PHOTO_UUID_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
-                Toast.makeText(this, data.getStringExtra("result"), Toast.LENGTH_SHORT).show();
-                // todo
+                String photoUUID = data.getStringExtra("result");
+                if (searchtype.equals("problems")) {
+                    List<Problem> resultList = searchForProblemsBodyLocation(photoUUID);
+                    Intent intent = new Intent(SearchActivity.this,ShowSearchResultActivity.class);
+                    intent.putExtra("problemResultList", (Serializable) resultList);
+                    intent.putExtra("resultType","problems");
+                    intent.putExtra("patientUUID",patientUUID);
+                    startActivity(intent);
+                }
+                else if (searchtype.equals("records")) {
+                    List<Record> resultList = searchForRecordsBodyLocation(photoUUID);
+                    Intent intent = new Intent(SearchActivity.this,ShowSearchResultActivity.class);
+                    intent.putExtra("recordResultList", (Serializable) resultList);
+                    intent.putExtra("resultType","records");
+                    intent.putExtra("problem",problem);
+                    intent.putExtra("accessType",accessType);
+                    startActivity(intent);
+                }
             }
         }
 
+    }
+
+    private List<Problem> searchForProblemsBodyLocation(String photoUUID) {
+        List<Problem> resultList = new ArrayList<>();
+        Patient patient = new PatientPersistenceController().load(patientUUID, this);
+
+        for (String problemUUID : patient.getProblems()) {
+            List<PatientRecord> patientResultList = patientRecordController
+                    .searchBodyLocationFromREST(photoUUID, problemUUID);
+
+            if (patientResultList != null) {
+                if (!patientResultList.isEmpty()) {
+                    resultList.add(problemController.load(problemUUID, this));
+                }
+            }
+        }
+
+        return resultList;
+    }
+
+    public List<Record> searchForRecordsBodyLocation(String photoUUID) {
+        List<Record> resultList= new ArrayList<>();
+        List<PatientRecord> patientResultList = patientRecordController
+                .searchBodyLocationFromREST(photoUUID, problem.getUuid());
+        resultList.addAll(patientResultList);
+        return resultList;
     }
 }

@@ -149,6 +149,7 @@ public class CareGiverRecordActivity extends AppCompatActivity {
         intent.putExtra("searchFor","records");
         intent.putExtra("previousProblem",problem);
         intent.putExtra("accessType","doctor");
+        intent.putExtra("patientUUID", patient);
         startActivity(intent);
     }
     private void sortDatArray (){  // simple method of sorting an Array List that contains objects.

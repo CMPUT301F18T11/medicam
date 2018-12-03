@@ -156,6 +156,7 @@ public class PatientRecordActivity extends AppCompatActivity {
         intent.putExtra("searchFor","records");
         intent.putExtra("previousProblem",previousProblem);
         intent.putExtra("accessType","patient");
+        intent.putExtra("patientUUID", patient);
         startActivity(intent);
     }
 
