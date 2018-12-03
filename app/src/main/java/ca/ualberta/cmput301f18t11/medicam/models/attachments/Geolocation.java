@@ -7,7 +7,10 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
-
+/** Model for holding geo location information from Google Maps API.
+ *  Used my records to denote a user selected location from a map.
+ *
+ */
 public class Geolocation implements Serializable {
     private double lat;
     private double lon;
