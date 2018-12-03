@@ -165,6 +165,7 @@ public class PatientRecordActivity extends AppCompatActivity {
         Intent intent = new Intent(this,createRecordActivity.class);
         intent.putExtra("purpose","add");
         intent.putExtra("problemUUID", previousProblem.getUuid());
+        intent.putExtra("patient", patient);
         startActivityForResult(intent,ADD_RECORD_REQUEST_CODE);
     }
 

@@ -49,7 +49,7 @@ public class CustomCameraActivity extends AppCompatActivity {
         setContentView(R.layout.activity_custom_camera);
 
         try {
-            mOutputFile = createOutputFilePath();
+            mOutputFile = createImageFile();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -151,6 +151,14 @@ public class CustomCameraActivity extends AppCompatActivity {
         }
 
         return File.createTempFile(String.format("IMG_%s", timeStamp), ".jpg", directory );
+    }
+
+    private File createImageFile() throws IOException {
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        String timesStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        File image = File.createTempFile("medicam_" + timesStamp,".jpg", storageDir);
+
+        return image;
     }
 
     private void showToast(final String text) {
