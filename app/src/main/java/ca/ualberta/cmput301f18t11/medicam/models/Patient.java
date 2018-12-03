@@ -140,6 +140,10 @@ public class Patient extends User {
         problems.add(problem.getUuid());
     }
 
+    public void deleteProblem(String problemUUID) {
+        problems.remove(problemUUID);
+    }
+
 
     /**
      * Methods for handling reference photos stored on the patient

@@ -13,7 +13,8 @@ import java.io.Serializable;
  * and the UUID of the bodylocation photo.
  */
 public class BodyLocation implements Serializable {
-    private Pair<Integer, Integer> imageCoordinates;
+    private Float imageCoordinateX;
+    private Float imageCoordinateY;
     private ReferencePhoto referencePhoto;
 
     /**
@@ -23,22 +24,25 @@ public class BodyLocation implements Serializable {
         super();
     }
 
-    public BodyLocation(Pair<Integer, Integer> imageCoordinates, ReferencePhoto referencePhoto) {
-        this.imageCoordinates = imageCoordinates;
+    public BodyLocation(Pair<Float, Float> imageCoordinates, ReferencePhoto referencePhoto) {
+        this.imageCoordinateX = imageCoordinates.first;
+        this.imageCoordinateY = imageCoordinates.second;
         this.referencePhoto = referencePhoto;
     }
 
-    public BodyLocation(Pair<Integer, Integer> imageCoordinates, String photoUUID, String label, String bodyPart) {
-        this.imageCoordinates = imageCoordinates;
+    public BodyLocation(Pair<Float, Float> imageCoordinates, String photoUUID, String label, String bodyPart) {
+        this.imageCoordinateX = imageCoordinates.first;
+        this.imageCoordinateY = imageCoordinates.second;
         this.referencePhoto = new ReferencePhoto(photoUUID, bodyPart, label);
     }
 
-    public Pair<Integer, Integer> getImageCoordinates() {
-        return imageCoordinates;
+    public Pair<Float, Float> getImageCoordinates() {
+        return new Pair<>(imageCoordinateX, imageCoordinateY);
     }
 
-    public void setImageCoordinates(Pair<Integer, Integer> imageCoordinates) {
-        this.imageCoordinates = imageCoordinates;
+    public void setImageCoordinates(Pair<Float, Float> imageCoordinates) {
+        this.imageCoordinateX = imageCoordinates.first;
+        this.imageCoordinateY = imageCoordinates.second;
     }
 
     public ReferencePhoto getReferencePhoto() {
@@ -60,9 +64,6 @@ public class BodyLocation implements Serializable {
 
     @Override
     public String toString() {
-        if (getLabel() == null) {
-            return getBodyPart();
-        }
-        return getBodyPart() + ": " + getLabel();
+        return referencePhoto.toString();
     }
 }

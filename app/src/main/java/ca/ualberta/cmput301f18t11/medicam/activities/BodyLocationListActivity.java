@@ -16,6 +16,7 @@ import java.util.List;
 import ca.ualberta.cmput301f18t11.medicam.R;
 import ca.ualberta.cmput301f18t11.medicam.controllers.per_model.PatientPersistenceController;
 import ca.ualberta.cmput301f18t11.medicam.models.Patient;
+import ca.ualberta.cmput301f18t11.medicam.models.attachments.BodyLocation;
 import ca.ualberta.cmput301f18t11.medicam.models.attachments.ReferencePhoto;
 
 public class BodyLocationListActivity extends AppCompatActivity {
@@ -35,6 +36,8 @@ public class BodyLocationListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_body_location_list);
+        addBodyLocationButton = findViewById(R.id.addBodyLocationButton);
+        listView = findViewById(R.id.bodyLocationViewList);
 
         /**
          * Get intent From previous activity(profileEditting) that contains a String that represents the UUID of the patient
@@ -46,7 +49,7 @@ public class BodyLocationListActivity extends AppCompatActivity {
         bodyLocationList.addAll(patient.getBodyLocations());
 
         mode = intent.getStringExtra("mode");
-        if (mode.equals("select")) {
+        if (mode.equals("select") || mode.equals("view")) {
             addBodyLocationButton.setVisibility(View.GONE);
         }
         /**
@@ -55,7 +58,6 @@ public class BodyLocationListActivity extends AppCompatActivity {
          */
         ArrayAdapter<ReferencePhoto> itemsAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1, bodyLocationList);
-        listView = findViewById(R.id.bodyLocationViewList);
         listView.setAdapter(itemsAdapter);
         /**
          * Set on click listener so that clicking on one of the bodylocations will bring the user to
@@ -76,12 +78,18 @@ public class BodyLocationListActivity extends AppCompatActivity {
                     Intent intent = new Intent(BodyLocationListActivity.this,
                             BodyLocationActivity.class);
                     intent.putExtra("photo", bodyLocationList.get(position));
+                    intent.putExtra("mode", "create");
                     startActivityForResult(intent, CREATE_BODY_LOCATION);
+                } else if (mode.equals("view")) {
+                    Intent intent = new Intent(BodyLocationListActivity.this,
+                            BodyLocationActivity.class);
+                    intent.putExtra("photo", bodyLocationList.get(position));
+                    intent.putExtra("mode", "view");
+                    startActivity(intent);
                 }
             }
         });
 
-        addBodyLocationButton = findViewById(R.id.addBodyLocationButton);
         addBodyLocationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -119,7 +127,11 @@ public class BodyLocationListActivity extends AppCompatActivity {
         }
 
         else if (requestCode == CREATE_BODY_LOCATION && resultCode == RESULT_OK){
-            //TODO
+            BodyLocation bodyLocation = (BodyLocation) data.getExtras().getSerializable("new");
+            Intent intent = new Intent();
+            intent.putExtra("new", bodyLocation);
+            setResult(RESULT_OK, intent);
+            finish();
         }
 
     }

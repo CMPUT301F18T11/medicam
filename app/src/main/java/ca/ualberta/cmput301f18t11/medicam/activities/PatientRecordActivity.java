@@ -11,7 +11,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -41,6 +40,7 @@ public class PatientRecordActivity extends AppCompatActivity {
     private PersistenceController<Problem> problemController = new ProblemPersistenceController();
     private PersistenceController<PatientRecord> recordController = new PatientRecordPersistenceController();
     private PersistenceController<CareProviderRecord> doctorRecordController = new CareProviderRecordPersistenceController();
+    private String patient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +53,7 @@ public class PatientRecordActivity extends AppCompatActivity {
 
         //Sets the title and description of Problem
         String problemUUID = getIntent().getStringExtra("previousProblem");
+        patient = getIntent().getStringExtra("patient");
         previousProblem = problemController.load(problemUUID,this);
         viewTitle.setText(previousProblem.getTitle());
         viewDescription.setText(previousProblem.getDescription());
@@ -80,6 +81,7 @@ public class PatientRecordActivity extends AppCompatActivity {
                     intent.putExtra("editable","YES");
                     intent.putExtra("previous", record.getUuid());
                     intent.putExtra("previousProblem", previousProblem.getUuid());
+                    intent.putExtra("patient", patient);
                     startActivity(intent);
                 }else if(doctorRecords.contains(record.getUuid())){
                     Intent intent = new Intent(PatientRecordActivity.this, ViewCareProviderRecordActivity.class);
@@ -163,6 +165,7 @@ public class PatientRecordActivity extends AppCompatActivity {
         Intent intent = new Intent(this,createRecordActivity.class);
         intent.putExtra("purpose","add");
         intent.putExtra("problemUUID", previousProblem.getUuid());
+        intent.putExtra("patient", patient);
         startActivityForResult(intent,ADD_RECORD_REQUEST_CODE);
     }
 

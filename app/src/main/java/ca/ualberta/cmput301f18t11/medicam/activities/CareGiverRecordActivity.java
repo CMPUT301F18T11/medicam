@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,6 +28,7 @@ import ca.ualberta.cmput301f18t11.medicam.models.abstracts.Record;
 
 public class CareGiverRecordActivity extends AppCompatActivity {
     private static final int ADD_RECORD_REQUESTCODE = 0;
+    private TextView title;
     private ListView patientRecordsView;
     private List<Record> displayList= new ArrayList<>();
     private ArrayAdapter<Record> recordArrayAdapter;
@@ -37,6 +38,7 @@ public class CareGiverRecordActivity extends AppCompatActivity {
     private PersistenceController<PatientRecord> patientRecordController = new PatientRecordPersistenceController();
     private PersistenceController<CareProviderRecord> doctorRecordController = new CareProviderRecordPersistenceController();
     private Problem problem;
+    private String patient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,7 @@ public class CareGiverRecordActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String problemUUID = intent.getStringExtra("problemUUID");
+        patient = intent.getStringExtra("patient");
         problem = problemControler.load(problemUUID,this);
         patientRecordsArray = problem.getPatientRecords();
         doctorRecordsArray = problem.getCareProviderRecords();
@@ -69,6 +72,7 @@ public class CareGiverRecordActivity extends AppCompatActivity {
                     Intent intent = new Intent(CareGiverRecordActivity.this, ViewRecordActivity.class);
                     intent.putExtra("editable","NO");
                     intent.putExtra("previous", record.getUuid());
+                    intent.putExtra("patient", patient);
                     startActivity(intent);
                 }else if(doctorRecordsArray.contains(record.getUuid())){
                     Intent intent = new Intent(CareGiverRecordActivity.this, ViewCareProviderRecordActivity.class);
@@ -80,15 +84,17 @@ public class CareGiverRecordActivity extends AppCompatActivity {
             }
         });
 
-        // if Long pressed:
-        // TODO Toast or show the actual comment.
+
         patientRecordsView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(CareGiverRecordActivity.this,"This will show the patient comments on this Long pressed record",Toast.LENGTH_LONG).show();
+
                 return true;
             }
         });
+
+        title = findViewById(R.id.caregiverRecord_ProblemTitle);
+        title.setText(problem.getTitle());
 
     }
 
@@ -103,6 +109,7 @@ public class CareGiverRecordActivity extends AppCompatActivity {
     }
     protected void onResume() {
         super.onResume();
+        problem = problemControler.load(problem.getUuid(), this);
         patientRecordsArray = problem.getPatientRecords();
         doctorRecordsArray = problem.getCareProviderRecords();
         displayList.clear();
@@ -135,6 +142,7 @@ public class CareGiverRecordActivity extends AppCompatActivity {
 
     public void goAddDoctorRecord(View view){
         Intent intent = new Intent(CareGiverRecordActivity.this, AddDoctorNoteActivity.class);
+        intent.putExtra("purpose", "create");
         intent.putExtra("problemUUID", problem.getUuid());
         startActivityForResult(intent,ADD_RECORD_REQUESTCODE);
     }

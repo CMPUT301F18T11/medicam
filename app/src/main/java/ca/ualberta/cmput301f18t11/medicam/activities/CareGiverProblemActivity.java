@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,7 @@ import ca.ualberta.cmput301f18t11.medicam.models.Problem;
 
 public class CareGiverProblemActivity extends AppCompatActivity {
     private ListView problemListView;
+    private TextView title;
     private ArrayAdapter<Problem> adapter;
     private List<String> problemList = new ArrayList<>();
     private ArrayList<Problem> problemDisplayList = new ArrayList<>();
@@ -34,8 +36,8 @@ public class CareGiverProblemActivity extends AppCompatActivity {
         ElasticSearchController.setIndex_url("cmput301f18t11test");
 
         Intent intent = getIntent();
-        String patientUUID = intent.getStringExtra("patientUUID");
-        Patient patient = patientController.load(patientUUID,this);
+        final String patientUUID = intent.getStringExtra("patientUUID");
+        final Patient patient = patientController.load(patientUUID,this);
         problemList = patient.getProblems();
 
         for (int i=0; i < problemList.size();i++){
@@ -45,6 +47,8 @@ public class CareGiverProblemActivity extends AppCompatActivity {
 
         adapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,problemDisplayList);
         problemListView =  findViewById(R.id.problems_list_view);
+        title = findViewById(R.id.caregiverProblem_Header01);
+        title.setText(patientUUID);
         problemListView.setAdapter(adapter);
 
         problemListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -52,10 +56,18 @@ public class CareGiverProblemActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(CareGiverProblemActivity.this, CareGiverRecordActivity.class);
                 intent.putExtra("problemUUID", problemList.get(position));
+                intent.putExtra("patient", patientUUID);
                 startActivity(intent);
             }
         });
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        adapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,problemDisplayList);
+        problemListView.setAdapter(adapter);
     }
 
     public void searchButtonForCareProvider(View view){

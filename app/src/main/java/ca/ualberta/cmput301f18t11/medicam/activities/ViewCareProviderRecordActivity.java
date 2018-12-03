@@ -67,8 +67,7 @@ public class ViewCareProviderRecordActivity extends AppCompatActivity {
     public void goEditDoctorRecord(View view){
         Intent intent = new Intent(ViewCareProviderRecordActivity.this,AddDoctorNoteActivity.class);
         intent.putExtra("purpose","edit");
-        intent.putExtra("previous",careProviderRecord.getUuid());
-        intent.putExtra("userID", careProvider.getUuid());
+        intent.putExtra("previous", careProviderRecord.getUuid());
         startActivityForResult(intent,EDIT_RECORD_REQUEST_CODE);
     }
 }

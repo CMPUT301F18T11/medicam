@@ -5,10 +5,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -119,7 +117,6 @@ public class SearchActivity extends AppCompatActivity {
             intent.putExtra("resultType","records");
             intent.putExtra("problem",problem);
             intent.putExtra("accessType",accessType);
-            Toast.makeText(this,"Records:"+ resultList,Toast.LENGTH_SHORT).show();
             startActivity(intent);
         }
     }
@@ -151,7 +148,6 @@ public class SearchActivity extends AppCompatActivity {
                 intent.putExtra("resultType","records");
                 intent.putExtra("problem",problem);
                 intent.putExtra("accessType",accessType);
-                Toast.makeText(this,"Records:"+ resultList,Toast.LENGTH_SHORT).show();
                 startActivity(intent);
             }
         }

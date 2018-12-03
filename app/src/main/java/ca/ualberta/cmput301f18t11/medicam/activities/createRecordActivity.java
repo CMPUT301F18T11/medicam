@@ -57,6 +57,7 @@ public class createRecordActivity extends AppCompatActivity {
     private Date datetime = new Date();
     private String purpose; // this will give us the info of whether the user want to Edit the record Or add a Record
     private Geolocation location;
+    private String patient;
     //Resource used for date picker: https://www.youtube.com/watch?v=hwe1abDO2Ag
     //Resource used for time picker: https://www.youtube.com/watch?v=QMwaNN_aM3U
 
@@ -97,6 +98,7 @@ public class createRecordActivity extends AppCompatActivity {
 
         displayDateAndTime();
         purpose = getIntent().getStringExtra("purpose");
+        patient = getIntent().getStringExtra("patient");
         if(purpose.equals("edit")){
             TextView textView = findViewById(R.id.recordCreate_Header01);
             textView.setText("Editing Record");
@@ -106,52 +108,52 @@ public class createRecordActivity extends AppCompatActivity {
         }
         // set DATE picker
         displayDate.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Calendar cal = Calendar.getInstance();
-                    int year = cal.get(Calendar.YEAR);
-                    int month = cal.get(Calendar.MONTH);
-                    int day = cal.get(Calendar.DAY_OF_MONTH);
+            @Override
+            public void onClick(View v) {
+                Calendar cal = Calendar.getInstance();
+                int year = cal.get(Calendar.YEAR);
+                int month = cal.get(Calendar.MONTH);
+                int day = cal.get(Calendar.DAY_OF_MONTH);
 
-                    DatePickerDialog datepicker = new DatePickerDialog(createRecordActivity.this, new DatePickerDialog.OnDateSetListener() {
-                        @Override
-                        public void onDateSet(DatePicker view, int year, int month, int day) {
-                            calendar.set(Calendar.YEAR, year);
-                            calendar.set(Calendar.MONTH, month);
-                            calendar.set(Calendar.DAY_OF_MONTH, day);
-                            datetime = calendar.getTime();
-                            //Display date and set Date datetime to the selected date
-                            java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("dd-MM-yyyy");
-                            String dateStr = dateFormat.format(datetime);
-                            displayDate.setText(dateStr);
-                        }
-                    }, year, month, day);
-                    datepicker.show();
-                }
+                DatePickerDialog datepicker = new DatePickerDialog(createRecordActivity.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int day) {
+                        calendar.set(Calendar.YEAR, year);
+                        calendar.set(Calendar.MONTH, month);
+                        calendar.set(Calendar.DAY_OF_MONTH, day);
+                        datetime = calendar.getTime();
+                        //Display date and set Date datetime to the selected date
+                        java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("dd-MM-yyyy");
+                        String dateStr = dateFormat.format(datetime);
+                        displayDate.setText(dateStr);
+                    }
+                }, year, month, day);
+                datepicker.show();
+            }
         });
         //ent of set DATE picker
 
         // set TIME picker
         displayTime.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    final Calendar cal = Calendar.getInstance();
-                    int hour = cal.get(Calendar.HOUR_OF_DAY);
-                    int minute = cal.get(Calendar.MINUTE);
-                    TimePickerDialog timepicker = new TimePickerDialog(createRecordActivity.this, new TimePickerDialog.OnTimeSetListener() {
-                        @Override
-                        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                            calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                            calendar.set(Calendar.MINUTE, minute);
-                            datetime = calendar.getTime();
-                            //Display time and set Date datetime to the selected time
-                            java.text.SimpleDateFormat timeformat = new java.text.SimpleDateFormat("HH:mm");
-                            String timeStr = timeformat.format(datetime);
-                            displayTime.setText(timeStr);
-                        }
-                    }, hour, minute, true);
-                    timepicker.show();
-                }
+            @Override
+            public void onClick(View v) {
+                final Calendar cal = Calendar.getInstance();
+                int hour = cal.get(Calendar.HOUR_OF_DAY);
+                int minute = cal.get(Calendar.MINUTE);
+                TimePickerDialog timepicker = new TimePickerDialog(createRecordActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                        calendar.set(Calendar.MINUTE, minute);
+                        datetime = calendar.getTime();
+                        //Display time and set Date datetime to the selected time
+                        java.text.SimpleDateFormat timeformat = new java.text.SimpleDateFormat("HH:mm");
+                        String timeStr = timeformat.format(datetime);
+                        displayTime.setText(timeStr);
+                    }
+                }, hour, minute, true);
+                timepicker.show();
+            }
         });
         //ent of set TIME picker
 
@@ -181,15 +183,24 @@ public class createRecordActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == OPEN_CAMERA_REQUEST_CODE && resultCode == Activity.RESULT_OK){
 
-//            String mImageFilePath = data.getExtras().getString(IMAGE_FILE_PATH);
-            File mImageFile = new File(latest_image);
-            Bitmap bMap = BitmapFactory.decodeFile(latest_image);
+            String mImageFilePath = data.getExtras().getString(IMAGE_FILE_PATH);
+            File mImageFile = new File(mImageFilePath);
+            Bitmap bMap = BitmapFactory.decodeFile(mImageFile.toString());
             InstancePhoto photoToStore = new InstancePhoto(bMap);
 
             instancePhotoPersistenceController.save(photoToStore, this);
             Uri imageUri = Uri.fromFile(mImageFile);
             record.addPhotoToList(photoToStore);
             photoImageView.setImageURI(imageUri);
+
+//            File mImageFile = new File(latest_image);
+//            Bitmap bMap = BitmapFactory.decodeFile(latest_image);
+//            InstancePhoto photoToStore = new InstancePhoto(bMap);
+//
+//            instancePhotoPersistenceController.save(photoToStore, this);
+//            Uri imageUri = Uri.fromFile(mImageFile);
+//            record.addPhotoToList(photoToStore);
+//            photoImageView.setImageURI(imageUri);
         }
 
         else if(requestCode == OPEN_GALLERY_REQUEST_CODE && resultCode == Activity.RESULT_OK){
@@ -208,10 +219,8 @@ public class createRecordActivity extends AppCompatActivity {
         }
 
         else if(requestCode == ADD_BODYLOCATION_REQUEST_CODE&& resultCode == Activity.RESULT_OK){
-            Log.d("SET BODY LOCATION","onActivityResult: done setting BodyLocation");
-            String bodylocationString = data.getStringExtra("BodyLocation");
-            Toast.makeText(this,"BodyLocation set to be: "+bodylocationString,Toast.LENGTH_SHORT).show();
-            bodyLocation = new BodyLocation();
+            bodyLocation = (BodyLocation) data.getExtras().getSerializable("new");
+            displayBodyLocation();
             // TODO NEW BODY LOCATION LOGIC
             // Not BodyLocation is Stored as a Object contain a name of the body location
             //record.addAttachment(bodyLocation.getAttachment_uuid());
@@ -222,6 +231,14 @@ public class createRecordActivity extends AppCompatActivity {
         else if (requestCode == UPDATE_GEOLOCATION_REQUEST_CODE) {
             location = MapsActivity.location;
             displayGeolocation();
+        }
+    }
+
+    private void displayBodyLocation() {
+        if (bodyLocation == null) {
+            bodyLocationTextView.setText(R.string.noBodyLocation);
+        } else {
+            bodyLocationTextView.setText(bodyLocation.toString());
         }
     }
 
@@ -252,26 +269,27 @@ public class createRecordActivity extends AppCompatActivity {
     }
 
     public void goToCamera(View view){
-//        Intent intent = new Intent(this, NewCameraActivity.class);
-//        intent.putExtra("RECORD",record);
-//        startActivityForResult(intent,OPEN_CAMERA_REQUEST_CODE);
+        Intent intent = new Intent(this, CustomCameraActivity.class);
+        intent.putExtra("RECORD",record);
+        startActivityForResult(intent,OPEN_CAMERA_REQUEST_CODE);
 
-        File image = null;
-        try {
-            image = createImageFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            if (image != null) {
-                Uri photoURI = FileProvider.getUriForFile(this,
-                        "ca.ualberta.cmput301f18t11.medicam",image);
-                latest_image = image.getAbsolutePath();
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                startActivityForResult(takePictureIntent, OPEN_CAMERA_REQUEST_CODE);
-            }
-        }
+
+//        File image = null;
+//        try {
+//            image = createImageFile();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+//            if (image != null) {
+//                Uri photoURI = FileProvider.getUriForFile(this,
+//                        "ca.ualberta.cmput301f18t11.medicam",image);
+//                latest_image = image.getAbsolutePath();
+//                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+//                startActivityForResult(takePictureIntent, OPEN_CAMERA_REQUEST_CODE);
+//            }
+//        }
     }
 
     public void goToGallery(View view){
@@ -280,10 +298,14 @@ public class createRecordActivity extends AppCompatActivity {
         startActivityForResult(intent, OPEN_GALLERY_REQUEST_CODE);
     }
 
-    public void goAddBodyLocation(View view){
-        Intent intent = new Intent(this,CreateBodyLocationActivity.class);
-        startActivityForResult(intent,ADD_BODYLOCATION_REQUEST_CODE);
+
+    public void goAddBodyLocation(View view) {
+        Intent intent = new Intent(this, BodyLocationListActivity.class);
+        intent.putExtra("mode", "select");
+        intent.putExtra("patient", patient);
+        startActivityForResult(intent, ADD_BODYLOCATION_REQUEST_CODE);
     }
+
 
     public void saveRecord(View view){
         if (recordTitle.getText().toString().equals("")){Toast.makeText(createRecordActivity.this,"Please Enter a title",Toast.LENGTH_SHORT).show();
@@ -331,6 +353,9 @@ public class createRecordActivity extends AppCompatActivity {
 
         location = record.getLocation();
         displayGeolocation();
+
+        bodyLocation = record.getBodyLocation();
+        displayBodyLocation();
 
         InstancePhoto instancePhoto = instancePhotoPersistenceController.load(record.getMostRecentPhoto(),
                 this);

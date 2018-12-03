@@ -59,7 +59,7 @@
         <activity android:name=".activities.BodyLocationListActivity"/>
         <activity android:name=".activities.BodyLocationActivity"/>
         <activity
-            android:name=".activities.NewCameraActivity"
+            android:name=".activities.CustomCameraActivity"
             android:screenOrientation="portrait" />
         // For Rest API
         <uses-library
