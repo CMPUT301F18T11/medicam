@@ -190,15 +190,6 @@ public class createRecordActivity extends AppCompatActivity {
             Uri imageUri = Uri.fromFile(mImageFile);
             record.addPhotoToList(photoToStore);
             photoImageView.setImageURI(imageUri);
-
-//            File mImageFile = new File(latest_image);
-//            Bitmap bMap = BitmapFactory.decodeFile(latest_image);
-//            InstancePhoto photoToStore = new InstancePhoto(bMap);
-//
-//            instancePhotoPersistenceController.save(photoToStore, this);
-//            Uri imageUri = Uri.fromFile(mImageFile);
-//            record.addPhotoToList(photoToStore);
-//            photoImageView.setImageURI(imageUri);
         }
 
         else if(requestCode == OPEN_GALLERY_REQUEST_CODE && resultCode == Activity.RESULT_OK){
@@ -219,11 +210,6 @@ public class createRecordActivity extends AppCompatActivity {
         else if(requestCode == ADD_BODYLOCATION_REQUEST_CODE&& resultCode == Activity.RESULT_OK){
             bodyLocation = (BodyLocation) data.getExtras().getSerializable("new");
             displayBodyLocation();
-            // TODO NEW BODY LOCATION LOGIC
-            // Not BodyLocation is Stored as a Object contain a name of the body location
-            //record.addAttachment(bodyLocation.getAttachment_uuid());
-            //recordController.save(record,this);
-//            bodyLocationTextView.setText(bodyLocation.getBodyPart());
         }
 
         else if (requestCode == UPDATE_GEOLOCATION_REQUEST_CODE) {
@@ -267,33 +253,29 @@ public class createRecordActivity extends AppCompatActivity {
     }
 
     public void goToCamera(View view){
-        Intent intent = new Intent(this, CustomCameraActivity.class);
-        intent.putExtra("RECORD",record);
-        startActivityForResult(intent,OPEN_CAMERA_REQUEST_CODE);
+        if (record.getPhotoList().size() < 10) {
+            Intent intent = new Intent(this, CustomCameraActivity.class);
+            intent.putExtra("RECORD",record);
+            startActivityForResult(intent,OPEN_CAMERA_REQUEST_CODE);
+        } else {
+            Toast.makeText(this,
+                    "You have reached the limit for photographs on this record.",
+                    Toast.LENGTH_SHORT).show();
+        }
 
 
-//        File image = null;
-//        try {
-//            image = createImageFile();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-//            if (image != null) {
-//                Uri photoURI = FileProvider.getUriForFile(this,
-//                        "ca.ualberta.cmput301f18t11.medicam",image);
-//                latest_image = image.getAbsolutePath();
-//                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-//                startActivityForResult(takePictureIntent, OPEN_CAMERA_REQUEST_CODE);
-//            }
-//        }
     }
 
     public void goToGallery(View view){
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("image/*");
-        startActivityForResult(intent, OPEN_GALLERY_REQUEST_CODE);
+        if (record.getPhotoList().size() < 10) {
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+            intent.setType("image/*");
+            startActivityForResult(intent, OPEN_GALLERY_REQUEST_CODE);
+        } else {
+            Toast.makeText(this,
+                    "You have reached the limit for photographs on this record.",
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 
 
