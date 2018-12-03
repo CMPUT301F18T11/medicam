@@ -57,6 +57,7 @@ public class createRecordActivity extends AppCompatActivity {
     private Date datetime = new Date();
     private String purpose; // this will give us the info of whether the user want to Edit the record Or add a Record
     private Geolocation location;
+    private String patient;
     //Resource used for date picker: https://www.youtube.com/watch?v=hwe1abDO2Ag
     //Resource used for time picker: https://www.youtube.com/watch?v=QMwaNN_aM3U
 
@@ -97,6 +98,7 @@ public class createRecordActivity extends AppCompatActivity {
 
         displayDateAndTime();
         purpose = getIntent().getStringExtra("purpose");
+        patient = getIntent().getStringExtra("patient");
         if(purpose.equals("edit")){
             TextView textView = findViewById(R.id.recordCreate_Header01);
             textView.setText("Editing Record");
@@ -281,7 +283,9 @@ public class createRecordActivity extends AppCompatActivity {
     }
 
     public void goAddBodyLocation(View view){
-        Intent intent = new Intent(this,CreateBodyLocationActivity.class);
+        Intent intent = new Intent(this, BodyLocationListActivity.class);
+        intent.putExtra("mode", "select");
+        intent.putExtra("patient", patient);
         startActivityForResult(intent,ADD_BODYLOCATION_REQUEST_CODE);
     }
 

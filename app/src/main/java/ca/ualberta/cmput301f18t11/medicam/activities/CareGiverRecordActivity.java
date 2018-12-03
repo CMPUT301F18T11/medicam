@@ -37,6 +37,7 @@ public class CareGiverRecordActivity extends AppCompatActivity {
     private PersistenceController<PatientRecord> patientRecordController = new PatientRecordPersistenceController();
     private PersistenceController<CareProviderRecord> doctorRecordController = new CareProviderRecordPersistenceController();
     private Problem problem;
+    private String patient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +48,7 @@ public class CareGiverRecordActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String problemUUID = intent.getStringExtra("problemUUID");
+        patient = intent.getStringExtra("patient");
         problem = problemControler.load(problemUUID,this);
         patientRecordsArray = problem.getPatientRecords();
         doctorRecordsArray = problem.getCareProviderRecords();
@@ -69,6 +71,7 @@ public class CareGiverRecordActivity extends AppCompatActivity {
                     Intent intent = new Intent(CareGiverRecordActivity.this, ViewRecordActivity.class);
                     intent.putExtra("editable","NO");
                     intent.putExtra("previous", record.getUuid());
+                    intent.putExtra("patient", patient);
                     startActivity(intent);
                 }else if(doctorRecordsArray.contains(record.getUuid())){
                     Intent intent = new Intent(CareGiverRecordActivity.this, ViewCareProviderRecordActivity.class);

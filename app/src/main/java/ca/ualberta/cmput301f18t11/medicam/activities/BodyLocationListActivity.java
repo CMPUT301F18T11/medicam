@@ -35,6 +35,8 @@ public class BodyLocationListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_body_location_list);
+        addBodyLocationButton = findViewById(R.id.addBodyLocationButton);
+        listView = findViewById(R.id.bodyLocationViewList);
 
         /**
          * Get intent From previous activity(profileEditting) that contains a String that represents the UUID of the patient
@@ -46,7 +48,7 @@ public class BodyLocationListActivity extends AppCompatActivity {
         bodyLocationList.addAll(patient.getBodyLocations());
 
         mode = intent.getStringExtra("mode");
-        if (mode.equals("select")) {
+        if (mode.equals("select") || mode.equals("view")) {
             addBodyLocationButton.setVisibility(View.GONE);
         }
         /**
@@ -55,7 +57,6 @@ public class BodyLocationListActivity extends AppCompatActivity {
          */
         ArrayAdapter<ReferencePhoto> itemsAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1, bodyLocationList);
-        listView = findViewById(R.id.bodyLocationViewList);
         listView.setAdapter(itemsAdapter);
         /**
          * Set on click listener so that clicking on one of the bodylocations will bring the user to
@@ -76,12 +77,18 @@ public class BodyLocationListActivity extends AppCompatActivity {
                     Intent intent = new Intent(BodyLocationListActivity.this,
                             BodyLocationActivity.class);
                     intent.putExtra("photo", bodyLocationList.get(position));
+                    intent.putExtra("mode", "create");
                     startActivityForResult(intent, CREATE_BODY_LOCATION);
+                } else if (mode.equals("view")) {
+                    Intent intent = new Intent(BodyLocationListActivity.this,
+                            BodyLocationActivity.class);
+                    intent.putExtra("photo", bodyLocationList.get(position));
+                    intent.putExtra("mode", "view");
+                    startActivity(intent);
                 }
             }
         });
 
-        addBodyLocationButton = findViewById(R.id.addBodyLocationButton);
         addBodyLocationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

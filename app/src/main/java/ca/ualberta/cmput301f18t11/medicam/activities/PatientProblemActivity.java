@@ -32,23 +32,20 @@ public class PatientProblemActivity extends AppCompatActivity {
     private PersistenceController<Problem> problemControler = new ProblemPersistenceController();
     private PersistenceController<Patient> patientControler = new PatientPersistenceController();
     private Patient patient;
+    private String patientid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_mainpage);
-        ElasticSearchController.setIndex_url("cmput301f18t11test");
-
-        //Problem problemo = new Problem("title", new Date(), "description");
-        //testProblemList.add(problemo);
 
         /**
          * Get intent From previous activity(LoginActivity) that contains a String that represents the UUID of the patient
          * Then load problems from the patient
          */
         Intent intent = getIntent();
-        String patientUUID = intent.getStringExtra("userid");
-        patient = patientControler.load(patientUUID,PatientProblemActivity.this);
+        patientid = intent.getStringExtra("userid");
+        patient = patientControler.load(patientid,PatientProblemActivity.this);
         problemList.addAll(patient.getProblems()); //This is a decent convention for going from List up to ArrayList
         for (int i = 0; i < problemList.size(); i++){
             Problem problem = problemControler.load(problemList.get(i), this);
@@ -69,6 +66,7 @@ public class PatientProblemActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 Intent intent = new Intent(PatientProblemActivity.this,PatientRecordActivity.class);
                 intent.putExtra("previousProblem", problemList.get(position));
+                intent.putExtra("patient", patientid);
                 startActivity(intent);
             }
         });

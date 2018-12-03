@@ -33,6 +33,7 @@ public class ViewRecordActivity extends AppCompatActivity {
     private String problemUUID;
     private Problem problem;
     private String editable;
+    private String patient;
 
     private TextView geoLocationTextView;
     private ImageButton mapButton;
@@ -40,6 +41,7 @@ public class ViewRecordActivity extends AppCompatActivity {
     private static final int EDIT_RECORD_REQUEST_CODE = 1;
     private PersistenceController<PatientRecord> recordController = new PatientRecordPersistenceController();
     private PersistenceController<Problem> problemController = new ProblemPersistenceController();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +72,7 @@ public class ViewRecordActivity extends AppCompatActivity {
         }
         String recordUUID = intent.getStringExtra("previous");
         problemUUID = intent.getStringExtra("previousProblem");
+        patient = intent.getStringExtra("patient");
         problem = problemController.load(problemUUID,this);
         fetchPrevious(recordUUID);
 
@@ -126,11 +129,15 @@ public class ViewRecordActivity extends AppCompatActivity {
         intent.putExtra("purpose","edit");
         intent.putExtra("previous", patientRecord.getUuid());
         intent.putExtra("problemUUID", problemUUID);
+        intent.putExtra("patient", patient);
         startActivityForResult(intent, EDIT_RECORD_REQUEST_CODE);
     }
 
     public void goViewBodyLocation(View view) {
-        //TODO
+        Intent intent = new Intent(this, BodyLocationListActivity.class);
+        intent.putExtra("mode", "view");
+        intent.putExtra("patient", patient);
+        startActivity(intent);
     }
 
     public void photoSlideshow(View view){

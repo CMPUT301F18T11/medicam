@@ -34,8 +34,8 @@ public class CareGiverProblemActivity extends AppCompatActivity {
         ElasticSearchController.setIndex_url("cmput301f18t11test");
 
         Intent intent = getIntent();
-        String patientUUID = intent.getStringExtra("patientUUID");
-        Patient patient = patientController.load(patientUUID,this);
+        final String patientUUID = intent.getStringExtra("patientUUID");
+        final Patient patient = patientController.load(patientUUID,this);
         problemList = patient.getProblems();
 
         for (int i=0; i < problemList.size();i++){
@@ -52,6 +52,7 @@ public class CareGiverProblemActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(CareGiverProblemActivity.this, CareGiverRecordActivity.class);
                 intent.putExtra("problemUUID", problemList.get(position));
+                intent.putExtra("patient", patientUUID);
                 startActivity(intent);
             }
         });
