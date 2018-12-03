@@ -16,6 +16,7 @@ import java.util.List;
 import ca.ualberta.cmput301f18t11.medicam.R;
 import ca.ualberta.cmput301f18t11.medicam.controllers.per_model.PatientPersistenceController;
 import ca.ualberta.cmput301f18t11.medicam.models.Patient;
+import ca.ualberta.cmput301f18t11.medicam.models.attachments.BodyLocation;
 import ca.ualberta.cmput301f18t11.medicam.models.attachments.ReferencePhoto;
 
 public class BodyLocationListActivity extends AppCompatActivity {
@@ -126,7 +127,11 @@ public class BodyLocationListActivity extends AppCompatActivity {
         }
 
         else if (requestCode == CREATE_BODY_LOCATION && resultCode == RESULT_OK){
-            //TODO
+            BodyLocation bodyLocation = (BodyLocation) data.getExtras().getSerializable("new");
+            Intent intent = new Intent();
+            intent.putExtra("new", bodyLocation);
+            setResult(RESULT_OK, intent);
+            finish();
         }
 
     }

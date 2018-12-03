@@ -35,7 +35,7 @@ public class InstancePhoto extends PersistedModel {
      */
     public void setPhoto(Bitmap photo) {
 
-        photo = Bitmap.createScaledBitmap(photo,70,125,true);
+        photo = Bitmap.createScaledBitmap(photo,190,330,true);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         photo.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] b = baos.toByteArray();

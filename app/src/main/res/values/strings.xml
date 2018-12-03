@@ -45,5 +45,6 @@
     <string name="toggle_onion_skin">Show Overlay</string>
     <string name="BodyLocation">bodylocation</string>
     <string name="confirm">CONFIRM</string>
+    <string name="noBodyLocation">No Body Location Provided</string>
     >
 </resources>

@@ -210,20 +210,21 @@ public class createRecordActivity extends AppCompatActivity {
         }
 
         else if(requestCode == ADD_BODYLOCATION_REQUEST_CODE&& resultCode == Activity.RESULT_OK){
-            Log.d("SET BODY LOCATION","onActivityResult: done setting BodyLocation");
-            String bodylocationString = data.getStringExtra("BodyLocation");
-            Toast.makeText(this,"BodyLocation set to be: "+bodylocationString,Toast.LENGTH_SHORT).show();
-            bodyLocation = new BodyLocation();
-            // TODO NEW BODY LOCATION LOGIC
-            // Not BodyLocation is Stored as a Object contain a name of the body location
-            //record.addAttachment(bodyLocation.getAttachment_uuid());
-            //recordController.save(record,this);
-//            bodyLocationTextView.setText(bodyLocation.getBodyPart());
+            bodyLocation = (BodyLocation) data.getExtras().getSerializable("new");
+            displayBodyLocation();
         }
 
         else if (requestCode == UPDATE_GEOLOCATION_REQUEST_CODE) {
             location = MapsActivity.location;
             displayGeolocation();
+        }
+    }
+
+    private void displayBodyLocation() {
+        if (bodyLocation == null) {
+            bodyLocationTextView.setText(R.string.noBodyLocation);
+        } else {
+            bodyLocationTextView.setText(bodyLocation.toString());
         }
     }
 
@@ -335,6 +336,9 @@ public class createRecordActivity extends AppCompatActivity {
 
         location = record.getLocation();
         displayGeolocation();
+
+        bodyLocation = record.getBodyLocation();
+        displayBodyLocation();
 
         InstancePhoto instancePhoto = instancePhotoPersistenceController.load(record.getMostRecentPhoto(),
                 this);
