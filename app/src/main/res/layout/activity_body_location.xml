@@ -10,16 +10,11 @@
 
     <ImageView
         android:id="@+id/createBodyLocationImageView"
-        android:layout_width="200dp"
-        android:layout_height="142dp"
-        android:layout_marginStart="7dp"
-        android:layout_marginLeft="7dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="2dp"
-        android:layout_marginRight="2dp"
-        android:layout_marginBottom="18dp"
-        app:layout_constraintBottom_toTopOf="@+id/textView6"
-        app:layout_constraintEnd_toStartOf="@+id/addPhotoFromGalleryBodyLocation"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/toggle_choice_background_boarder"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bodyLocation_toolbar"
         app:srcCompat="@android:drawable/ic_menu_report_image" />
@@ -28,27 +23,22 @@
         android:id="@+id/takePhotoBodyLocationButton"
         android:layout_width="59dp"
         android:layout_height="58dp"
-        android:layout_marginTop="64dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginRight="32dp"
+        android:layout_marginStart="8dp"
         android:scaleType="fitCenter"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bodyLocation_toolbar"
+        app:layout_constraintBottom_toBottomOf="@+id/addPhotoFromGalleryBodyLocation"
+        app:layout_constraintStart_toEndOf="@+id/addPhotoFromGalleryBodyLocation"
         app:srcCompat="@drawable/camera_icon" />
 
     <ImageButton
         android:id="@+id/addPhotoFromGalleryBodyLocation"
         android:layout_width="56dp"
         android:layout_height="56dp"
-        android:layout_marginTop="64dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginRight="32dp"
+        android:layout_marginStart="16dp"
         android:adjustViewBounds="false"
         android:scaleType="fitCenter"
-        app:layout_constraintEnd_toStartOf="@+id/takePhotoBodyLocationButton"
         app:layout_constraintStart_toEndOf="@+id/createBodyLocationImageView"
-        app:layout_constraintTop_toBottomOf="@+id/bodyLocation_toolbar"
-        app:srcCompat="@drawable/add_photo_icon" />
+        app:srcCompat="@drawable/add_photo_icon"
+        tools:layout_editor_absoluteY="76dp" />
 
     <include
         android:id="@+id/bodyLocation_toolbar"
@@ -63,13 +53,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="8dp"
         android:text="Choose a body part:"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bodyLocation_toolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/createBodyLocationImageView" />
 
     <Spinner
         android:id="@+id/bodyLocationSpinner"
@@ -162,10 +151,8 @@
         android:layout_width="120dp"
         android:layout_height="40dp"
         android:layout_marginStart="30dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="30dp"
-        android:layout_marginRight="30dp"
         android:onClick="finishSetingBodyLocation"
         android:text="Save"
         app:layout_constraintEnd_toEndOf="parent"

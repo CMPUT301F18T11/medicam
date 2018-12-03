@@ -11,25 +11,14 @@
                   <entry key="vectorAssetStep">
                     <value>
                       <PersistentState>
-                        <option name="children">
-                          <map>
-                            <entry key="clipartAsset">
-                              <value>
-                                <PersistentState>
-                                  <option name="values">
-                                    <map>
-                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/image/ic_camera_rear_black_24dp.xml" />
-                                    </map>
-                                  </option>
-                                </PersistentState>
-                              </value>
-                            </entry>
-                          </map>
-                        </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="ic_camera_rear_black_24dp" />
-                            <entry key="sourceFile" value="C:\Users\erikn" />
+                            <entry key="assetSourceType" value="FILE" />
+                            <entry key="height" value="35" />
+                            <entry key="outputName" value="ic_backarrow" />
+                            <entry key="overrideSize" value="true" />
+                            <entry key="sourceFile" value="C:\Users\Ames\Documents\UNIVERSITY\Fall Semester 2018\CMPUT 301\Project\Non-App Files\Created Assets\BackArrow.svg" />
+                            <entry key="width" value="35" />
                           </map>
                         </option>
                       </PersistentState>

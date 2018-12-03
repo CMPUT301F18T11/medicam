@@ -27,7 +27,7 @@
             android:onClick="searchButtonForCareProvider"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@android:drawable/ic_menu_search" />
+            app:srcCompat="@drawable/ic_searchicon" />
 
         <ImageButton
             android:id="@+id/viewRecordListOnMapCareGiverButton"

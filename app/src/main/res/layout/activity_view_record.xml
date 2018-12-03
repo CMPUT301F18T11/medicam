@@ -41,7 +41,7 @@
             android:layout_marginTop="10dp"
             android:background="@android:color/transparent"
             android:elevation="6dp"
-            app:srcCompat="?attr/homeAsUpIndicator"
+            app:srcCompat="@drawable/ic_backarrow"
             tools:layout_editor_absoluteX="104dp"
             tools:layout_editor_absoluteY="92dp" />
 

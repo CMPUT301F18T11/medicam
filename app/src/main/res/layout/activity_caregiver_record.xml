@@ -33,14 +33,17 @@
             android:id="@+id/search_button_for_care_provider_in_record"
             android:layout_width="35dp"
             android:layout_height="35dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
             android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
             android:background="@android:color/transparent"
             android:elevation="6dp"
             android:onClick="searchButtonForCareProvider"
+            android:src="@drawable/ic_searchicon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@android:drawable/ic_menu_search" />
+            app:srcCompat="@drawable/ic_searchicon" />
 
         <include
             android:id="@+id/caregiverRecord_toolbar"
